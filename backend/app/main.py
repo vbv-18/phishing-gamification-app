@@ -1,0 +1,18 @@
+from fastapi import FastAPI
+from app.routers import auth, users
+from app.database.connection import Base, engine
+from contextlib import asynccontextmanager
+from app.models.user import User
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    Base.metadata.create_all(bind=engine) 
+    yield
+
+app = FastAPI(title="PhishingAPI", lifespan=lifespan)
+app.include_router(auth.router)
+app.include_router(users.router)
+
+@app.get("/") #root
+def root():
+    return {"message": "API working!" }
