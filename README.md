@@ -12,5 +12,3 @@
     - __main.py__: principal function.
     - __Dockerfile__: for lauch the app.
 
-SECRET_KEY generada con openssl -hex 32
-
