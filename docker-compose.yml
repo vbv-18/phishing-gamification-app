@@ -1,12 +1,10 @@
-version: "3.9"
-
 services:
   postgres_db:
     container_name: postgres_db
     image: postgres:17
     restart: always
     env_file:
-      - ./backend/.env
+      - .env
     environment:
       POSTGRES_USER: ${DATABASE_USER}
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
@@ -25,7 +23,7 @@ services:
     build: ./backend
     restart: always
     env_file:
-      - ./backend/.env
+      - .env
     ports:
       - "8000:8000"
     depends_on:
