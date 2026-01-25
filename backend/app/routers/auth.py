@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 
@@ -17,10 +17,10 @@ def register_user(user: UserCreate, db: Session = Depends(get_db)):
     existing_username = db.query(User).filter(User.username == user.username).first()
 
     if existing_email:
-        raise HTTPException(status_code=400, detail="The email already exists")
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="The email already exists")
     
     elif existing_username:
-        raise HTTPException(status_code=400, detail="The username already exists")
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="The username already exists")
     
     new_user = create_user(db, user)
 
@@ -31,7 +31,7 @@ def login_user(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = D
     user = db.query(User).filter(User.username == form_data.username).first()
 
     if not user or not verify_password(form_data.password, user.hashed_passwd):
-        raise HTTPException(status_code=400, detail="Incorrect username or password")
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid credentials")
     
     access_token = create_access_token({"sub": user.username})
 
