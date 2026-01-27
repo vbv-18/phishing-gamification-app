@@ -27,10 +27,10 @@ def register_user(user: UserCreate, db: Session = Depends(get_db)):
     return new_user
 
 @router.post("/login")
-def login_user(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
-    user = db.query(User).filter(User.username == form_data.username).first()
+def login_user(login_req: LoginRequest, db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.username == login_req.username).first()
 
-    if not user or not verify_password(form_data.password, user.hashed_passwd):
+    if not user or not verify_password(login_req.password, user.hashed_passwd):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid credentials")
     
     access_token = create_access_token({"sub": user.username})

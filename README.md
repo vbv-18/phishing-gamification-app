@@ -12,3 +12,11 @@
     - __main.py__: principal function.
     - __Dockerfile__: for lauch the app.
 
+# Requirements for frontend
+- __Node.js__ for npm
+- Execute __npx create-expo-app frontend-clean --template blank__ to create the fronted folder
+- Install SecureStore to get an AuthContext secure: __npx expo install expo-secure-store__
+- Launch the app with Expo: __npx expo start__
+- Install npm install __@react-navigation/native__ and __npx expo install react-native-screens react-native-safe-area-context__
+- Install __npm install @react-navigation/native-stack__
+- Install __npm install axios__
