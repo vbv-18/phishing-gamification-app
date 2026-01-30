@@ -44,7 +44,6 @@
     - `Dockerfile` — for lauch the app.
 
 ## Frontend
-# Frontend Project Structure
 
 - **frontend/**  
   - **.expo/** — Expo internal files  
@@ -79,5 +78,6 @@
   - `tsconfig.json` — TypeScript configuration  
   - `app.json` — Expo configuration  
   - `README.md` — project documentation
+
 
 
