@@ -1,0 +1,20 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "strict": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./app/*"],           // para rutas dentro de app/
+      "@/components/*": ["./components/*"],
+      "@/constants/*": ["./constants/*"],
+      "@/services/*": ["./services/*"],
+      "@/hooks/*": ["./hooks/*"]
+    }
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    ".expo/types/**/*.ts",
+    "expo-env.d.ts"
+  ]
+}
