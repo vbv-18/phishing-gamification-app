@@ -9,7 +9,6 @@ async function apiFetch(
   const token = await getToken();
 
   const headers: HeadersInit = {
-    'Content-Type': 'application/json',
     ...(token ? { Authorization: `Bearer ${token}` } : {}),
     ...options.headers,
   };
@@ -47,9 +46,14 @@ async function apiFetch(
 // ---------- AUTH ----------
 
 export async function loginUser(data: { username: string; password: string }) {
+  const body = new URLSearchParams({
+    username: data.username,
+    password: data.password,
+  }).toString();
+
   return apiFetch('/auth/login', {
     method: 'POST',
-    body: JSON.stringify(data),
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded', }, body,
   });
 }
 
@@ -60,6 +64,7 @@ export async function registerUser(data: {
 }) {
   return apiFetch('/auth/register', {
     method: 'POST',
+    headers: { 'Content-Type': 'application/json', },
     body: JSON.stringify(data),
   });
 }

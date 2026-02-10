@@ -27,7 +27,7 @@ def register_user(user: UserCreate, db: Session = Depends(get_db)):
     return new_user
 
 @router.post("/login")
-def login_user(login_req: LoginRequest, db: Session = Depends(get_db)):
+def login_user(login_req: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
     user = db.query(User).filter(User.username == login_req.username).first()
 
     if not user or not verify_password(login_req.password, user.hashed_passwd):

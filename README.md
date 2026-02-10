@@ -7,17 +7,25 @@
 2. Build and run the Docker containers.
     ````bash
     docker compose up --build
+    docker exec -it proyecto-backend-1 /bin/bash
     ````
-3. For local development use the correct Docker network or host IP in the frontend/services/api.ts (http://10.0.2.2:8000 for Android emulator).
 
-4. Install fronted dependencies
+3. Launch a terminal inside the backend container and run `seed_levels.py` to insert the levels into the database.
+    ````bash
+    docker exec -it proyecto-backend-1 /bin/bash
+    python seed_levels.py
+    ````
+
+4. For local development use the correct Docker network or host IP in the `frontend/services/api.ts` (http://10.0.2.2:8000 for Android emulator).
+
+5. Install fronted dependencies
     ````bash
     cd frontend
     npm install
     npm install expo-router #if needed
     npm install expo-secure-store
     ````
-5. Start the Expo development server:
+6. Start the Expo development server:
 
     ````bash
     npm expo start
