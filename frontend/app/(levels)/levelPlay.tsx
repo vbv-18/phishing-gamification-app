@@ -1,12 +1,40 @@
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { View, Text, StyleSheet, ScrollView, ActivityIndicator } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import { Colors } from "@/constants/Colors";
 import { Spacing } from "@/constants/Spacing";
 import PrimaryButton from "@/components/PrimaryButton";
+import { getLevel } from "@/services/api";
+import { useEffect, useState } from "react";
 
 export default function LevelPlay(){
-    const params = useLocalSearchParams(); //receive level from theory
-    const level = params.level ? JSON.parse(params.level as string) : null;
+    const {levelId} = useLocalSearchParams();
+    const [level, setLevel] = useState<any>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
+
+     useEffect(() => {
+            async function loadLevel(){
+                try{
+                    const data = await getLevel(Number(levelId));
+                    setLevel(data);
+                }
+                catch(err: any){
+                    setError(err.message || 'Error loading level');
+                }
+                finally{
+                    setLoading(false);
+                }
+            }
+            loadLevel();
+        }, []);
+
+    if(loading){ //loader while it is loading
+      return(
+        <View style={styles.center}>
+          <ActivityIndicator size="large" color={Colors.primary} />
+        </View>
+      );
+    }
 
     if(!level){
         return (
@@ -18,10 +46,7 @@ export default function LevelPlay(){
 
     return(
         <ScrollView style={styles.container}>
-            <Text style={styles.title}>Nivel 1: {level.title}</Text>
-
-            <Text style={styles.subtitle}>Email interactivo</Text>
-
+            <Text style={styles.title}>Nivel {level.difficulty}: {level.title}</Text>
             <PrimaryButton title="Finalizar (placeholder)" onPress={() => console.log('Ejercicio completado')}/>
         </ScrollView>
     );
@@ -44,12 +69,6 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     marginBottom: Spacing.lg,
     color: Colors.text,
-    textAlign: 'center',
-  },
-    subtitle: {
-    fontSize: 16,
-    color: Colors.muted,
-    marginBottom: Spacing.lg,
     textAlign: 'center',
   },
   error: {

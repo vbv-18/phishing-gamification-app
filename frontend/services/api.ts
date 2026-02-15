@@ -82,3 +82,7 @@ export async function getNextLevel(){
 export async function getLevel(id: number){
   return apiFetch(`/levels/${id}`);
 }
+
+export async function getLevelsbyModule(moduleName: string){
+  return apiFetch(`/levels/module/${moduleName}`);
+}

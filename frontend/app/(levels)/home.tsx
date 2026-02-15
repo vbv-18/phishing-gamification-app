@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, ScrollView, Pressable, ImageBackground } from "react-native";
+import { View, Text, StyleSheet, ScrollView, Pressable } from "react-native";
 import { Colors } from "@/constants/Colors";
 import { Spacing } from "@/constants/Spacing";
 import { useRouter } from 'expo-router';
@@ -6,7 +6,7 @@ import { useRouter } from 'expo-router';
 export default function Home(){
     const router = useRouter();
     const modules = [
-        {id: 1, title: "Modulo 1 - EMAIL"},
+        {id: 1, title: "email"},
     ];
 
     return(
@@ -23,7 +23,7 @@ export default function Home(){
                     <Pressable style={({pressed}) => [
                         styles.startButton, pressed && styles.startPressed,]}
 
-                        onPress={() => router.push({pathname: "./levelTheory", params: {levelId: m.id},})}>
+                        onPress={() => router.push({pathname: "./moduleHome", params: {moduleName: m.title},})}>
                         <Text style={styles.startText}>START</Text>
                     </Pressable>
 

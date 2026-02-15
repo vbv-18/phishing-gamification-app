@@ -9,7 +9,7 @@ from app.models.level import Level
 LEVEL1 = {
   "module": "email",
   "difficulty": 1,
-  "title": "Nivel 1 - Señales básicas de phishing en un email",
+  "title": "Señales básicas",
   "theory": [
     {
       "type": "icons",

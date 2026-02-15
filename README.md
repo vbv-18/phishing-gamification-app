@@ -39,17 +39,23 @@
     - **core** — internal settings.
       - `security.py`
       - `config.py`
-    - **crud** — Create, Read, Update, Delete functions.
+    - **crud** — Create, Read, Update, Delete functions for users and levels.
     - **database** — settings of the PostgreSQL database.
         - `connection.py` — creation and connection of the database.
     - **models** — tables of the database.
-        - `users.py` — tables with all the registered users.
+        - `users.py` — table that represents a registered user.
+        - `level.py` — table that represents a level.
+        - `levelProgress.py` — table that mantains the progress relationship between a level and an user.
     - **routers** — the endpoints of the app.
         - `auth.py` — authentication endpoints.
         - `users.py` — user profile endpoints.
+        - `levels.py` — levels endpoints.
     - **schemas** — for validate the input/output data.
+
     - `main.py ` — principal function.
     - `Dockerfile` — for lauch the app.
+    - `seed_levels.py` — script to insert levels in the database.
+
 
 ## Frontend
 
@@ -62,13 +68,19 @@
       - `index.tsx` — home screen for auth  
       - `login.tsx` — login screen  
       - `register.tsx` — register screen  
-    - `profile.tsx` — user profile screen  
+      - `profile.tsx` — user profile screen 
+    - **(levels)/** — authentication-related screens  
+      - `_layout.tsx` — layout for level stack 
+      - `home.tsx` — home screen for user registered 
+      - `moduleHome.tsx` — module's levels screen  
+      - `levelTheory.tsx` — theory screen  
+      - `levelPlay.tsx` — interactive level screen  
     - `modal.tsx` — modal example screen  
   - **components/** — reusable UI components  
     - `PrimaryButton.tsx` — custom button component  
     - `themed-text.tsx` — text component with theming support  
     - `themed-view.tsx` — view component with theming support  
-    - **ui/** — smaller UI components (icons, collapsible, etc.)  
+    - **levels/** — components for screen levels
   - **constants/** — app constants like colors, spacing, themes  
     - `Colors.ts`  
     - `Spacing.ts`  
