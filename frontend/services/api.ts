@@ -5,7 +5,7 @@ const BASE_URL = 'http://10.0.2.2:8000';
 async function apiFetch(
   endpoint: string,
   options: RequestInit = {}
-) {
+){
   const token = await getToken();
 
   const headers: HeadersInit = {
@@ -43,9 +43,8 @@ async function apiFetch(
   return res.json();
 }
 
-// ---------- AUTH ----------
-
-export async function loginUser(data: { username: string; password: string }) {
+//auth endpoints
+export async function loginUser(data: { username: string; password: string }){
   const body = new URLSearchParams({
     username: data.username,
     password: data.password,
@@ -69,8 +68,17 @@ export async function registerUser(data: {
   });
 }
 
-// ---------- USER ----------
-
-export async function getProfile() {
+//users endpoints
+export async function getProfile(){
   return apiFetch('/users/me');
+}
+
+
+//levels endpoints
+export async function getNextLevel(){
+  return apiFetch('/levels/next');
+}
+
+export async function getLevel(id: number){
+  return apiFetch(`/levels/${id}`);
 }

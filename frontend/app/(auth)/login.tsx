@@ -19,7 +19,7 @@ export default function Login() {
 
     await saveToken(data.access_token);
 
-    router.replace('/profile');
+    router.replace('/home');
   } catch (err: any) {
     setError(err.message || 'Error log in');
   }
