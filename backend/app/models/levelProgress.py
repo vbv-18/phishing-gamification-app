@@ -1,0 +1,14 @@
+from sqlalchemy import Column, Integer, Boolean, ForeignKey, UniqueConstraint
+from app.database.connection import Base
+
+class LevelProgress(Base):
+    __tablename__ = "levelProgress"
+
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
+    level_id = Column(Integer, ForeignKey("levels.id", ondelete="CASCADE"), nullable=False)
+    completed = Column(Boolean, default=False, nullable=False)
+
+    __table__args__ = (
+        UniqueConstraint("user_id", "level_id", name="unique_user_level"), #user cant have more than 1 register to one same level
+    )

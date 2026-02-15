@@ -1,8 +1,7 @@
 from fastapi import FastAPI
-from app.routers import auth, users
+from app.routers import auth, users, levels
 from app.database.connection import Base, engine
 from contextlib import asynccontextmanager
-from app.models.user import User
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -12,6 +11,7 @@ async def lifespan(app: FastAPI):
 app = FastAPI(title="PhishingAPI", lifespan=lifespan)
 app.include_router(auth.router)
 app.include_router(users.router)
+app.include_router(levels.router)
 
 @app.get("/") #root
 def root():
