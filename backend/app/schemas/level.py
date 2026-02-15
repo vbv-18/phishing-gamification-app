@@ -15,3 +15,13 @@ class LevelResponse(LevelBase):
 
     class Config:
         orm_mode = True
+
+class LevelList(BaseModel):
+    id: int
+    title: str
+    difficulty: int
+    completed: bool
+    unlocked: bool
+
+    class Config:
+        orm_mode = True
