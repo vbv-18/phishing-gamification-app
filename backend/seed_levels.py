@@ -9,7 +9,7 @@ from app.models.level import Level
 LEVEL1 = {
   "module": "email",
   "difficulty": 1,
-  "title": "Señales básicas",
+  "title": "Detective de señales básicas",
   "theory": [
     {
       "type": "icons",
@@ -71,59 +71,86 @@ LEVEL1 = {
     },
   ],
   "content": {
-    "email_subject": "Verifica tu cuenta urgentemente",
-    "email_body": "Estimado cliente, hemos detectado actividad inusual en su cuenta. Si no verifica su identidad en las próximas 24 horas, su acceso será temporalmente suspendido.",
-    "elements": [
-      {
-        "id": 1,
-        "type": "text",
-        "display_text": "Asunto: Verifica tu cuenta urgentemente",
-        "raw_value": "Verifica tu cuenta urgentemente",
-        "is_suspicious": True,
-        "reason_key": "urgency"
-      },
-      {
-        "id": 2,
-        "type": "text",
-        "display_text": "Saludo: Estimado cliente",
-        "raw_value": "Estimado cliente",
-        "is_suspicious": True,
-        "reason_key": "generic_salutation"
-      },
-      {
-        "id": 3,
-        "type": "text",
-        "display_text": "Mensaje: hemos detectado actividad inusual en su cuenta",
-        "raw_value": "hemos detectado actividad inusual en su cuenta",
-        "is_suspicious": True,
-        "reason_key": "threat"
-      },
-      {
-        "id": 4,
-        "type": "link",
-        "display_text": "Verificar cuenta",
-        "raw_value": "http://banco-seguro-verificacion.com/login",
-        "is_suspicious": True,
-        "reason_key": "fake_link"
-      },
-      {
-        "id": 5,
-        "type": "text",
-        "display_text": "Firma: Equipo de Seguridad",
-        "raw_value": "Equipo de Seguridad",
-        "is_suspicious": False,
-        "reason_key": "neutral"
-      }
-    ]
+      "exercise_type": "signal_classification",
+      "instructions": "¿El siguiente elemento es una señal de phishing?",
+      "questions": [
+        {
+          "id": 1,
+          "context": "Tu paquete está retenido",
+          "text": "Para poder entregar tu envío, realiza el pago pendiente en el siguiente enlace: PROGRAMAR ENTREGA",
+          "is_suspicious": True,
+          "reason_key": "unexpected"
+        },
+        {
+          "id": 2,
+          "context": "Verifique su cuenta urgentemente",
+          "text": "Si no verifica su cuenta en las próximas 24 horas, será suspendida permanentemente.",
+          "is_suspicious": True,
+          "reason_key": "urgency"
+        },
+        {
+          "id": 3,
+          "context": "Verificación de seguridad",
+          "text": "Tu cuenta ha sido bloqueada por actividad inusual, introduzca la contraseña AQUí para desbloquearla.",
+          "is_suspicious": True,
+          "reason_key": "data_theft"
+        },
+        {
+          "id": 4,
+          "context": "Actualiza tu información bancaria",
+          "text": "Para ello, accede aquí: https://banco-seguridad-verifica.com/login",
+          "is_suspicious": True,
+          "reason_key": "fake_link"
+        },
+        {
+         "id": 5,
+          "context": "Has sido elejido para premio esclusivo!",
+          "text": "Usted ha sido seleccionado para recibir un nuebo regalo especial.",
+          "is_suspicious": True,
+          "reason_key": "spelling_mistake"
+        },
+        {
+          "id": 6,
+          "context": "Pago realizado con éxito",
+          "text": "Querido cliente, su pago ha sido recibido.",
+          "is_suspicious": True,
+          "reason_key": "generic_greet"
+        },
+        { 
+          "id": 7,
+          "context": "Tu paquete está en camino",
+          "text": "Tu envío ha sido procesado correctamente y llegará dentro del plazo estimado",
+          "is_suspicious": False,
+         "reason_key": "expected_delivery" 
+        },
+        {
+          "id": 8,
+          "context": "Aviso de seguridad",
+          "text": "Hemos detectado un inicio de sesión desde un dispositivo nuevo. Si fuiste tú, no necesitas hacer nada. Si no lo reconoces, accede a tu cuenta desde la web oficial para revisar tu actividad.",
+          "is_suspicious": False,
+          "reason_key": "no_data_request"
+        },
+        {
+          "id": 9,
+          "context": "Actualización bancaria",
+          "text": "Tu banco ha actualizado sus términos y condiciones. Puedes consultarlos entrando a tu banca online desde la página oficial que usas habitualmente.",
+          "is_suspicious": False,
+          "reason_key": "official_link"
+        }
+      ]
   },
-  "feedback": {
-    "urgency": "Los atacantes generan sensación de urgencia para que actúes sin pensar ni verificar.",
-    "generic_salutation": "Los servicios legítimos suelen usar tu nombre real, no saludos genéricos.",
-    "threat": "Mencionar actividad sospechosa sin detalles concretos es una táctica habitual para generar miedo.",
-    "fake_link": "El dominio no coincide exactamente con el oficial de la entidad. Pequeñas variaciones pueden indicar suplantación.",
-    "neutral": "Este elemento no es sospechoso por sí mismo."
+  "feedback":{
+      "unexpected": "Desconfía si recibes un mensaje que no estabas esperando.",
+      "urgency": "Los atacantes generan sensación de urgencia para que actúes sin pensar ni verificar.",
+      "data_theft": "Ninguna empresa legítima te pedirá contraseñas, códigos de verificación o datos bancarios por correo electrónico.",
+      "fake_link": "El enlace puede parecer legítimo, pero el dominio puede estar ligeramente modificado.",
+      "spelling_mistake": "Algunos correos fraudulentos contienen errores gramaticales o frases poco naturales.",
+      "generic_greet": "Las empresas legítimas suelen dirigirse a ti por tu nombre.",
+      "expected_delivery": "Señal verde: no te piden nada, solo te informan. Todo en orden.",
+      "no_data_request": " Seguridad real: te avisan, pero no te piden datos. Buenas prácticas.",
+      "official_link": "Link seguro: te mandan a la web de siempre, no a un sitio raro."
   },
-  "points": 15
+  "points": 10
 }
 
 

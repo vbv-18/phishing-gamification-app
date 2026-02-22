@@ -1,8 +1,7 @@
-import { StyleSheet, View, Text, TextInput } from 'react-native';
+import { StyleSheet, View, Text, TextInput, Pressable } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Colors } from '@/constants/Colors';
 import { Spacing } from '@/constants/Spacing';
-import PrimaryButton from '@/components/PrimaryButton';
 import { registerUser } from '@/services/api';
 import { useState } from 'react';
 
@@ -13,10 +12,10 @@ export default function Register() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  const handleRegister = async () => {
+  const handleSignUp = async () => {
     try {
       await registerUser({ username, email, password });
-      router.push('./login');
+      router.push('./signIn');
     } catch (err: any) {
       setError(err.message || 'Error al registrarse');
     }
@@ -24,10 +23,10 @@ export default function Register() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Create an account</Text>
+      <Text style={styles.title}>Crear una cuenta</Text>
 
       <TextInput
-        placeholder="User"
+        placeholder="Usuario"
         value={username}
         onChangeText={setUsername}
         style={styles.input}
@@ -39,7 +38,7 @@ export default function Register() {
         style={styles.input}
       />
       <TextInput
-        placeholder="Password"
+        placeholder="Contraseña"
         value={password}
         onChangeText={setPassword}
         secureTextEntry
@@ -48,7 +47,13 @@ export default function Register() {
 
       {error ? <Text style={styles.error}>{error}</Text> : null}
 
-      <PrimaryButton title="Sign in" onPress={handleRegister} />
+      <Pressable onPress={handleSignUp} style={({ pressed }) => [styles.buttonWrapper, pressed && styles.buttonWrappedPressed]}>{({ pressed }) => (
+              <View style={[styles.button, pressed && styles.buttonPressed]}>
+                <Text style={styles.buttonText}>Crear cuenta</Text>
+              </View>
+             )}
+            </Pressable>
+
     </View>
   );
 }
@@ -59,6 +64,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.background,
     padding: Spacing.lg,
     justifyContent: 'center',
+    alignContent: 'center',
   },
   title: {
     fontSize: 32,
@@ -78,5 +84,32 @@ const styles = StyleSheet.create({
     color: 'red',
     marginBottom: Spacing.sm,
     textAlign: 'center',
+  },
+  buttonWrapper: {
+    backgroundColor: Colors.backgroundPrimary, 
+    borderRadius: 15,
+    paddingBottom: 5,
+    marginBottom: 12,
+  },
+  button: {
+    backgroundColor: Colors.primary,
+    width: 364,
+    height: 50,
+    borderRadius: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  buttonPressed: {
+    transform: [{translateY: 0}],
+  },
+  buttonWrappedPressed: {
+    paddingBottom: 0,
+    transform: [{translateY: 5}],
+
+  },
+  buttonText: {
+    color: Colors.card,
+    fontWeight: '700',
+    fontSize: 16
   },
 });

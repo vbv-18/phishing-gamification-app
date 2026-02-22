@@ -17,7 +17,7 @@ export default function Home(){
             {modules.map((m) => (
                 <View key={m.id} style={styles.moduleCard}>
                     <View style={styles.cardTop}>
-                        <Text style={styles.levelText}>Módulo 1 - Emails {m.id}</Text>
+                        <Text style={styles.levelText}>Módulo 1 - Emails</Text>
                     </View>
 
                     <Pressable style={({pressed}) => [

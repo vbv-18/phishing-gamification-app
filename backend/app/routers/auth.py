@@ -9,9 +9,9 @@ from app.crud.users import create_user
 from app.core.security import verify_password, create_access_token
 
 router = APIRouter(prefix="/auth", tags=["Auth"])
-oauth2_sheme = OAuth2PasswordBearer(tokenUrl="auth/login")
+oauth2_sheme = OAuth2PasswordBearer(tokenUrl="auth/signIn")
 
-@router.post("/register", response_model=UserResponse)
+@router.post("/signUp", response_model=UserResponse)
 def register_user(user: UserCreate, db: Session = Depends(get_db)):
     existing_email = db.query(User).filter(User.email == user.email).first()
     existing_username = db.query(User).filter(User.username == user.username).first()
@@ -26,7 +26,7 @@ def register_user(user: UserCreate, db: Session = Depends(get_db)):
 
     return new_user
 
-@router.post("/login")
+@router.post("/signIn")
 def login_user(login_req: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
     user = db.query(User).filter(User.username == login_req.username).first()
 
