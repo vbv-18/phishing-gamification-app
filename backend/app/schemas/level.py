@@ -7,7 +7,6 @@ class LevelBase(BaseModel):
     title: str
     theory: Any
     content: Any
-    feedback: Any
     points: int
 
 class LevelResponse(LevelBase):

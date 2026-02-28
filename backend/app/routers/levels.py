@@ -8,9 +8,9 @@ from app.crud.level import get_level, get_next_level, complete_level, get_levels
 
 router = APIRouter(prefix="/levels", tags=["Levels"])
 
-@router.get("/next", response_model=LevelResponse) #if continue button?
-def read_next_level(db: Session = Depends(get_db), user = Depends(get_current_user)):
-    next_level = get_next_level(db, user.id)
+@router.get("/module/{module_name}/next", response_model=LevelResponse) #if continue button?
+def read_next_level(module_name: str, db: Session = Depends(get_db), user = Depends(get_current_user)):
+    next_level = get_next_level(db, user.id, module_name)
     if not next_level:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No levels available")
     

@@ -1,7 +1,7 @@
 import { getToken } from './auth';
 
 const BASE_URL = 'http://10.0.2.2:8000';
-
+//10.0.2.2
 async function apiFetch(
   endpoint: string,
   options: RequestInit = {}
@@ -50,7 +50,7 @@ export async function loginUser(data: { username: string; password: string }){
     password: data.password,
   }).toString();
 
-  return apiFetch('/auth/login', {
+  return apiFetch('/auth/signIn', {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded', }, body,
   });
@@ -61,7 +61,7 @@ export async function registerUser(data: {
   email: string;
   password: string;
 }) {
-  return apiFetch('/auth/register', {
+  return apiFetch('/auth/signUp', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', },
     body: JSON.stringify(data),
@@ -75,8 +75,8 @@ export async function getProfile(){
 
 
 //levels endpoints
-export async function getNextLevel(){
-  return apiFetch('/levels/next');
+export async function getNextLevel(moduleName: string){
+  return apiFetch(`/levels/module/${moduleName}/next`);
 }
 
 export async function getLevel(id: number){
@@ -85,4 +85,8 @@ export async function getLevel(id: number){
 
 export async function getLevelsbyModule(moduleName: string){
   return apiFetch(`/levels/module/${moduleName}`);
+}
+
+export async function completeLevel(id:number){
+  return apiFetch(`/levels/${id}/complete`, {method: 'POST',});
 }

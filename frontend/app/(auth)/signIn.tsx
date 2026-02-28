@@ -1,19 +1,18 @@
-import { StyleSheet, View, Text, TextInput } from 'react-native';
+import { StyleSheet, View, Text, TextInput, Pressable } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Colors } from '@/constants/Colors';
 import { Spacing } from '@/constants/Spacing';
-import PrimaryButton from '@/components/PrimaryButton';
 import { loginUser } from '@/services/api';
 import { saveToken } from '@/services/auth';
 import { useState } from 'react';
 
-export default function Login() {
+export default function SignIn() {
   const router = useRouter();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  const handleLogin = async () => {
+  const handleSignIn = async () => {
   try {
     const data = await loginUser({ username, password });
 
@@ -21,23 +20,23 @@ export default function Login() {
 
     router.replace('/home');
   } catch (err: any) {
-    setError(err.message || 'Error log in');
+    setError(err.message || 'Error sign in');
   }
 };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Welcome!</Text>
-      <Text style={styles.subtitle}>Type your credentials</Text>
+      <Text style={styles.title}>Bienvenido!</Text>
+      <Text style={styles.subtitle}>Introduce tus credenciales</Text>
 
       <TextInput
-        placeholder="User"
+        placeholder="Usuario"
         value={username}
         onChangeText={setUsername}
         style={styles.input}
       />
       <TextInput
-        placeholder="Password"
+        placeholder="Contraseña"
         value={password}
         onChangeText={setPassword}
         secureTextEntry
@@ -46,7 +45,13 @@ export default function Login() {
 
       {error ? <Text style={styles.error}>{error}</Text> : null}
 
-      <PrimaryButton title="Log in" onPress={handleLogin} />
+      <Pressable onPress={handleSignIn} style={({ pressed }) => [styles.buttonWrapper, pressed && styles.buttonWrappedPressed]}>{({ pressed }) => (
+        <View style={[styles.button, pressed && styles.buttonPressed]}>
+          <Text style={styles.buttonText}>Iniciar sesión</Text>
+        </View>
+       )}
+      </Pressable>
+
     </View>
   );
 }
@@ -57,6 +62,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.background,
     padding: Spacing.lg,
     justifyContent: 'center',
+    alignContent: 'center',
   },
   title: {
     fontSize: 32,
@@ -82,5 +88,32 @@ const styles = StyleSheet.create({
     color: 'red',
     marginBottom: Spacing.sm,
     textAlign: 'center',
+  },
+  buttonWrapper: {
+    backgroundColor: Colors.backgroundPrimary, 
+    borderRadius: 15,
+    paddingBottom: 5,
+    marginBottom: 12,
+  },
+  button: {
+    backgroundColor: Colors.primary,
+    height: 50,
+    width: 364,
+    borderRadius: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  buttonPressed: {
+    transform: [{translateY: 0}],
+  },
+  buttonWrappedPressed: {
+    paddingBottom: 0,
+    transform: [{translateY: 5}],
+
+  },
+  buttonText: {
+    color: Colors.card,
+    fontWeight: '700',
+    fontSize: 16
   },
 });

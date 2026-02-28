@@ -15,8 +15,8 @@ def get_level(db: Session, level_id: int):
     return db.query(Level).filter(Level.id == level_id).first()
 
 
-def get_next_level(db: Session, user_id: int): #return the first level not completed
-    levels = db.query(Level).order_by(Level.difficulty.asc()).all()
+def get_next_level(db: Session, user_id: int, module_name: str): #return the first level not completed
+    levels = db.query(Level).filter(Level.module == module_name).order_by(Level.difficulty.asc()).all()
     if not levels:
         return None
     

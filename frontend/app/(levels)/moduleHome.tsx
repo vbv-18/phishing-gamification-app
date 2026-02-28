@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, ScrollView, Pressable, ActivityIndicator } from "react-native";
-import { useLocalSearchParams, useRouter } from "expo-router";
-import { useEffect, useState } from "react";
+import { useLocalSearchParams, useRouter, useFocusEffect } from "expo-router";
+import { useCallback, useState } from "react";
 import { Colors } from "@/constants/Colors";
 import { Spacing } from "@/constants/Spacing";
 import { getLevelsbyModule } from "@/services/api";
@@ -12,43 +12,45 @@ export default function ModuleHome(){
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
-
-    useEffect(() => {
-        async function loadLevels(){
-            try{
-                const data = await getLevelsbyModule(moduleName as string);
-                setLevels(data);
-            }
-            catch(err: any){
-                setError(err.message || 'Error loading levels');
-            }
-            finally{
-                setLoading(false);
-            }
-        }
-        loadLevels();
-    }, []);
-
-    if(loading){ //loader while it is loading
-        return(
-            <View style={styles.center}>
-                <ActivityIndicator size="large" color={Colors.primary} />
-            </View>
-        );
+   const loadLevels = async () => {
+    try{
+      const data = await getLevelsbyModule(moduleName as string);
+        setLevels(data);
     }
+    catch(err: any){
+      setError(err.message || 'Error loading levels');
+    }
+    finally{
+      setLoading(false);
+    }
+  }
 
-    return(
-        <ScrollView style={styles.container}>
-            <Text style={styles.title}>Niveles</Text>
+  useFocusEffect(
+    useCallback(() => {
+      loadLevels();
+    }, [moduleName])
+  );
 
-            {levels.map((level) => (
-                <Pressable key={level.id} style={[styles.levelCard, !level.unlocked && styles.levelLocked,]} disabled={!level.unlocked} onPress={() => router.push({pathname: './levelPlay', params: {levelId: level.id},})}>
-                    <Text style={styles.levelTitle}>Nivel {level.difficulty}: {level.title}</Text>
-                    <Text style={styles.status}>{level.completed ? "Completado" : level.unlocked ? "Disponible" : "Bloqueado"}</Text>
-                </Pressable>
-            ))}
-        </ScrollView>
-    );
+  if(loading){ //loader while it is loading
+      return(
+          <View style={styles.center}>
+              <ActivityIndicator size="large" color={Colors.primary} />
+          </View>
+      );
+  }
+
+  return(
+      <ScrollView style={styles.container}>
+          <Text style={styles.title}>Niveles</Text>
+
+          {levels.map((level) => (
+              <Pressable key={level.id} style={[styles.levelCard, !level.unlocked && styles.levelLocked,]} disabled={!level.unlocked} onPress={() => router.push({pathname: './levelPlay', params: {levelId: level.id, moduleName},})}>
+                  <Text style={styles.levelTitle}>Nivel {level.difficulty}: {level.title}</Text>
+                  <Text style={styles.status}>{level.completed ? "Completado" : level.unlocked ? "Disponible" : "Bloqueado"}</Text>
+              </Pressable>
+          ))}
+      </ScrollView>
+  );
 }
 
 const styles = StyleSheet.create({
