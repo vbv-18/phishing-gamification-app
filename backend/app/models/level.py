@@ -8,6 +8,6 @@ class Level(Base):
     module = Column(String, nullable=False) 
     difficulty = Column(Integer, nullable=False)
     title = Column(String, nullable=False)
-    theory = Column(JSON, nullable=False)
+    theory = Column(JSON, nullable=True)
     content = Column(JSON, nullable=False)
     points = Column(Integer, default=10, nullable=False)
