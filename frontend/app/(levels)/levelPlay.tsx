@@ -1,14 +1,13 @@
-import { View, Text, StyleSheet, ScrollView, ActivityIndicator, Pressable } from "react-native";
+import { View, Text, StyleSheet, ScrollView, ActivityIndicator, Pressable, Animated } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Colors } from "@/constants/Colors";
 import { Spacing } from "@/constants/Spacing";
 import PrimaryButton from "@/components/PrimaryButton";
-import PrimaryButton1 from "@/components/PrimaryButton1";
 import { getLevel, completeLevel } from "@/services/api";
 import { useEffect, useState } from "react";
 
 export default function LevelPlay(){
-    const {levelId} = useLocalSearchParams();
+    const {levelId, moduleName} = useLocalSearchParams();
     const [level, setLevel] = useState<any>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
@@ -17,24 +16,43 @@ export default function LevelPlay(){
     const [currentIndex, setCurrentIndex] = useState(0);
     const [selectedAnswer, setSelectedAsnwer] = useState<boolean | null >(null);
     const [showFeedback, setShowFeedback] = useState(false);
+    const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
     const [score, setScore] = useState(0);
     const [finished, setFinished] = useState(false);
 
-     useEffect(() => {
-            async function loadLevel(){
-                try{
-                    const data = await getLevel(Number(levelId));
-                    setLevel(data);
-                }
-                catch(err: any){
-                    setError(err.message || 'Error loading level');
-                }
-                finally{
-                    setLoading(false);
-                }
-            }
-            loadLevel();
-        }, []);
+    const progressAnimation = useState(new Animated.Value(0))[0];
+
+    useEffect(() => {
+      if(!level) return;
+      
+        const questions = level.content.questions;
+        const progress = (currentIndex / questions.length) * 100;
+
+        Animated.timing(progressAnimation, {toValue: progress, duration: 500, useNativeDriver: false,}).start();
+      }, [currentIndex, level]);
+
+    useEffect(() => {
+      async function loadLevel(){
+        try{
+          const data = await getLevel(Number(levelId));
+            setLevel(data);
+        }
+        catch(err: any){
+            setError(err.message || 'Error loading level');
+        }
+        finally{
+          setLoading(false);
+        }
+      }
+      loadLevel();
+    }, []);
+
+    useEffect(() => {
+      if(finished && level){
+        const questions = level.content.questions;
+        router.push({pathname: './levelCompleted', params: {levelId, score, maxScore: questions.length * level.points, moduleName},});
+      }
+    }, [finished]);
 
     if(loading){ //loader while it is loading
       return(
@@ -56,7 +74,6 @@ export default function LevelPlay(){
       return renderSignalClassification();
     }
 
-
     return(
         <ScrollView style={styles.container}>
             <Text style={styles.title}>Nivel {level.difficulty}: {level.title}</Text>
@@ -76,12 +93,19 @@ export default function LevelPlay(){
         setSelectedAsnwer(answer);
         setShowFeedback(true);
 
-        if(answer === currentQuestion.is_suspicious){
-          setScore((prev) => prev + level.content.points);
+        const correct = answer === currentQuestion.is_suspicious;
+        setIsCorrect(correct);
+
+        if(correct){
+          setScore((prev) => prev + level.points);
         }
       };
 
       const handleContinue = () => {
+        if(selectedAnswer == null){
+          return;
+        }
+
         if(currentIndex + 1 < questions.length){
           setCurrentIndex(prev => prev + 1);
           setSelectedAsnwer(null);
@@ -92,48 +116,56 @@ export default function LevelPlay(){
         }
       };
 
-      if(finished){
-        return(
-          <View style={styles.center}>
-            <Text style={styles.title}>Nivel completado</Text>
-            <Text style={styles.score}>Puntuación: {score} / {questions.length * level.content.points}</Text>
-            <PrimaryButton title="Finalizar" onPress={async () => {await completeLevel(level.id); router.back()}}></PrimaryButton>
-          </View>
-        );
-      }
-
       return(
         <View style={styles.container}>
-          <Text style={styles.progress}>Pregunta {currentIndex + 1} de {questions.length}</Text>
+
+          <View style={styles.header}>
+            <Pressable onPress={() => router.back()} style={styles.closeButton}>
+              <Text style={styles.closeIcon}>X</Text>
+            </Pressable>
+
+            <View style={styles.progressBar}>
+               <Animated.View style={[styles.progressBarFill, {width: progressAnimation.interpolate({inputRange: [0, 100], outputRange: ['0%', '100%'],}),},]}></Animated.View>
+            </View>
+          </View>
 
           <View style={styles.card}>
             <Text style={styles.context}>{currentQuestion.context}</Text>
             <Text style={styles.questionText}>{currentQuestion.text}</Text>
           </View>
 
-          <Pressable onPress={() => handleAnswer(true)} style={({ pressed }) => [styles.suspiciousWrapper, pressed && styles.suspiciousWrappedPressed]}>{({ pressed }) => (
-            <View style={[styles.suspicious, pressed && styles.suspiciousPressed]}>
+          <Pressable onPress={() => handleAnswer(true)} disabled={showFeedback} style={({ pressed }) => [styles.suspiciousWrapper, pressed && !showFeedback &&
+            styles.suspiciousWrappedPressed, showFeedback && styles.disabledWrapper]}>
+            {({ pressed }) => (
+            <View style={[styles.suspicious, pressed && !showFeedback && styles.suspiciousPressed, showFeedback && styles.disabledInner]}>
               <Text style={styles.suspiciousText}>Sospechoso</Text>
             </View>
           )}
           </Pressable>
 
-          <Pressable onPress={() => handleAnswer(false)} style={({ pressed }) => [styles.legitimateWrapper, pressed && styles.legitimateWrappedPressed]}>{({ pressed }) => (
-            <View style={[styles.legitimate, pressed && styles.legitimatePressed]}>
-              <Text style={styles.suspiciousText}>Legítimo</Text>
+          <Pressable onPress={() => handleAnswer(false)} disabled={showFeedback} style={({ pressed }) => [styles.legitimateWrapper, pressed && !showFeedback &&
+            styles.legitimateWrappedPressed,showFeedback && styles.disabledWrapper]}>
+            {({ pressed }) => (
+            <View style={[styles.legitimate, pressed && !showFeedback && styles.legitimatePressed, showFeedback && styles.disabledInner]}>
+              <Text style={styles.legitimateText}>Legítimo</Text>
             </View>
           )}
           </Pressable>
 
-          <Pressable onPress={handleContinue} style={({ pressed }) => [styles.continueWrapper, pressed && styles.continueWrappedPressed]}>{({ pressed }) => (
-            <View style={[styles.continue, pressed && styles.continuePressed]}>
-              <Text style={styles.continueText}>Continuar</Text>
-            </View>
+          {showFeedback && (
+            <>              
+              <Pressable onPress={handleContinue} style={({pressed}) => [styles.continueWrapper, pressed && styles.continueWrappedPressed]}>
+
+                <View style={styles.continue}>
+                  <Text style={styles.continueText}>Continuar</Text>
+                </View>
+
+              </Pressable>
+
+              <Text style={[styles.feedback, isCorrect ? styles.feedbackCorrect : styles.feedbackWrong]}>{isCorrect ? currentQuestion.feedback_correct : currentQuestion.feedback_wrong}</Text>
+
+            </>
           )}
-          </Pressable>
-
-          {showFeedback && (<Text style={styles.feedback}>{level.feedback[currentQuestion.reason_key]}</Text>)}
-
         </View>
       );
     }
@@ -191,7 +223,20 @@ const styles = StyleSheet.create({
     marginTop: Spacing.md,
     textAlign: "center",
     fontSize: 14,
+    fontWeight: 'bold', 
     color: Colors.primary,
+  },
+  feedbackCorrect: {
+    color: Colors.shadowLegitimate,
+    fontWeight: "bold",
+    marginTop: Spacing.md,
+    textAlign: 'center',
+  },
+  feedbackWrong: {
+    color: Colors.shadowSuspicious,
+    fontWeight: "bold",
+    marginTop: Spacing.md,
+    textAlign: 'center',
   },
   score: {
     fontSize: 18,
@@ -276,4 +321,45 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     fontSize: 16
   },
+  disabledWrapper: {
+    opacity: 0.5,
+  },
+  disabledInner:{
+    backgroundColor: '#c4c4c4'
+  },
+  header: {
+    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 20,
+    marginTop: 20,
+  },
+  closeButton: {
+    padding: 10,
+    position: 'absolute',
+    left: 0,
+    zIndex: 10,
+  },
+  closeIcon:{
+    fontSize: 26,
+    fontWeight: 'bold',
+    color: Colors.text,
+  },
+  progressBar:{
+    width: '80%',
+    height: 15,
+    backgroundColor: '#E6E6E6',
+    borderRadius: 20,
+    overflow: 'hidden',
+    marginLeft: 60,
+    marginHorizontal: 40,
+    marginBottom: 10,
+    marginTop: 10,
+  },
+  progressBarFill: {
+    height: '100%',
+    backgroundColor: '#eccd1b',
+    borderRadius: 20,
+  }
 });
