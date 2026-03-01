@@ -102,6 +102,7 @@ LEVEL1 = {
           "id": 4,
           "context": "Actualiza tu información bancaria",
           "text": "Para ello, accede aquí: http://www.banco-seguridad-verifica.com/login",
+          "is_suspicious": True,
           "feedback_correct": "¡Perfecto! Un enlace legítimo siempre usará HTTPS (Hyper-Text Transfer Protocol Secure) en vez de HTTP ",
           "feedback_wrong": "¡Incorrecto! Un enlace sin HTTPS siempre es vulnerable, no cuenta con seguridad. ¡Revisa siempre!",
         },
