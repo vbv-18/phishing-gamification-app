@@ -64,14 +64,14 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.lg,
   },
   context: {
-    fontSize: 14,
-    color: Colors.muted,
-    marginBottom: 8,
-  },
-  questionText: {
     fontSize: 18,
     fontWeight: "600",
     color: Colors.text,
+    marginBottom: 8,
+  },
+  questionText: {
+    fontSize: 17,
+    color: Colors.muted,
   },
   suspiciousWrapper: {
     backgroundColor: Colors.shadowSuspicious, 

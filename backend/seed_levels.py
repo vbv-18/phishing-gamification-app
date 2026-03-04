@@ -197,7 +197,7 @@ LEVEL2 = {
       {
         "id": 4,
         "type": "highlight",
-        "instructions": "Selecciona la parte sospechosa el dominio (enlace incluido en el correo). Puede ocurrir que no haya nada sospechoso",
+        "instructions": "Inspecciona el enlace y selecciona la parte sospechosa. Puede que no haya ninguna.",
         "email": {
           "from": "novedades@arnazon.es",
           "subject": "Baliza V16 Homologada",
@@ -220,7 +220,7 @@ LEVEL2 = {
       {
         "id": 5,
         "type": "highlight",
-        "instructions": "Selecciona la parte sospechosa el dominio (enlace incluido en el correo). Puede ocurrir que no haya nada sospechoso",
+        "instructions": "Inspecciona el enlace y selecciona la parte sospechosa. Puede que no haya ninguna.",
         "email": {
           "from": "seguridad@gruposantander.es",
           "subject": "Actualización de seguridad",
@@ -244,7 +244,7 @@ LEVEL2 = {
       {
         "id": 6,
         "type": "highlight",
-        "instructions": "Selecciona la parte sospechosa el dominio (enlace incluido en el correo). Puede ocurrir que no haya nada sospechoso",
+        "instructions": "Inspecciona el enlace y selecciona la parte sospechosa. Puede que no haya ninguna.",
         "email": {
           "from": "no-reply@accounts.google.com",
           "subject": "Alerta de seguridad",

@@ -7,6 +7,7 @@ import { useLoadLevel } from "@/hooks/useLoadLevel";
 import { useLevelState } from "@/hooks/useLevelState";
 import LevelHeader from "./components/LevelHeader";
 import SignalClassification from "./exercises/level1";
+import DomainAnalysis from "./exercises/level2";
 
 export default function LevelPlay(){
     const {levelId, moduleName} = useLocalSearchParams();
@@ -48,6 +49,8 @@ export default function LevelPlay(){
 
             {level.content.exercise_type === "signal_classification"
                 ? <SignalClassification question={currentQuestion} levelState={levelState}></SignalClassification>
+                : level.content.exercise_type === "domain_analysis"
+                ? <DomainAnalysis question={currentQuestion} levelState={levelState}></DomainAnalysis>
                 : <Text style={styles.error}>Ejercicio no desarrollado</Text>
             }
         </View>
