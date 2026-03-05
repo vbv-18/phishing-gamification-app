@@ -2,7 +2,8 @@ import { View, Text, StyleSheet, ScrollView, Pressable } from "react-native";
 import { Colors } from "@/constants/Colors";
 import { Spacing } from "@/constants/Spacing";
 import { useRouter } from 'expo-router';
-
+import BottomHeader
+ from "@/(auth)/components/BottomHeader";
 export default function Home(){
     const router = useRouter();
     const modules = [
@@ -10,26 +11,29 @@ export default function Home(){
     ];
 
     return(
-        <ScrollView style={styles.container}>
-            <Text style={styles.title}>Bienvenido</Text>
-            <Text style={styles.subtitle}>Selecciona un módulo</Text>
+        <View style={{flex:1}}>
+          <ScrollView style={styles.container}>
+              <Text style={styles.title}>Bienvenido</Text>
+              <Text style={styles.subtitle}>Selecciona un módulo</Text>
 
-            {modules.map((m) => (
-                <View key={m.id} style={styles.moduleCard}>
-                    <View style={styles.cardTop}>
-                        <Text style={styles.levelText}>Módulo 1 - Emails</Text>
-                    </View>
+              {modules.map((m) => (
+                  <View key={m.id} style={styles.moduleCard}>
+                      <View style={styles.cardTop}>
+                          <Text style={styles.levelText}>Módulo 1 - Emails</Text>
+                      </View>
 
-                    <Pressable style={({pressed}) => [
-                        styles.startButton, pressed && styles.startPressed,]}
+                      <Pressable style={({pressed}) => [
+                          styles.startButton, pressed && styles.startPressed,]}
 
-                        onPress={() => router.push({pathname: "./moduleHome", params: {moduleName: m.title},})}>
-                        <Text style={styles.startText}>START</Text>
-                    </Pressable>
+                          onPress={() => router.push({pathname: "./moduleHome", params: {moduleName: m.title},})}>
+                          <Text style={styles.startText}>START</Text>
+                      </Pressable>
 
-                </View>
-            ))}
-        </ScrollView>
+                  </View>
+              ))}
+          </ScrollView>
+          <BottomHeader></BottomHeader>
+        </View>
     );
 }
 

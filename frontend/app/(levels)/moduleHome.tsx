@@ -4,6 +4,7 @@ import { useCallback, useState } from "react";
 import { Colors } from "@/constants/Colors";
 import { Spacing } from "@/constants/Spacing";
 import { getLevelsbyModule } from "@/services/api";
+import BottomHeader from "@/(auth)/components/BottomHeader";
 
 export default function ModuleHome(){
     const {moduleName} = useLocalSearchParams();
@@ -40,6 +41,7 @@ export default function ModuleHome(){
   }
 
   return(
+    <View style={{flex:1}}>
       <ScrollView style={styles.container}>
           <Text style={styles.title}>Niveles</Text>
 
@@ -50,6 +52,8 @@ export default function ModuleHome(){
               </Pressable>
           ))}
       </ScrollView>
+      <BottomHeader></BottomHeader>
+    </View>
   );
 }
 

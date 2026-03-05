@@ -77,8 +77,8 @@ export async function getProfile(){
   return apiFetch('/users/me');
 }
 
-export async function deleteAccount(){
-  return apiFetch('/users/me', {method: 'DELETE',});
+export async function deleteAccount(password: string){
+  return apiFetch('/users/me', {method: 'DELETE', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({password}),});
 }
 
 //levels endpoints
