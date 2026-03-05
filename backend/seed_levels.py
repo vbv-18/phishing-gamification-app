@@ -72,7 +72,7 @@ LEVEL1 = {
   ],
   "content": {
       "exercise_type": "signal_classification",
-      "instructions": "¿El siguiente elemento es una señal de phishing?",
+      "instructions": "¿Es una señal de phishing?",
       "questions": [
         {
           "id": 1,
