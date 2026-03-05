@@ -19,26 +19,30 @@ async function apiFetch(
   });
 
   if (!res.ok) {
-  const data = await res.json().catch(() => null);
+    const data = await res.json().catch(() => null);
 
-  let message = 'Error inesperado';
+    let message = 'Error inesperado';
 
-  if (data?.detail) {
-    if (typeof data.detail === 'string') {
-      message = data.detail;
-    }
-    else if (Array.isArray(data.detail)) {
-      message = data.detail
-        .map((err: any) => `${err.loc.slice(1).join('.')}: ${err.msg}`)
-        .join('\n');
-    }
-  } else if (res.status === 400) message = 'Datos incorrectos';
-  else if (res.status === 401) message = 'Credenciales inválidas';
-  else if (res.status === 403) message = 'Acceso no autorizado';
-  else if (res.status >= 500) message = 'Error del servidor';
+    if (data?.detail) {
+      if (typeof data.detail === 'string') {
+        message = data.detail;
+      }
+      else if (Array.isArray(data.detail)) {
+        message = data.detail
+          .map((err: any) => `${err.loc.slice(1).join('.')}: ${err.msg}`)
+          .join('\n');
+      }
+    } else if (res.status === 400) message = 'Datos incorrectos';
+    else if (res.status === 401) message = 'Credenciales inválidas';
+    else if (res.status === 403) message = 'Acceso no autorizado';
+    else if (res.status >= 500) message = 'Error del servidor';
 
-  throw new Error(message);
-}
+    throw new Error(message);
+  }
+
+  if(res.status == 204){ //delete current user does not return anything
+    return null;
+  }
 
   return res.json();
 }
@@ -73,6 +77,9 @@ export async function getProfile(){
   return apiFetch('/users/me');
 }
 
+export async function deleteAccount(){
+  return apiFetch('/users/me', {method: 'DELETE',});
+}
 
 //levels endpoints
 export async function getNextLevel(moduleName: string){
