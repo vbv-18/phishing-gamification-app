@@ -11,3 +11,7 @@ def create_user(db: Session, user: UserCreate): #create an user
     db.refresh(db_user)
 
     return db_user
+
+def delete_user(db: Session, user: User): #delete user
+    db.delete(user)
+    db.commit()
