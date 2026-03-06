@@ -1,11 +1,11 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { getToken, removeToken } from "@/services/auth";
+import { saveToken, getToken, removeToken } from "@/services/auth";
 
 interface AuthContextType{
     isAuthenticated: boolean;
     loading: boolean;
     signOut: () => Promise<void>;
-    signIn: () => void;
+    signIn: (token: string) => Promise<void>;
     refreshAuth: () => Promise<void>;
 }
 
@@ -25,7 +25,8 @@ export function AuthProvider({children}: {children: React.ReactNode}){
         checkAuth();
     }, []);
 
-    const signIn = () => {
+    const signIn = async(token: string) => {
+        await saveToken(token);
         setIsAuthenticated(true);
     };
 
