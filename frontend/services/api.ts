@@ -1,4 +1,4 @@
-import { getToken } from './auth';
+import { getToken, removeToken } from './auth';
 
 const BASE_URL = 'http://10.0.2.2:8000';
 //10.0.2.2
@@ -32,8 +32,14 @@ async function apiFetch(
           .map((err: any) => `${err.loc.slice(1).join('.')}: ${err.msg}`)
           .join('\n');
       }
-    } else if (res.status === 400) message = 'Datos incorrectos';
-    else if (res.status === 401) message = 'Credenciales inválidas';
+    } 
+    
+    else if (res.status === 400) message = 'Datos incorrectos';
+
+    else if (res.status === 401){
+      message = 'Credenciales inválidas';
+    }
+
     else if (res.status === 403) message = 'Acceso no autorizado';
     else if (res.status >= 500) message = 'Error del servidor';
 

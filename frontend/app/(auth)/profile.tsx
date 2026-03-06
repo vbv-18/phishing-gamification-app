@@ -6,7 +6,7 @@ import { Colors } from "@/constants/Colors";
 import { Spacing } from "@/constants/Spacing";
 
 import { getProfile, deleteAccount } from "@/services/api";
-import { signOut } from "@/services/auth";
+import { useAuth } from "context/AuthContext";
 import ConfirmPasswordDelete from "./components/ConfirmPasswordDelete";
 
 export default function Profile(){ //future -> use imagePicker from Expo
@@ -14,6 +14,7 @@ export default function Profile(){ //future -> use imagePicker from Expo
   const [user, setUser] = useState<any>(null);
   const [error, setError] = useState('');
   const [deleteVisible, setDeleteVisible] = useState(false);
+  const {signOut} = useAuth();
 
   useEffect(() => {
     loadProfile();
@@ -32,7 +33,6 @@ export default function Profile(){ //future -> use imagePicker from Expo
 
   const handleSignOut = async () => {
     await signOut();
-    router.dismissAll();
     router.replace('/');
   };
 
@@ -46,7 +46,6 @@ export default function Profile(){ //future -> use imagePicker from Expo
       await signOut();
       setDeleteVisible(false);
 
-      router.dismissAll();
       router.replace('/');
     }
     catch(err: any){
@@ -92,7 +91,7 @@ export default function Profile(){ //future -> use imagePicker from Expo
       </Pressable>
 
       <ConfirmPasswordDelete visible={deleteVisible} title="Eliminar cuenta" subtitle="Introduce tu contraseña para confirmar. Esta acción no se puede deshacer"
-      confirmLabel="Elimninar" destructive onConfirm={confirmDeleteAccount} onCancel={() => setDeleteVisible}></ConfirmPasswordDelete>
+      confirmLabel="Eliminar" destructive onConfirm={confirmDeleteAccount} onCancel={() => setDeleteVisible(false)}></ConfirmPasswordDelete>
 
       {error ? <Text style={styles.error}>{error}</Text> : null}
 
