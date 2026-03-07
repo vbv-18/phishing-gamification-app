@@ -5,18 +5,20 @@ import { Spacing } from '@/constants/Spacing';
 import { loginUser } from '@/services/api';
 import { saveToken } from '@/services/auth';
 import { useState } from 'react';
+import { useAuth } from 'context/AuthContext';
 
 export default function SignIn() {
   const router = useRouter();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const {signIn} = useAuth();
 
   const handleSignIn = async () => {
   try {
     const data = await loginUser({ username, password });
 
-    await saveToken(data.access_token);
+    await signIn(data.access_token); //update state
 
     router.replace('/home');
   } catch (err: any) {

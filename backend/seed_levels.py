@@ -72,7 +72,7 @@ LEVEL1 = {
   ],
   "content": {
       "exercise_type": "signal_classification",
-      "instructions": "¿El siguiente elemento es una señal de phishing?",
+      "instructions": "¿Es una señal de phishing?",
       "questions": [
         {
           "id": 1,
@@ -101,9 +101,10 @@ LEVEL1 = {
         {
           "id": 4,
           "context": "Actualiza tu información bancaria",
-          "text": "Para ello, accede aquí: https://banco-seguridad-verifica.com/login",
-          "feedback_correct": "¡Perfecto! Aunque el enlace parezca legítimo, puede variar ligeramente, ¡Comprueba siempre!",
-          "feedback_wrong": "¡Incorrecto! Los atacantes suelen usar dominios parecidos para engañar. ¡Revisa siempre!",
+          "text": "Para ello, accede aquí: http://www.banco-seguridad-verifica.com/login",
+          "is_suspicious": True,
+          "feedback_correct": "¡Perfecto! Un enlace legítimo siempre usará HTTPS (Hyper-Text Transfer Protocol Secure) en vez de HTTP ",
+          "feedback_wrong": "¡Incorrecto! Un enlace sin HTTPS siempre es vulnerable, no cuenta con seguridad. ¡Revisa siempre!",
         },
         {
          "id": 5,
@@ -149,9 +150,130 @@ LEVEL1 = {
   },
 }
 
+LEVEL2 = {
+  "module": "email",
+  "difficulty": 2,
+  "title": "Inspector de Dominios",
+  "theory": [],
+  "content": {
+    "exercise_type": "domain_analysis",
+    "questions": [
+      { 
+        "id": 1,
+        "type": "selection",
+        "instructions": "Selecciona el dominio legítimo",
+        "brand": "PayPal",
+        "options": [
+          {"domain": "paypal.com", "is_suspicious": False},
+          {"domain": "paypa1.com", "is_suspicious": True},
+        ],
+        "feedback_correct": "¡Exacto! Un número puede suplantar a una letra: 1 -> l",
+        "feedback_wrong": "¡Cuidado! Fíjate bien en cada carácter, usar un número en lugar de la letra real es un truco muy común",
+      },
+      {
+        "id": 2,
+        "type": "selection",
+        "instructions": "Selecciona el dominio legítimo",
+        "brand": "Banco Santander",
+        "options": [
+          {"domain": "bancosantander.es", "is_suspicious": False},
+          {"domain": "banco-santander-secure.com", "is_suspicious": True},
+        ],
+        "feedback_correct": "¡Bien visto! Los dominios legítimos no necesitan palabras como 'secure'",
+        "feedback_wrong": "¡Oh no! Los guiones y palabras extra como 'secure' son señales de alerta",
+      },
+      {
+        "id": 3,
+        "type": "selection",
+        "instructions": "Selecciona el dominio legítimo",
+        "brand": "Correos",
+        "options": [
+          {"domain": "correos.es", "is_suspicious": False},
+          {"domain": "correos.click", "is_suspicious": True},
+        ],
+        "feedback_correct": "¡Perfecto! Aunque existan muchos TLDs válidos, las instituciones oficiales suelen mantener dominios con su marca y país (.es en este caso)",
+        "feedback_wrong": "¡Atención! Un dominio oficial nunca utilizará '.click' o '.top' para el TLD (última cadena de caracteres después del último punto)",
+      },
+      {
+        "id": 4,
+        "type": "highlight",
+        "instructions": "Inspecciona el enlace y selecciona la parte sospechosa. Puede que no haya ninguna.",
+        "email": {
+          "from": "novedades@arnazon.es",
+          "subject": "Baliza V16 Homologada",
+          "body": "olvídate de los triángulos, V16: Más visibilidad, menos riesgo, más protección. Cómprala ahora",
+        },
+        "url": {
+          "full": "https://www.arnazon.com/balizaV16",
+          "segments": [
+            {"protocol": "https://", "is_suspicious": False},
+            {"subdomain": "www.", "is_suspicious": False},
+            {"domain": "arnazon", "is_suspicious": True},
+            {"tld": ".com", "is_suspicious": False},
+            {"path": "/balizaV16", "is_suspicious": False},
+          ],
+        },
+        "allow_no_selection": True,
+        "feedback_correct": "¡Exacto! 'rn' se utiliza para simular la letra 'm', así igual con otras letras, ¡Atenta/o que también ocurre en el remitente!",
+        "feedback_wrong": "¡Incorrecto! Fíjate bien en el dominio: 'arnazon' no es 'amazon', han intercambiado la 'm' por 'rn'\n¡También ocurre en el remitente!",
+      },
+      {
+        "id": 5,
+        "type": "highlight",
+        "instructions": "Inspecciona el enlace y selecciona la parte sospechosa. Puede que no haya ninguna.",
+        "email": {
+          "from": "seguridad@gruposantander.es",
+          "subject": "Actualización de seguridad",
+          "body": "La contraseña de la app Santander ha caducado, accede para actualizarla",
+          "display_link": "https://www.bancosantander.es/seguridad"
+        },
+        "url": {
+          "full": "https://www.banc0santander.es/fake",
+          "segments": [
+              {"protocol": "https://", "is_suspicious": False},
+              {"subdomain": "www.", "is_suspicious": False},
+              {"domain": "banc0santander", "is_suspicious": True},
+              {"tld": ".es", "is_suspicious": False},
+              {"path": "fake", "is_suspicious": True},
+          ],
+        },
+        "allow_no_selection": True,
+        "feedback_correct": "¡Correcto! El enlace visible no coincide con el real",
+        "feedback_wrong": "¡Incorrecto! Siempre verifica manteniendo pulsado el enlace real",
+      },
+      {
+        "id": 6,
+        "type": "highlight",
+        "instructions": "Inspecciona el enlace y selecciona la parte sospechosa. Puede que no haya ninguna.",
+        "email": {
+          "from": "no-reply@accounts.google.com",
+          "subject": "Alerta de seguridad",
+          "body": "Nuevo inicio de sesión en Android",
+          "display_link": "Comprobar actividad"
+        },
+        "url": {
+          "full": "https://myaccount.google.com/activity",
+          "segments": [
+              {"protocol": "https://", "is_suspicious": False},
+              {"subdomain": "myaccount.", "is_suspicious": False},
+              {"domain": "google", "is_suspicious": False},
+              {"tld": ".com", "is_suspicious": False},
+              {"path": "/activity", "is_suspicious": False},
+          ],
+        },
+        "allow_no_selection": True,
+        "suspicious_part": None,
+        "feedback_correct": "¡Correcto! Tanto el remitente como el enlace son legítimos: uso de https, subdominio legítimo (myaccount.google.com) y ruta estándar (/activity)",
+        "feedback_wrong": "¡No es correcto! No hay señales de suplantación: uso de https, subdominio legítimo (myaccount.google.com) y ruta estándar (/activity)",
+      },
+    ]
+  }
+}
 
-LEVELS= [
-    LEVEL1
+
+LEVELS = [
+    LEVEL1,
+    LEVEL2
 ]
 
 def seed():
@@ -163,11 +285,11 @@ def seed():
 
         exists = (db.query(Level).filter(Level.module == module, Level.difficulty == difficulty).first())
         if exists:
-            print(f"Level in module {module} with {difficulty} difficulty already exists")
+            print(f"Level {difficulty} in module {module} already exists")
             continue
 
         create_level(db, level_data)
-        print(f"Level in module {module} with {difficulty} difficulty insert")
+        print(f"Level {difficulty} in module {module} insert")
 
     db.close()
 

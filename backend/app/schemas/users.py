@@ -16,3 +16,6 @@ class UserResponse(BaseModel):
 class LoginRequest(BaseModel):
     username: str
     password: str
+
+class DeleteUserRequest(BaseModel):
+    password: str

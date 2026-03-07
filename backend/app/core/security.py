@@ -14,7 +14,7 @@ from app.core.config import SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES
 passwd_context = CryptContext(schemes=["bcrypt"])
 
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/signIn")
 
 def hash_password(password: str) -> str: # to hash the user password
     return passwd_context.hash(password)
