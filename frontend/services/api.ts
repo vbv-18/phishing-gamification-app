@@ -44,3 +44,8 @@ export async function completeLevel(id:number, correctAnswers: number){
   const res = await apiClient.post(`/levels/${id}/complete`, {correct_answers: correctAnswers});
   return res.data;
 }
+
+export async function getUserXp(){
+  const res = await apiClient.get("/users/me/xp");
+  return res.data;
+}

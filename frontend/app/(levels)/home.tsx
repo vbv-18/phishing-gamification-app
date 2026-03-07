@@ -2,8 +2,9 @@ import { View, Text, StyleSheet, ScrollView, Pressable } from "react-native";
 import { Colors } from "@/constants/Colors";
 import { Spacing } from "@/constants/Spacing";
 import { useRouter } from 'expo-router';
-import BottomHeader
- from "@/(auth)/components/BottomHeader";
+import BottomHeader from "@/(auth)/components/BottomHeader";
+import AppHeader from "@/components/AppHeader";
+
 export default function Home(){
     const router = useRouter();
     const modules = [
@@ -12,6 +13,7 @@ export default function Home(){
 
     return(
         <View style={{flex:1}}>
+          <AppHeader></AppHeader>
           <ScrollView style={styles.container}>
               <Text style={styles.title}>Bienvenido</Text>
               <Text style={styles.subtitle}>Selecciona un módulo</Text>

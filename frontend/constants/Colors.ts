@@ -13,5 +13,7 @@ export const Colors = {
   legitimateButton: '#22C55E',
   shadowLegitimate: '#189245',
   continueButton: '#dae3f1',
-  shadowContinue: '#b3b9c4'
+  shadowContinue: '#b3b9c4',
+  xp: '#eccd1b',
+  xp_background: '#474224'
 };
