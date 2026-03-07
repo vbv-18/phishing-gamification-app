@@ -19,8 +19,13 @@ export default function LevelCompleted(){
     }, []);
 
     const handleFinish = async() => {
-        await completeLevel(Number(levelId));
-        router.replace({pathname: './moduleHome', params: {moduleName}});
+        try{
+            await completeLevel(Number(levelId));
+            router.replace({pathname: './moduleHome', params: {moduleName}});
+        }
+        catch(e){
+            //already managed
+        }
     };
 
     return(

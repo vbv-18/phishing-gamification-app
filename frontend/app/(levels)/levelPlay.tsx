@@ -1,10 +1,11 @@
-import { View, Text, StyleSheet, ScrollView, ActivityIndicator, Pressable, Animated } from "react-native";
+import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Colors } from "@/constants/Colors";
 import { Spacing } from "@/constants/Spacing";
 import { useEffect } from "react";
 import { useLoadLevel } from "@/hooks/useLoadLevel";
 import { useLevelState } from "@/hooks/useLevelState";
+import { useAuth } from "context/AuthContext";
 import LevelHeader from "./components/LevelHeader";
 import SignalClassification from "./exercises/level1";
 import DomainAnalysis from "./exercises/level2";
@@ -12,7 +13,7 @@ import DomainAnalysis from "./exercises/level2";
 export default function LevelPlay(){
     const {levelId, moduleName} = useLocalSearchParams();
     const router = useRouter();
-
+    const {isAuthenticated} = useAuth();
     const {level, loading, error} = useLoadLevel(levelId);
     const levelState = useLevelState(level);
 
@@ -23,6 +24,11 @@ export default function LevelPlay(){
       }
     }, [levelState.finished, levelState.score]);
 
+    useEffect(() => {
+      if(!isAuthenticated){
+        router.replace("/");
+      }
+    }, [isAuthenticated]);
 
     if(loading){ //loader while it is loading
       return(

@@ -1,6 +1,6 @@
 import axios from "axios";
-import { getToken, removeToken } from "@/services/auth";
-import { router } from "expo-router";
+import { getToken } from "@/services/auth";
+import { triggerSignOut } from "./authHandler";
 
 // HTTP client centralized
 
@@ -24,25 +24,20 @@ apiClient.interceptors.response.use( //to manage the token expiration
 
         if(error.response){
             const {status, data} = error.response;
-            
-            if(data?.detail){
-                if(typeof data.detail === "string"){
-                    message = data.detail;
-                }
 
-                else if(Array.isArray(data.detail)){
-                    message = data.detail.map((err: any) =>  `${err.loc.slice(1).join('.')}: ${err.msg}`).join("\n");
+            if(status === 401){
+                const token = await getToken();
+                if(token && !error.config.url?.includes("/auth/signIn")){
+                    message = "Sesión expirada";
+                    await triggerSignOut();
+                }
+                else{
+                    message = "Credenciales inválidas";
                 }
             }
-
+            
             else if(status === 400){
                 message = "Datos incorrectos";
-            }
-
-            else if(status === 401){
-                message = "Credenciales inválidas";
-                await removeToken(); //delete expired token
-                router.replace("/");
             }
 
             else if(status === 403){
@@ -51,6 +46,16 @@ apiClient.interceptors.response.use( //to manage the token expiration
 
             else if(status >= 500){
                 message = "Error en el servidor";
+            }
+
+            if(data?.detail && message === "Error inesperdo"){
+                if(typeof data.detail === "string"){
+                    message = data.detail;
+                }
+
+                else if(Array.isArray(data.detail)){
+                    message = data.detail.map((err: any) =>  `${err.loc.slice(1).join('.')}: ${err.msg}`).join("\n");
+                }
             }
         }
 
