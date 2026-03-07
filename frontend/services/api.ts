@@ -40,7 +40,7 @@ export async function getLevelsbyModule(moduleName: string){
   return res.data;
 }
 
-export async function completeLevel(id:number){
-  const res = await apiClient.post(`/levels/${id}/complete`);
+export async function completeLevel(id:number, correctAnswers: number){
+  const res = await apiClient.post(`/levels/${id}/complete`, {correct_answers: correctAnswers});
   return res.data;
 }

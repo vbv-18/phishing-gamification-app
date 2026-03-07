@@ -7,7 +7,6 @@ class LevelBase(BaseModel):
     title: str
     theory: Any
     content: Any
-    points: int
 
 class LevelResponse(LevelBase):
     id: int
@@ -24,3 +23,6 @@ class LevelList(BaseModel):
 
     class Config:
         orm_mode = True
+
+class CompleteLevelRequest(BaseModel):
+    correct_answers: int

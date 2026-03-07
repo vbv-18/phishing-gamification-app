@@ -1,0 +1,18 @@
+from sqlalchemy.orm import Session
+from app.models.userXp import userXp
+
+def get_user_xp(db: Session, user_id: int):
+    xp_record = db.query(userXp).filter(userXp.user_id == user_id).first() #xp obtain by the user
+    if not xp_record:
+        xp_record = userXp(user_id=user_id, xp=0) #if does not exist yet
+        db.add(xp_record)
+        db.commit()
+        db.refresh(xp_record)
+
+    return xp_record
+
+def add_xp(db: Session, user_id: int, points: int):
+    xp_record = get_user_xp(db, user_id)
+    xp_record.xp += points
+
+    return xp_record

@@ -17,7 +17,7 @@ export default function Home() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>PhishAware 🐟</Text>
-      <Text style={styles.subtitle}>Aprende a detectar phishing jugando!</Text>
+      <Text style={styles.subtitle}>Aprende sobre phishing jugando!</Text>
 
       <Pressable onPress={handleSignIn} style={({ pressed }) => [styles.buttonWrapper, pressed && styles.buttonWrappedPressed]}>{({ pressed }) => (
           <View style={[styles.button, pressed && styles.buttonPressed]}>

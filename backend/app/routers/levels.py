@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 
 from app.database.connection import get_db
 from app.core.security import get_current_user
-from app.schemas.level import LevelResponse, LevelList
+from app.schemas.level import LevelResponse, LevelList, CompleteLevelRequest
 from app.crud.level import get_level, get_next_level, complete_level, get_levels_by_module
 
 router = APIRouter(prefix="/levels", tags=["Levels"])
@@ -34,12 +34,12 @@ def read_levels_by_module(module_name: str, db: Session = Depends(get_db), user 
     return levels
 
 @router.post("/{level_id}/complete") #for backend can mark a level completed
-def mark_level_completed(level_id: int, db: Session = Depends(get_db), user = Depends(get_current_user)):
-    progress = complete_level(db, user.id, level_id)
+def mark_level_completed(level_id: int, answers: CompleteLevelRequest, db: Session = Depends(get_db), user = Depends(get_current_user)):
+    progress = complete_level(db, user.id, level_id, answers.correct_answers)
 
     if not progress:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail= "Level not found")
     
-    return {"message": "Level completed"}
+    return {"message": "Level completed", "xp_gained": progress["xp_gained"]}
 
 

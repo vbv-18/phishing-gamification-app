@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 from app.models.level import Level
 from app.models.levelProgress import LevelProgress
+from app.crud.xp import add_xp
 
 def create_level(db: Session, level_data: dict):
     level = Level(**level_data)
@@ -29,7 +30,7 @@ def get_next_level(db: Session, user_id: int, module_name: str): #return the fir
     return None
 
 
-def complete_level(db: Session, user_id: int, level_id: int):
+def complete_level(db: Session, user_id: int, level_id: int, correct_answers: int):
     #level already exists?
     level = db.query(Level).filter(Level.id == level_id).first()
     if not level:
@@ -42,10 +43,15 @@ def complete_level(db: Session, user_id: int, level_id: int):
     else:
         db_progress.completed = True
 
+    xp_award = correct_answers * 5 #5XP for correct answer
+
+    xp_record = add_xp(db, user_id, xp_award) #xp from the level
+
     db.commit()
     db.refresh(db_progress)
+    db.refresh(xp_record)
 
-    return db_progress
+    return {"progress": db_progress, "xp_gained": xp_award}
 
 
 def get_levels_by_module(db: Session, module_name: str, user_id: int):

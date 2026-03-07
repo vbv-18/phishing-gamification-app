@@ -5,7 +5,7 @@ export function useLevelState(level: any){
     const [currentIndex, setCurrentIndex] = useState(0);
     const [showFeedback, setShowFeedback] = useState(false);
     const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
-    const [score, setScore] = useState(0);
+    const [correctAnswers, setCorrectAnswers] = useState(0);
     const [finished, setFinished] = useState(false);
 
     const progressAnimation = useState(new Animated.Value(0))[0];
@@ -24,7 +24,7 @@ export function useLevelState(level: any){
       setShowFeedback(true);
 
       if(answer){
-        setScore((prev) => prev + level.points);
+        setCorrectAnswers((prev) => prev + 1);
       }
     };
 
@@ -45,5 +45,5 @@ export function useLevelState(level: any){
         }
     };
 
-    return{currentIndex, showFeedback, isCorrect, score, finished, progressAnimation, submitAnswer, handleContinue};
+    return{currentIndex, showFeedback, isCorrect, correctAnswers, finished, progressAnimation, submitAnswer, handleContinue};
 }
