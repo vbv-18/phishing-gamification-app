@@ -3,7 +3,6 @@ import { useRouter } from 'expo-router';
 import { Colors } from '@/constants/Colors';
 import { Spacing } from '@/constants/Spacing';
 import { loginUser } from '@/services/api';
-import { saveToken } from '@/services/auth';
 import { useState } from 'react';
 import { useAuth } from 'context/AuthContext';
 

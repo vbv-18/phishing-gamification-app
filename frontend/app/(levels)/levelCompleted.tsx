@@ -1,14 +1,16 @@
-import { View, Text, StyleSheet, ScrollView, ActivityIndicator, Pressable, Animated } from "react-native";
+import { View, Text, StyleSheet, Pressable, Animated } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Colors } from "@/constants/Colors";
 import { Spacing } from "@/constants/Spacing";
-import { completeLevel } from "@/services/api";
-import { useEffect, useRef } from "react";
+import { completeLevel, UserAnswer } from "@/services/api";
+import { useEffect, useRef, useState } from "react";
 
 export default function LevelCompleted(){
-    const {levelId, score, maxScore, moduleName} = useLocalSearchParams();
-    const router = useRouter();
+    const {levelId, answersJSON, totalQuestions, moduleName} = useLocalSearchParams();
+    const [xpGained, setXpGained] = useState<number | null>(null);
+    const [correctAnswers, setCorrectAnswers] = useState<number | null>(null);
 
+    const router = useRouter();
     const scaleAnimation = useRef(new Animated.Value(0.6)).current;
     const opacityAnimation = useRef(new Animated.Value(0)).current;
 
@@ -18,14 +20,26 @@ export default function LevelCompleted(){
             Animated.timing(opacityAnimation, {toValue: 1, duration: 400, useNativeDriver: true,}),]).start();
     }, []);
 
+    useEffect(() => {
+        const markCompleted = async () => {
+            try{
+                const answers: UserAnswer[] = JSON.parse(Array.isArray(answersJSON) ? answersJSON[0] : answersJSON ?? "[]");
+                const result = await completeLevel(Number(levelId), answers);
+                setXpGained(result.xp_gained);
+
+                setCorrectAnswers(result.correct_answers);
+            }
+
+            catch(e){
+                //already managed
+            }
+        };
+        markCompleted();
+    }, [levelId]);
+        
+
     const handleFinish = async() => {
-        try{
-            await completeLevel(Number(levelId));
-            router.replace({pathname: './moduleHome', params: {moduleName}});
-        }
-        catch(e){
-            //already managed
-        }
+        router.replace({pathname: './moduleHome', params: {moduleName}});
     };
 
     return(
@@ -33,7 +47,8 @@ export default function LevelCompleted(){
             <Animated.View style={[styles.card, {transform: [{scale: scaleAnimation}], opacity: opacityAnimation,},]}>
                 <Text style={styles.icon}>🛡️</Text>
                 <Text style={styles.title}>¡Nivel completado!</Text>
-                <Text style={styles.score}>Puntuación: {score} / {maxScore}</Text>
+                {xpGained !== null && <Text style={styles.score}>XP ganado: {xpGained}</Text>}
+                <Text>Has acertado {correctAnswers}/{totalQuestions}</Text>
                 <Text style={styles.subtitle}>¡Buen trabajo!</Text>
 
                 <Pressable onPress={handleFinish} style={({ pressed }) => [styles.continueWrapper, pressed && styles.continueWrappedPressed]}>

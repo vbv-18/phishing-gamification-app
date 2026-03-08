@@ -7,6 +7,9 @@ export function useLoadLevel(levelId: string | string[]){ //useLocalSearchParams
     const [error, setError] = useState('');
 
     useEffect(() => {
+      setLevel(null); //reset state when levelId changes so obsolet data never shown
+      setLoading(true);
+      setError('');
       async function loadLevel(){
         try{
           const data = await getLevel(Number(levelId));
@@ -20,7 +23,7 @@ export function useLoadLevel(levelId: string | string[]){ //useLocalSearchParams
         }
       }
       loadLevel();
-    }, []);
+    }, [levelId]);
 
     return {level, loading, error};
 }

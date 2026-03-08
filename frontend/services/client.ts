@@ -48,7 +48,7 @@ apiClient.interceptors.response.use( //to manage the token expiration
                 message = "Error en el servidor";
             }
 
-            if(data?.detail && message === "Error inesperdo"){
+            if(data?.detail && message === "Error inesperado"){
                 if(typeof data.detail === "string"){
                     message = data.detail;
                 }

@@ -14,8 +14,7 @@ export default function SignalClassification({levelState, question}: Props){
     if(levelState.showFeedback){
       return;
     }
-    const correct = answer === question.is_suspicious;
-    levelState.submitAnswer(correct);
+    levelState.submitAnswer(question.id, answer);
     };
     
     return(

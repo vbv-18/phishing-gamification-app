@@ -14,7 +14,7 @@ type Props = { //define interfaces for types
 
 export default function DomainAnalysis({levelState, question}: Props){ //2 types fo questions: selection and highlight
     const [selectedOption, setSelectedOption] = useState<any>(null);
-    const [selectedSegments, setSelectedSegments] = useState<number[]>([]); //multiple selection allowed
+    const [selectedSegments, setSelectedSegments] = useState<string[]>([]); //multiple selection allowed
     const [zoomVisible, setZoomVisible] = useState(false);
 
     useEffect(() => {
@@ -27,33 +27,22 @@ export default function DomainAnalysis({levelState, question}: Props){ //2 types
         if(levelState.showFeedback){
             return;
         }
-
         setSelectedOption(option);
-        const correct = option.is_suspicious === false;
-        levelState.submitAnswer(correct);
+        levelState.submitAnswer(question.id, option.domain);
     };
 
-    const handleSegment = (segment: number) => {
+    const handleSegment = (segment: string) => {
         if(levelState.showFeedback){
             return;
         }
-        setSelectedSegments((prev) => prev.includes(segment) ? prev.filter(i => i !== segment) : [...prev, segment]);
+        setSelectedSegments((prev) => prev.includes(segment) ? prev.filter((k) => k !== segment) : [...prev, segment]);
     };
 
     const handleSegmentSubmit = () => {
         if(levelState.showFeedback){
             return;
         }
-
-        const suspiciousSegments = question.url.segments.map((seg: any, index: number) => seg.is_suspicious ? index : null).filter((i: number | null) => i !== null ) as number[]; //return the index of suspicious segments and null if they are not, then remove the nulls
-        
-        //sort the arrays from minor to major to compare them
-        const sortedSelected = [...selectedSegments].sort((a, b) => a - b); 
-        const sortedSuspicious = [...suspiciousSegments].sort((a, b) => a - b);
-        
-        const correct = sortedSelected.length === sortedSuspicious.length && sortedSelected.every((value, index) => value === sortedSuspicious[index]); //compare the number of selected and if them are selected correctly
-
-        levelState.submitAnswer(correct);
+        levelState.submitAnswer(question.id, selectedSegments);
     }
 
     return(

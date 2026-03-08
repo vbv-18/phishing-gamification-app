@@ -8,11 +8,23 @@ type Props = {
     visible: boolean;
     onClose: () => void;
     segments: any[];
-    selectedSegments: number[];
-    onSelectSegment: (index: number) => void;
+    selectedSegments: string[];
+    onSelectSegment: (index: string) => void;
     onSubmit: () => void;
     showFeedback: boolean;
 };
+
+const SEGMENT_METADATA: Record<string, {label: string, color: string}> = {
+  protocol:  { label: "Protocolo",  color: "#c8e6c9" },
+  subdomain: { label: "Subdominio", color: "#bbdefb" },
+  domain:    { label: "Dominio",    color: "#ffe0b2" },
+  tld:       { label: "TLD",        color: "#e1bee7" },
+  path:      { label: "Ruta",       color: "#ffcdd2" },
+};
+
+function getSegmentKey(segment: any): string {
+  return Object.keys(segment).find((k) => k !== "is_suspicious") ?? "";
+}
 
 export default function ZoomInspector({visible, onClose, segments, selectedSegments, onSelectSegment, onSubmit, showFeedback}: Props){
     return(
@@ -23,34 +35,15 @@ export default function ZoomInspector({visible, onClose, segments, selectedSegme
 
                     <View style={styles.container}>
                         {segments.map((segment: any, index: number) => {
-                            let value = "";
-                            let type = "";
-                            let color = "";
-
-                            if (segment.protocol) {
-                                value = segment.protocol;
-                                type = "Protocolo";
-                                color = "#c8e6c9";
-                            } else if (segment.subdomain) {
-                                value = segment.subdomain;
-                                type = "Subdominio";
-                                color = "#bbdefb";
-                            } else if (segment.domain) {
-                                value = segment.domain;
-                                type = "Dominio";
-                                color = "#ffe0b2";
-                            } else if (segment.tld) {
-                                value = segment.tld;
-                                type = "TLD";
-                                color = "#e1bee7";
-                            } else if (segment.path) {
-                                value = segment.path;
-                                type = "Ruta";
-                                color = "#ffcdd2";
+                            const key = getSegmentKey(segment);
+                            const metadata = SEGMENT_METADATA[key];
+                            if(!metadata){
+                                return null;
                             }
 
                             return(
-                                <DomainSegment key={index} value={value} label={type} baseColor={color} selected={selectedSegments.includes(index)} disabled={showFeedback} onPress={() => onSelectSegment(index)}></DomainSegment>
+                                <DomainSegment key={index} value={segment[key]} label={metadata.label} baseColor={metadata.color} selected={selectedSegments.includes(key)} 
+                                disabled={showFeedback} onPress={() => onSelectSegment(key)}></DomainSegment>
                             );
                         })}
                     </View>

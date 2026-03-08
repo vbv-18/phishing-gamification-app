@@ -1,5 +1,10 @@
 import { apiClient } from "./client";
 
+export interface UserAnswer{ //define types of answers admitted
+  question_id: number,
+  answer: boolean | string | string[]
+}
+
 //auth endpoints
 export async function loginUser(data: { username: string; password: string }){
   const body = new URLSearchParams(data).toString();
@@ -40,7 +45,12 @@ export async function getLevelsbyModule(moduleName: string){
   return res.data;
 }
 
-export async function completeLevel(id:number){
-  const res = await apiClient.post(`/levels/${id}/complete`);
+export async function completeLevel(id:number, answers: UserAnswer[]){
+  const res = await apiClient.post(`/levels/${id}/complete`, {answers});
+  return res.data;
+}
+
+export async function getUserXp(){
+  const res = await apiClient.get("/users/me/xp");
   return res.data;
 }

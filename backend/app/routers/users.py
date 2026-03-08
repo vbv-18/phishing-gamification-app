@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 from app.core.security import get_current_user, verify_password
 from app.models.user import User
 from app.crud.users import delete_user
+from app.crud.xp import get_user_xp
 from app.database.connection import get_db
 from app.schemas.users import DeleteUserRequest
 
@@ -12,6 +13,12 @@ router = APIRouter(prefix="/users", tags=["Users"])
 @router.get("/me") #profile
 def read_users_me(current_user: User = Depends(get_current_user)):
     return current_user
+
+@router.get("/me/xp")
+def read_user_xp(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    xp_record = get_user_xp(db, current_user.id)
+
+    return {"xp": xp_record.xp}
 
 @router.delete("/me", status_code=status.HTTP_204_NO_CONTENT) #future: ask for password to delete user
 def delete_current_user(request: DeleteUserRequest, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):

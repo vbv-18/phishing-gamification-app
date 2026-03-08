@@ -10,4 +10,3 @@ class Level(Base):
     title = Column(String, nullable=False)
     theory = Column(JSON, nullable=True)
     content = Column(JSON, nullable=False)
-    points = Column(Integer, default=10, nullable=False)

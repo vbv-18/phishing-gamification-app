@@ -7,7 +7,9 @@ import { Spacing } from "@/constants/Spacing";
 
 import { getProfile, deleteAccount } from "@/services/api";
 import { useAuth } from "context/AuthContext";
-import ConfirmPasswordDelete from "./components/ConfirmPasswordDelete";
+import ConfirmPasswordDelete from "../(auth)/components/ConfirmPasswordDelete";
+import { useUserXp } from "@/hooks/useUserXp";
+import ProfileHeader from "../(auth)/components/ProfileHeader";
 
 export default function Profile(){ //future -> use imagePicker from Expo
   const router = useRouter();
@@ -15,6 +17,7 @@ export default function Profile(){ //future -> use imagePicker from Expo
   const [error, setError] = useState('');
   const [deleteVisible, setDeleteVisible] = useState(false);
   const {signOut} = useAuth();
+  const {xp} = useUserXp();
 
   useEffect(() => {
     loadProfile();
@@ -60,12 +63,17 @@ export default function Profile(){ //future -> use imagePicker from Expo
 
   return(
     <View style={styles.container}>
+      <ProfileHeader></ProfileHeader>
       <Pressable>
         <Image source={require('../../assets/images/avatar.png')} style={styles.avatar}></Image>
       </Pressable>
 
       <Text style={styles.username}>{user.username}</Text>
       <Text style={styles.role}>Phishing Rookie</Text>
+      <View style={styles.xpBadge}>
+        <Text style={styles.xpLabel}>XP</Text>
+        <Text style={styles.xpText}>{xp !== null ? xp : '0'}</Text>
+      </View>
 
       <View style={styles.badges}>
         <Text style={styles.badgeTitle}>Badges</Text>
@@ -74,20 +82,12 @@ export default function Profile(){ //future -> use imagePicker from Expo
         </View>
       </View>
 
-      <Pressable onPress={handleSignOut} style={({pressed}) => [styles.signOutButton, styles.button, styles.wrapper, pressed && styles.buttonPressed, styles.buttonWrappedPressed]}>
-        {({pressed}) => (
-          <View style={[styles.button, pressed && styles.buttonPressed]}>
-            <Text style={styles.buttonText}>Cerrar Sesión</Text>
-          </View>
-        )}
+      <Pressable onPress={handleSignOut} style={({pressed}) => [styles.signOutButton, pressed && styles.signOutPressed]}>
+          <Text style={styles.buttonText}>Cerrar Sesión</Text>
       </Pressable>
 
-      <Pressable onPress={handleDeleteAccount} style={({pressed}) => [styles.deleteButton, styles.button, styles.wrapper, pressed && styles.buttonPressed, styles.buttonWrappedPressed]}>
-        {({pressed}) => (
-          <View style={[styles.button, pressed && styles.buttonPressed]}>
-            <Text style={styles.buttonText}>Eliminar cuenta</Text>
-          </View>
-        )}
+      <Pressable onPress={handleDeleteAccount} style={({pressed}) => [styles.deleteButton, pressed && styles.deletePressed]}>
+        <Text style={styles.buttonText}>Eliminar Cuenta</Text>
       </Pressable>
 
       <ConfirmPasswordDelete visible={deleteVisible} title="Eliminar cuenta" subtitle="Introduce tu contraseña para confirmar. Esta acción no se puede deshacer"
@@ -121,6 +121,30 @@ export default function Profile(){ //future -> use imagePicker from Expo
       color: Colors.muted,
       marginBottom: Spacing.lg,
     },
+    xpBadge: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      backgroundColor: Colors.card,
+      paddingHorizontal: 8,
+      paddingVertical: 2,
+      borderRadius: 10,
+      gap: 6,
+  },
+    xpLabel: {
+      fontSize: 16,
+      fontWeight: '900',
+      color: Colors.xp,
+      paddingHorizontal: 8,
+      paddingVertical: 3,
+      borderRadius: 20,
+      overflow: 'hidden',
+      letterSpacing: 1,
+  },
+    xpText: {
+      fontSize: 16,
+      fontWeight: '700',
+      color: Colors.text,
+  },
     badges: {
       width: '100%',
       marginBottom: Spacing.xl,
@@ -137,50 +161,57 @@ export default function Profile(){ //future -> use imagePicker from Expo
       justifyContent: 'space-between',
     },
     badge: {
-      width: 70,
-      height: 70,
-      borderRadius: 35,
-      backgroundColor: Colors.card,
-      borderWidth: 1,
-      borderColor: Colors.muted,
-      marginBottom: Spacing.sm,
-    },
-    wrapper: {
-      borderRadius: 15,
-      paddingBottom: 5,
-      alignSelf: 'stretch',
-    },
-    buttonWrapper: {
-      backgroundColor: Colors.backgroundPrimary,
-      marginBottom: Spacing.sm,
-    },
-    button: {
-      height: 50,
-      width: '100%',
-      borderRadius: 15,
-      justifyContent: 'center',
-      alignItems: 'center',
+    width: 70,
+    height: 70,
+    borderRadius: 35,
+    backgroundColor: Colors.card,
+    borderWidth: 1,
+    borderColor: Colors.muted,
+    marginBottom: Spacing.sm,
     },
     signOutButton: {
+      alignSelf: 'stretch',
+      height: 50,
+      borderRadius: 15,
       backgroundColor: Colors.primary,
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginBottom: Spacing.sm,
+      shadowColor: Colors.backgroundPrimary,
+      shadowOffset: { width: 0, height: 5 },
+      shadowOpacity: 1,
+      shadowRadius: 0,
+      elevation: 5,
     },
-    deleteWrapper:{
-      backgroundColor: Colors.shadowSuspicious,
+    signOutPressed: {
+      transform: [{ translateY: 5 }],
+      shadowOffset: { width: 0, height: 0 },
+      elevation: 0,
     },
     deleteButton: {
-      backgroundColor: Colors.shadowSuspicious,
+      alignSelf: 'stretch',
+      height: 50,
+      borderRadius: 15,
+      backgroundColor: Colors.suspiciousButton,
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginBottom: Spacing.sm,
+      shadowColor: Colors.shadowSuspicious,
+      shadowOffset: { width: 0, height: 5 },
+      shadowOpacity: 1,
+      shadowRadius: 0,
+      elevation: 5,
     },
-    buttonPressed: {
-      transform: [{translateY: 0}],
-    },
-    buttonWrappedPressed: {
-      paddingBottom: 0,
-      transform: [{translateY: 5}],
+    deletePressed: {
+      transform: [{ translateY: 5 }],
+      shadowOffset: { width: 0, height: 0 },
+      elevation: 0,
     },
     buttonText: {
       color: Colors.card,
       fontWeight: '700',
       fontSize: 16,
+      letterSpacing: 1,
     },
     error: {
       color: Colors.suspiciousButton,

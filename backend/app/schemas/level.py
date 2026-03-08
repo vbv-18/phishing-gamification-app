@@ -7,7 +7,6 @@ class LevelBase(BaseModel):
     title: str
     theory: Any
     content: Any
-    points: int
 
 class LevelResponse(LevelBase):
     id: int
@@ -24,3 +23,14 @@ class LevelList(BaseModel):
 
     class Config:
         orm_mode = True
+
+class UserAnswer(BaseModel):
+    question_id: int
+    answer: Any
+
+# signal_classification -> bool
+# domain_analysis selection -> domain string chosen
+# domain_analysis highlight -> segment list marked as suspicious
+
+class CompleteLevelRequest(BaseModel):
+    answers: list[UserAnswer]
