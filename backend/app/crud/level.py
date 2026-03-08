@@ -100,23 +100,27 @@ def complete_level(db: Session, user_id: int, level_id: int, answers: list):
     level = db.query(Level).filter(Level.id == level_id).first()
     if not level:
         return None
-    
+        
+    correct_answers = evaluate_answers(level, answers)
+
     db_progress = db.query(LevelProgress).filter(LevelProgress.user_id == user_id, LevelProgress.level_id == level_id).first()
+
+    already_completed = db_progress is not None and db_progress.completed
+
     if not db_progress:
         db_progress = LevelProgress(user_id=user_id, level_id=level_id, completed=True)
         db.add(db_progress)
     else:
         db_progress.completed = True
 
-    correct_answers = evaluate_answers(level, answers)
-
-    xp_award = correct_answers * 5 #5XP for correct answer
-
-    xp_record = add_xp(db, user_id, xp_award) #xp from the level
+    xp_award = 0
+    
+    if not already_completed:
+        xp_award = correct_answers * 5 #5XP for correct answer
+        add_xp(db, user_id, xp_award) #xp from the level
 
     db.commit()
     db.refresh(db_progress)
-    db.refresh(xp_record)
 
     return {"progress": db_progress, "xp_gained": xp_award, "correct_answers": correct_answers}
 
