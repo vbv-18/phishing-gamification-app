@@ -7,9 +7,9 @@ import { Spacing } from "@/constants/Spacing";
 
 import { getProfile, deleteAccount } from "@/services/api";
 import { useAuth } from "context/AuthContext";
-import ConfirmPasswordDelete from "./components/ConfirmPasswordDelete";
+import ConfirmPasswordDelete from "../(auth)/components/ConfirmPasswordDelete";
 import { useUserXp } from "@/hooks/useUserXp";
-import ProfileHeader from "./components/ProfileHeader";
+import ProfileHeader from "../(auth)/components/ProfileHeader";
 
 export default function Profile(){ //future -> use imagePicker from Expo
   const router = useRouter();
@@ -72,7 +72,7 @@ export default function Profile(){ //future -> use imagePicker from Expo
       <Text style={styles.role}>Phishing Rookie</Text>
       <View style={styles.xpBadge}>
         <Text style={styles.xpLabel}>XP</Text>
-        <Text style={styles.xpText}>{xp !== null ? xp : '...'}</Text>
+        <Text style={styles.xpText}>{xp !== null ? xp : '0'}</Text>
       </View>
 
       <View style={styles.badges}>

@@ -9,6 +9,12 @@ export function sHandler(handler: () => Promise<void>){
 export async function triggerSignOut(){ //for axios to call the signout without knowing React
     if(signOutHandler && !isSignOut){
         isSignOut = true;
-        await signOutHandler();
+
+        try {
+            await signOutHandler();
+        }
+        finally{ //if the user signs back in within the same app instance
+            isSignOut = false;
+        }
     }
 }

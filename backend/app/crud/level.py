@@ -12,7 +12,7 @@ def create_level(db: Session, level_data: dict):
     return level
 
 
-def get_level(db: Session, level_id: int):
+def get_level(db: Session, level_id: int): #expose the answers
     return db.query(Level).filter(Level.id == level_id).first()
 
 def get_completed_levels(db: Session, user_id: int, level_ids: list[int]) -> set[int]:

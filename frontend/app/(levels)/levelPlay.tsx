@@ -11,7 +11,7 @@ import SignalClassification from "./exercises/level1";
 import DomainAnalysis from "./exercises/level2";
 
 export default function LevelPlay(){
-    const {levelId, moduleName} = useLocalSearchParams();
+    const {levelId} = useLocalSearchParams();
     const router = useRouter();
     const {isAuthenticated} = useAuth();
     const {level, loading, error} = useLoadLevel(levelId);
@@ -20,7 +20,7 @@ export default function LevelPlay(){
     useEffect(() => {
       if(levelState.finished && level){
         const questions = level.content.questions;
-        router.push({pathname: './levelCompleted', params: {levelId, answersJSON: JSON.stringify(levelState.collectedAnswers), totalQuestions: questions.length, moduleName},});
+        router.push({pathname: './levelCompleted', params: {levelId, answersJSON: JSON.stringify(levelState.collectedAnswers), totalQuestions: questions.length, moduleName: level.module},});
       }
     }, [levelState.finished]);
 

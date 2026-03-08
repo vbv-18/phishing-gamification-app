@@ -10,7 +10,7 @@ export default function BottomHeader(){ //inside of app/(tabs)_layout.tsx automa
 
     return(
         <View style={styles.container}>
-            <Pressable onPress={() => router.push('../profile')}>
+            <Pressable onPress={() => router.push('../(user)/profile')}>
                 <Ionicons name="person-circle-outline" size={32} color={Colors.text}></Ionicons>
             </Pressable>
             <Pressable onPress={() => router.push('../(levels)/home')}>

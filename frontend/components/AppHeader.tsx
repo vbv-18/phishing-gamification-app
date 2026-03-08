@@ -9,7 +9,7 @@ export default function AppHeader(){
         <View style={styles.header}>
             <View style={styles.xpBadge}>
                 <Text style={styles.xpLabel}>XP</Text>
-                <Text style={styles.xpText}>{xp !== null ? xp : '...'}</Text>
+                <Text style={styles.xpText}>{xp !== null ? xp : '0'}</Text>
             </View>
         </View>
     )

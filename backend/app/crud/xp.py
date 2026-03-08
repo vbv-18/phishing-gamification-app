@@ -6,8 +6,7 @@ def get_user_xp(db: Session, user_id: int):
     if not xp_record:
         xp_record = userXp(user_id=user_id, xp=0) #if does not exist yet
         db.add(xp_record)
-        db.commit()
-        db.refresh(xp_record)
+        db.flush()
 
     return xp_record
 
