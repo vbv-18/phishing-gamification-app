@@ -15,16 +15,29 @@ def create_level(db: Session, level_data: dict):
 def get_level(db: Session, level_id: int):
     return db.query(Level).filter(Level.id == level_id).first()
 
+def get_completed_levels(db: Session, user_id: int, level_ids: list[int]) -> set[int]:
+    rows = (db.query(LevelProgress.level_id).filter(LevelProgress.user_id == user_id, LevelProgress.level_id.in_(level_ids), LevelProgress.completed == True,).all())
 
-def get_next_level(db: Session, user_id: int, module_name: str): #return the first level not completed
+    completed_ids = set()
+    for row in rows:
+        completed_ids.add(row.level_id)
+
+    return completed_ids
+
+
+def get_next_level(db: Session, user_id: int, module_name: str): #return the first level not completed yet
     levels = db.query(Level).filter(Level.module == module_name).order_by(Level.difficulty.asc()).all()
     if not levels:
         return None
     
+    level_ids = []
     for level in levels:
-        progress = db.query(LevelProgress).filter(LevelProgress.user_id == user_id, LevelProgress.level_id == level.id, LevelProgress.completed == True).first()
+        level_ids.append(level.id)
 
-        if not progress:
+    completed_ids = get_completed_levels(db, user_id, level_ids)
+
+    for level in levels:
+        if level.id not in completed_ids:
             return level
     
     return None
@@ -128,13 +141,20 @@ def complete_level(db: Session, user_id: int, level_id: int, answers: list):
 def get_levels_by_module(db: Session, module_name: str, user_id: int):
     levels = db.query(Level).filter(Level.module == module_name).order_by(Level.difficulty.asc()).all() #get all the levels from a module
 
+    if not levels:
+        return []
+    
+    level_ids = []
+    for level in levels:
+        level_ids.append(level.id)
+
+    completed_ids = get_completed_levels(db, user_id, level_ids)
+
     result = []
     unlocked = True #first level always unlocked
 
     for level in levels:
-        progress = db.query(LevelProgress).filter(LevelProgress.user_id == user_id, LevelProgress.level_id == level.id, LevelProgress.completed == True).first()
-        completed = progress is not None
-
+        completed = level.id in completed_ids
         result.append({"id": level.id, "title": level.title, "difficulty": level.difficulty, "completed": completed, "unlocked": unlocked})
 
         if not completed: #next level locked
