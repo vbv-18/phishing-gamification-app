@@ -33,13 +33,13 @@ def read_levels_by_module(module_name: str, db: Session = Depends(get_db), user 
     
     return levels
 
-@router.post("/{level_id}/complete") #for backend can mark a level completed
+@router.post("/{level_id}/complete") #receive answers, evaluates them, mark level as completed and awards XP
 def mark_level_completed(level_id: int, answers: CompleteLevelRequest, db: Session = Depends(get_db), user = Depends(get_current_user)):
-    progress = complete_level(db, user.id, level_id, answers.correct_answers)
+    progress = complete_level(db, user.id, level_id, answers.answers)
 
     if not progress:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail= "Level not found")
     
-    return {"message": "Level completed", "xp_gained": progress["xp_gained"]}
+    return {"message": "Level completed", "xp_gained": progress["xp_gained"], "correct_answers": progress["correct_answers"]}
 
 

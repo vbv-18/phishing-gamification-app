@@ -29,8 +29,73 @@ def get_next_level(db: Session, user_id: int, module_name: str): #return the fir
     
     return None
 
+def evaluate_signal_classification(questions: list, answers: list) -> int:
+    question_map = {}
+    for question in questions:
+        question_map[question["id"]] = question
 
-def complete_level(db: Session, user_id: int, level_id: int, correct_answers: int):
+    correct = 0
+    
+    for user_answer in answers:
+        question = question_map.get(user_answer.question_id)
+        if question is None:
+            continue
+
+        if isinstance(user_answer.answer, bool) and user_answer.answer == question["correct_answer"]:
+            correct += 1
+
+    return correct
+
+def evaluate_domain_analysis(questions: list, answers: list) -> int: # selection and highlight questions
+    question_map = {}
+    for question in questions:
+        question_map[question["id"]] = question
+
+    corrects = 0
+
+    for user_answer in answers:
+        question = question_map.get(user_answer.question_id)
+        if question is None:
+            continue
+
+        question_type = question.get("type")
+        expected = question["correct_answer"]
+
+        if question_type == "selection":
+            if isinstance(user_answer.answer, str) and user_answer.answer == expected:
+                corrects += 1
+
+        elif question_type == "highlight":
+            submitted = user_answer.answer
+            if isinstance(submitted, list):
+                submitted_list = []
+                for s in submitted:
+                    submitted_list.append(str(s))
+
+                expected_list = []
+                for s in expected:
+                    expected_list.append(str(s))
+
+                if sorted(submitted_list) == sorted(expected_list):
+                    corrects += 1
+
+    return corrects
+
+def evaluate_answers(level: Level, answers: list) -> int: #chose evaluator based on the exercise type
+    exercise_type = level.content.get("exercise_type")
+    questions = level.content.get("questions", [])
+
+    if exercise_type == "signal_classification":
+        return evaluate_signal_classification(questions, answers)
+    
+    elif exercise_type == "domain_analysis":
+        return evaluate_domain_analysis(questions, answers)
+    
+    else:
+        return 0
+    
+
+def complete_level(db: Session, user_id: int, level_id: int, answers: list):
     #level already exists?
     level = db.query(Level).filter(Level.id == level_id).first()
     if not level:
@@ -43,6 +108,8 @@ def complete_level(db: Session, user_id: int, level_id: int, correct_answers: in
     else:
         db_progress.completed = True
 
+    correct_answers = evaluate_answers(level, answers)
+
     xp_award = correct_answers * 5 #5XP for correct answer
 
     xp_record = add_xp(db, user_id, xp_award) #xp from the level
@@ -51,7 +118,7 @@ def complete_level(db: Session, user_id: int, level_id: int, correct_answers: in
     db.refresh(db_progress)
     db.refresh(xp_record)
 
-    return {"progress": db_progress, "xp_gained": xp_award}
+    return {"progress": db_progress, "xp_gained": xp_award, "correct_answers": correct_answers}
 
 
 def get_levels_by_module(db: Session, module_name: str, user_id: int):

@@ -2,14 +2,15 @@ import { View, Text, StyleSheet, Pressable, Animated } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Colors } from "@/constants/Colors";
 import { Spacing } from "@/constants/Spacing";
-import { completeLevel } from "@/services/api";
+import { completeLevel, UserAnswer } from "@/services/api";
 import { useEffect, useRef, useState } from "react";
 
 export default function LevelCompleted(){
-    const {levelId, correctAnswers, totalQuestions, moduleName} = useLocalSearchParams();
+    const {levelId, answersJSON, totalQuestions, moduleName} = useLocalSearchParams();
     const [xpGained, setXpGained] = useState<number | null>(null);
-    const router = useRouter();
+    const [correctAnswers, setCorrectAnswers] = useState<number | null>(null);
 
+    const router = useRouter();
     const scaleAnimation = useRef(new Animated.Value(0.6)).current;
     const opacityAnimation = useRef(new Animated.Value(0)).current;
 
@@ -22,8 +23,11 @@ export default function LevelCompleted(){
     useEffect(() => {
         const markCompleted = async () => {
             try{
-                const result = await completeLevel(Number(levelId), Number(correctAnswers));
+                const answers: UserAnswer[] = JSON.parse(Array.isArray(answersJSON) ? answersJSON[0] : answersJSON ?? "[]");
+                const result = await completeLevel(Number(levelId), answers);
                 setXpGained(result.xp_gained);
+
+                setCorrectAnswers(result.correct_answers);
             }
 
             catch(e){

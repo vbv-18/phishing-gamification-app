@@ -20,7 +20,7 @@ export default function LevelPlay(){
     useEffect(() => {
       if(levelState.finished && level){
         const questions = level.content.questions;
-        router.push({pathname: './levelCompleted', params: {levelId, correctAnswers: levelState.correctAnswers, totalQuestions: questions.length, moduleName},});
+        router.push({pathname: './levelCompleted', params: {levelId, answersJSON: JSON.stringify(levelState.collectedAnswers), totalQuestions: questions.length, moduleName},});
       }
     }, [levelState.finished]);
 
