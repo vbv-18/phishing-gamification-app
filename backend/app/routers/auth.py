@@ -52,6 +52,6 @@ def refresh_token(body: RefreshRequest, db: Session = Depends(get_db)): #rotatio
     return {"access_token": access_token, "refresh_token": new_refresh_token, "token_type": "bearer"}
 
 @router.post("/signOut")
-def signOut_tokens(body: RefreshRequest, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+def signOut_tokens(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
     revoke_all_refresh_tokens(current_user.id, db)
     return {"detail": "Successfully sign out"}

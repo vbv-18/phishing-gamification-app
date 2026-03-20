@@ -2,12 +2,13 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { saveToken, getToken, removeToken } from "@/services/auth";
 import { sHandler } from "@/services/authHandler";
 import { useRouter } from "expo-router";
+import { apiClient } from "@/services/client";
 
 interface AuthContextType{
     isAuthenticated: boolean;
     loading: boolean;
     signOut: () => Promise<void>;
-    signIn: (token: string) => Promise<void>;
+    signIn: (accessToken: string, refreshToken: string) => Promise<void>;
     refreshAuth: () => Promise<void>;
 }
 
@@ -36,14 +37,21 @@ export function AuthProvider({children}: {children: React.ReactNode}){
         });
     }, []);
 
-    const signIn = async(token: string) => {
-        await saveToken(token);
+    const signIn = async(accessToken: string, refreshToken: string) => {
+        await saveToken(accessToken, refreshToken);
         setIsAuthenticated(true);
     };
 
     const signOut = async () => {
-        await removeToken();
-        setIsAuthenticated(false);
+        try{
+            await apiClient.post("/auth/signOut");
+        }
+        catch{
+        }
+        finally{
+            await removeToken();
+            setIsAuthenticated(false);
+        }
     };
 
     const refreshAuth = async () => {

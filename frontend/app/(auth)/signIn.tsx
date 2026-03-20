@@ -17,7 +17,7 @@ export default function SignIn() {
   try {
     const data = await loginUser({ username, password });
 
-    await signIn(data.access_token); //update state
+    await signIn(data.access_token, data.refresh_token); //update state
 
     router.replace('/home');
   } catch (err: any) {
