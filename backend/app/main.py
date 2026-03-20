@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from app.routers import auth, users, levels
+from app.models.refreshToken import RefreshToken
 from app.database.connection import Base, engine
 from contextlib import asynccontextmanager
 

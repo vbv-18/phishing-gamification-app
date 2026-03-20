@@ -2,7 +2,7 @@ from sqlalchemy import Column, Integer, Boolean, ForeignKey, UniqueConstraint
 from app.database.connection import Base
 
 class LevelProgress(Base):
-    __tablename__ = "levelProgress"
+    __tablename__ = "level_progress"
 
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
