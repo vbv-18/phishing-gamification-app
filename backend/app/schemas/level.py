@@ -11,8 +11,7 @@ class LevelBase(BaseModel):
 class LevelResponse(LevelBase):
     id: int
 
-    class Config:
-        orm_mode = True
+    model_config = {"from_attributes": True}
 
 class LevelList(BaseModel):
     id: int
@@ -21,8 +20,7 @@ class LevelList(BaseModel):
     completed: bool
     unlocked: bool
 
-    class Config:
-        orm_mode = True
+    model_config = {"from_attributes": True}
 
 class UserAnswer(BaseModel):
     question_id: int

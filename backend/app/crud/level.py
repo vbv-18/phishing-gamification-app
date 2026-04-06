@@ -114,28 +114,36 @@ def complete_level(db: Session, user_id: int, level_id: int, answers: list):
     if not level:
         return None
         
+    total_questions = len(level.content.get("questions", []))
     correct_answers = evaluate_answers(level, answers)
+    is_perfect = total_questions > 0 and correct_answers == total_questions # to know if the level is completed 100%
 
     db_progress = db.query(LevelProgress).filter(LevelProgress.user_id == user_id, LevelProgress.level_id == level_id).first()
 
-    already_completed = db_progress is not None and db_progress.completed
+    already_perfect = db_progress is not None and db_progress.completed #user already completed 100% the level
+    is_first_attempt = db_progress is None #to give a bonus to the user for completing the level 100% at first attempt
+
+    if already_perfect:
+        xp_award = correct_answers * 1 #user redo a level already completed 100%
+    elif is_perfect and is_first_attempt:
+        xp_award = (correct_answers * 2) + 10 #user complete the level 100% at first attempt
+    elif is_perfect and not is_first_attempt:
+        xp_award = (correct_answers * 2) + 5 #user complete the level 100% but not at the first attempt
+    else:
+        xp_award = correct_answers * 2 #user complete the level but not 100% (has mistakes)
 
     if not db_progress:
-        db_progress = LevelProgress(user_id=user_id, level_id=level_id, completed=True)
+        db_progress = LevelProgress(user_id=user_id, level_id=level_id, completed=is_perfect)
         db.add(db_progress)
-    else:
+    elif is_perfect and not already_perfect: #user complete a level 100% when it was not 100%
         db_progress.completed = True
-
-    xp_award = 0
     
-    if not already_completed:
-        xp_award = correct_answers * 5 #5XP for correct answer
-        add_xp(db, user_id, xp_award) #xp from the level
+    add_xp(db, user_id, xp_award) #xp from the level
 
     db.commit()
     db.refresh(db_progress)
 
-    return {"progress": db_progress, "xp_gained": xp_award, "correct_answers": correct_answers}
+    return {"progress": db_progress, "xp_gained": xp_award, "correct_answers": correct_answers, "total_questions": total_questions, "is_perfect": is_perfect}
 
 
 def get_levels_by_module(db: Session, module_name: str, user_id: int):
