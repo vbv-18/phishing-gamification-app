@@ -1,10 +1,10 @@
 from sqlalchemy.orm import Session
-from app.models.userXp import userXp
+from app.models.userXp import UserXp
 
 def get_user_xp(db: Session, user_id: int):
-    xp_record = db.query(userXp).filter(userXp.user_id == user_id).first() #xp obtain by the user
+    xp_record = db.query(UserXp).filter(UserXp.user_id == user_id).first() #xp obtain by the user
     if not xp_record:
-        xp_record = userXp(user_id=user_id, xp=0) #if does not exist yet
+        xp_record = UserXp(user_id=user_id, xp=0) #if does not exist yet
         db.add(xp_record)
         db.flush()
 
