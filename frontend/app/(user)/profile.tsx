@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Pressable, Image, Alert, Animated } from "react-native";
+import { View, Text, StyleSheet, Pressable, Image, Alert, Animated, ScrollView } from "react-native";
 import { useEffect, useState } from "react";
 import { useRouter } from "expo-router";
 
@@ -10,6 +10,7 @@ import { useAuth } from "context/AuthContext";
 import ConfirmPasswordDelete from "../(auth)/components/ConfirmPasswordDelete";
 import { useUserXp } from "@/hooks/useUserXp";
 import ProfileHeader from "../(auth)/components/ProfileHeader";
+import BottomHeader from "@/(auth)/components/BottomHeader";
 
 export default function Profile(){ //future -> use imagePicker from Expo
   const router = useRouter();
@@ -74,46 +75,49 @@ export default function Profile(){ //future -> use imagePicker from Expo
   const barWidth = progressAnim.interpolate({inputRange: [0, 1], outputRange: ["0%", "100%"],});
 
   return(
-    <View style={styles.container}>
+    <View style={{flex: 1}}>
       <ProfileHeader></ProfileHeader>
-      <Pressable>
-        <Image source={require('../../assets/images/avatar.png')} style={styles.avatar}></Image>
-      </Pressable>
+      <ScrollView style={{flex: 1, backgroundColor: Colors.background}} contentContainerStyle={styles.scrollContent}>
+        <Pressable>
+          <Image source={require('../../assets/images/avatar.png')} style={styles.avatar}></Image>
+        </Pressable>
 
-      <Text style={styles.username}>{user.username}</Text>
-      <Text style={styles.role}>{role ?? "-"}</Text>
+        <Text style={styles.username}>{user.username}</Text>
+        <Text style={styles.role}>{role ?? "-"}</Text>
 
-      <View style={styles.xpBadge}>
-        <Text style={styles.xpLabel}>Nivel {level ?? "-"}</Text>
-        <Text style={styles.xpText}>{xp !== null ? xp : '0'}</Text>
-      </View>
-
-      <View style={styles.progressContainer}>
-        <Animated.View style={[styles.progressBar, {width: barWidth}]}></Animated.View>
-      </View>
-
-      <Text style={styles.progressLabel}>{is_max_level ? "¡Nivel máximo!" : xp_for_next_level !== null ? `${xp}/${xp_for_next_level} XP siguiente nivel` : ""}</Text>
-
-      <View style={styles.badges}>
-        <Text style={styles.badgeTitle}>Badges</Text>
-        <View style={styles.badgeGrid}>
-          {[...Array(6)].map((_, i) => (<View key={i} style={styles.badge}></View>))}
+        <View style={styles.xpBadge}>
+          <Text style={styles.xpLabel}>Nivel {level ?? "-"}</Text>
+          <Text style={styles.xpText}>{xp !== null ? xp : '0'}</Text>
         </View>
-      </View>
 
-      <Pressable onPress={handleSignOut} style={({pressed}) => [styles.signOutButton, pressed && styles.signOutPressed]}>
-          <Text style={styles.buttonText}>Cerrar Sesión</Text>
-      </Pressable>
+        <View style={styles.progressContainer}>
+          <Animated.View style={[styles.progressBar, {width: barWidth}]}></Animated.View>
+        </View>
 
-      <Pressable onPress={handleDeleteAccount} style={({pressed}) => [styles.deleteButton, pressed && styles.deletePressed]}>
-        <Text style={styles.buttonText}>Eliminar Cuenta</Text>
-      </Pressable>
+        <Text style={styles.progressLabel}>{is_max_level ? "¡Nivel máximo!" : xp_for_next_level !== null ? `${xp}/${xp_for_next_level} XP siguiente nivel` : ""}</Text>
 
-      <ConfirmPasswordDelete visible={deleteVisible} title="Eliminar cuenta" subtitle="Introduce tu contraseña para confirmar. Esta acción no se puede deshacer"
-      confirmLabel="Eliminar" destructive onConfirm={confirmDeleteAccount} onCancel={() => setDeleteVisible(false)}></ConfirmPasswordDelete>
+        <View style={styles.badges}>
+          <Text style={styles.badgeTitle}>Badges</Text>
+          <View style={styles.badgeGrid}>
+            {[...Array(6)].map((_, i) => (<View key={i} style={styles.badge}></View>))}
+          </View>
+        </View>
 
-      {error ? <Text style={styles.error}>{error}</Text> : null}
+        <Pressable onPress={handleSignOut} style={({pressed}) => [styles.signOutButton, pressed && styles.signOutPressed]}>
+            <Text style={styles.buttonText}>Cerrar Sesión</Text>
+        </Pressable>
 
+        <Pressable onPress={handleDeleteAccount} style={({pressed}) => [styles.deleteButton, pressed && styles.deletePressed]}>
+          <Text style={styles.buttonText}>Eliminar Cuenta</Text>
+        </Pressable>
+
+        <ConfirmPasswordDelete visible={deleteVisible} title="Eliminar cuenta" subtitle="Introduce tu contraseña para confirmar. Esta acción no se puede deshacer"
+        confirmLabel="Eliminar" destructive onConfirm={confirmDeleteAccount} onCancel={() => setDeleteVisible(false)}></ConfirmPasswordDelete>
+
+        {error ? <Text style={styles.error}>{error}</Text> : null}
+
+      </ScrollView>
+      <BottomHeader></BottomHeader>
     </View>
   );
 }
@@ -124,6 +128,11 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.background,
     alignItems: 'center',
     padding: Spacing.lg,
+  },
+  scrollContent: {
+    alignItems: 'center',
+    padding: Spacing.lg,
+    paddingBottom: 120,
   },
   avatar: {
     width: 120,
