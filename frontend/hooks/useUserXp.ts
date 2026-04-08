@@ -3,15 +3,23 @@ import { useFocusEffect } from "expo-router";
 import { useCallback } from "react";
 import { getUserXp } from "@/services/api";
 
+interface UserXpData{
+    xp: number;
+    level: number;
+    xp_for_next_level: number | null;
+    role: string;
+    is_max_level: boolean;
+}
+
 export function useUserXp(){
-    const [xp, setXp] = useState<number | null>(null);
+    const [xpData, setXpData] = useState<UserXpData | null>(null);
 
     useFocusEffect(
         useCallback(() => {
             async function loadXp(){
                 try{
-                    const data = await getUserXp();
-                    setXp(data.xp);
+                    const data: UserXpData =  await getUserXp();
+                    setXpData(data);
                 }
                 catch(e){
                     //already managed
@@ -20,5 +28,5 @@ export function useUserXp(){
             loadXp();
         }, [])
     );
-    return {xp};
+    return {xp: xpData?.xp ?? null, level: xpData?.level ?? null, xp_for_next_level: xpData?.xp_for_next_level ?? null, role: xpData?.role ?? null, is_max_level: xpData?.is_max_level ?? false,};
 }

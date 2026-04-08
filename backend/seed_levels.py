@@ -204,7 +204,7 @@ LEVEL2 = {
         "email": {
           "from": "novedades@arnazon.es",
           "subject": "Baliza V16 Homologada",
-          "body": "olvídate de los triángulos, V16: Más visibilidad, menos riesgo, más protección. Cómprala ahora",
+          "body": "Olvídate de los triángulos, V16: Más visibilidad, menos riesgo, más protección. Cómprala ahora",
         },
         "url": {
           "full": "https://www.arnazon.com/balizaV16",

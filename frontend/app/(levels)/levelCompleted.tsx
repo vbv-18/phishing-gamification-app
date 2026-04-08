@@ -1,14 +1,18 @@
-import { View, Text, StyleSheet, Pressable, Animated } from "react-native";
+import { View, Text, StyleSheet, Pressable, Animated, ActivityIndicator } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Colors } from "@/constants/Colors";
 import { Spacing } from "@/constants/Spacing";
 import { completeLevel, UserAnswer } from "@/services/api";
 import { useEffect, useRef, useState } from "react";
+import LevelUp from "./components/LevelUp";
 
 export default function LevelCompleted(){
     const {levelId, answersJSON, totalQuestions, moduleName} = useLocalSearchParams();
     const [xpGained, setXpGained] = useState<number | null>(null);
     const [correctAnswers, setCorrectAnswers] = useState<number | null>(null);
+    const [levelUserUp, setLevelUserUp] = useState<{show: boolean, val: number}>({show: false, val: 0});
+    const [roleUp, setRoleUp] = useState<{show: boolean, val: string}>({show: false, val: ''});
+    const [isContinuePressed, setIsContinuePressed] = useState(false);
 
     const router = useRouter();
     const scaleAnimation = useRef(new Animated.Value(0.6)).current;
@@ -25,21 +29,47 @@ export default function LevelCompleted(){
             try{
                 const answers: UserAnswer[] = JSON.parse(Array.isArray(answersJSON) ? answersJSON[0] : answersJSON ?? "[]");
                 const result = await completeLevel(Number(levelId), answers);
-                setXpGained(result.xp_gained);
 
+                setXpGained(result.xp_gained);
                 setCorrectAnswers(result.correct_answers);
+
+                //if there have been new level/role
+                if(result.role_changed){
+                    setRoleUp({show: false, val: result.new_role});
+                }
+                if(result.level_up){
+                    setLevelUserUp({show: false, val: result.new_level});
+                }
             }
 
             catch(e){
-                //already managed
+                setXpGained(0);
+                setCorrectAnswers(0);
             }
         };
         markCompleted();
-    }, [levelId]);
-        
+    }, [levelId, answersJSON]);
+
+    useEffect(() => {
+        if(!isContinuePressed){
+            return;
+        }
+
+        if(!levelUserUp.show && !roleUp.show){
+            if(levelUserUp.val > 0){
+                setLevelUserUp(prev => ({...prev, show: true}));
+            }
+            else if(roleUp.val !== ''){
+                setRoleUp(prev => ({...prev, show: true}));
+            }
+            else{
+                router.replace({pathname: './moduleHome', params: {moduleName}});
+            }
+        }
+    }, [isContinuePressed, levelUserUp.show, roleUp.show]);
 
     const handleFinish = async() => {
-        router.replace({pathname: './moduleHome', params: {moduleName}});
+        setIsContinuePressed(true);
     };
 
     return(
@@ -48,7 +78,7 @@ export default function LevelCompleted(){
                 <Text style={styles.icon}>🛡️</Text>
                 <Text style={styles.title}>¡Nivel completado!</Text>
                 {xpGained !== null && <Text style={styles.score}>XP ganado: {xpGained}</Text>}
-                <Text>Has acertado {correctAnswers}/{totalQuestions}</Text>
+                {correctAnswers !== null ? (<Text>Has acertado {correctAnswers}/{totalQuestions}</Text>) : (<ActivityIndicator size="small" color={Colors.primary}></ActivityIndicator>)}
                 <Text style={styles.subtitle}>¡Buen trabajo!</Text>
 
                 <Pressable onPress={handleFinish} style={({ pressed }) => [styles.continueWrapper, pressed && styles.continueWrappedPressed]}>
@@ -58,6 +88,8 @@ export default function LevelCompleted(){
                 </Pressable>
             </Animated.View>
 
+            {levelUserUp.show && (<LevelUp type="level" value={levelUserUp.val} onClose={() => {setLevelUserUp({show: false, val: 0})}}></LevelUp>)}
+            {roleUp.show && (<LevelUp type="role" value={roleUp.val} onClose={() => {setRoleUp({show: false, val: ''})}}></LevelUp>)}
         </View>
     )
 }

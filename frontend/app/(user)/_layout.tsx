@@ -1,5 +1,7 @@
 import { Stack, Redirect } from 'expo-router';
+import { View } from 'react-native';
 import { useAuth } from 'context/AuthContext';
+import BottomHeader from '@/components/BottomHeader';
 
 export default function UserLayout() {
   const {isAuthenticated, loading} = useAuth();
@@ -12,5 +14,10 @@ export default function UserLayout() {
     return <Redirect href="/"></Redirect>
   }
 
-  return <Stack screenOptions={{ headerShown: false }} />
+  return(
+  <View style={{flex: 1}}>
+    <Stack screenOptions={{ headerShown: false }} />
+    <BottomHeader></BottomHeader>
+  </View>
+  )
 }

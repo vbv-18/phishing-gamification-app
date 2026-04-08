@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, ScrollView, Pressable } from "react-native";
 import { Colors } from "@/constants/Colors";
 import { Spacing } from "@/constants/Spacing";
 import { useRouter } from 'expo-router';
-import BottomHeader from "@/(auth)/components/BottomHeader";
+import BottomHeader from "@/components/BottomHeader";
 import AppHeader from "@/components/AppHeader";
 
 export default function Home(){
@@ -34,7 +34,6 @@ export default function Home(){
                   </View>
               ))}
           </ScrollView>
-          <BottomHeader></BottomHeader>
         </View>
     );
 }
