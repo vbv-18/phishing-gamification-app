@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, ScrollView, ActivityIndicator, Pressable, Animated } from "react-native";
+import { View, Text, StyleSheet, Pressable, Animated } from "react-native";
 import { Colors } from "@/constants/Colors";
 
 type Props = { //the parameters that the component use (properties)

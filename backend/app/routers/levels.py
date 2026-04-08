@@ -40,6 +40,6 @@ def mark_level_completed(level_id: int, answers: CompleteLevelRequest, db: Sessi
     if not progress:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail= "Level not found")
     
-    return {"message": "Level completed", "xp_gained": progress["xp_gained"], "correct_answers": progress["correct_answers"], "total_questions": progress["total_questions"], "is_perfect": progress["is_perfect"],}
+    return {"message": "Level completed", **progress}
 
 

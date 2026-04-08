@@ -1,7 +1,9 @@
 from sqlalchemy.orm import Session
 from app.models.level import Level
 from app.models.levelProgress import LevelProgress
-from app.crud.xp import add_xp
+from app.crud.xp import add_xp, get_user_xp
+from app.utils.levels import get_user_level
+from app.utils.roles import get_role_from_level
 
 def create_level(db: Session, level_data: dict):
     level = Level(**level_data)
@@ -113,6 +115,11 @@ def complete_level(db: Session, user_id: int, level_id: int, answers: list):
     level = db.query(Level).filter(Level.id == level_id).first()
     if not level:
         return None
+    
+    #previous state
+    xp_before = get_user_xp(db, user_id).xp
+    level_xp_before = get_user_level(xp_before)
+    role_before = get_role_from_level(level_xp_before)
         
     total_questions = len(level.content.get("questions", []))
     correct_answers = evaluate_answers(level, answers)
@@ -143,7 +150,20 @@ def complete_level(db: Session, user_id: int, level_id: int, answers: list):
     db.commit()
     db.refresh(db_progress)
 
-    return {"progress": db_progress, "xp_gained": xp_award, "correct_answers": correct_answers, "total_questions": total_questions, "is_perfect": is_perfect}
+    #following status
+    xp_after = xp_before + xp_award
+    level_xp_after = get_user_level(xp_after)
+    role_after = get_role_from_level(level_xp_after)
+
+    return {"progress": db_progress,
+            "xp_gained": xp_award,
+            "correct_answers": correct_answers,
+            "total_questions": total_questions,
+            "is_perfect": is_perfect,
+            "level_up": level_xp_after > level_xp_before,
+            "new_level": level_xp_after,
+            "role_changed": role_after != role_before,
+            "new_role": role_after}
 
 
 def get_levels_by_module(db: Session, module_name: str, user_id: int):
