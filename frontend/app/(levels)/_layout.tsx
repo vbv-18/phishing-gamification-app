@@ -1,8 +1,11 @@
-import { Stack, Redirect } from 'expo-router';
+import { Stack, Redirect, usePathname } from 'expo-router';
+import { View } from 'react-native';
 import { useAuth } from 'context/AuthContext';
+import BottomHeader from '@/components/BottomHeader';
 
 export default function LevelLayout() {
   const {isAuthenticated, loading} = useAuth();
+  const pathName = usePathname()
 
   if(loading){
     return null;
@@ -12,5 +15,12 @@ export default function LevelLayout() {
     return <Redirect href="/"></Redirect>
   }
 
-  return <Stack screenOptions={{ headerShown: false }} />
+  const showBottomHeader = pathName.endsWith('/home') || pathName.endsWith('/moduleHome');
+
+  return(
+    <View style={{flex: 1}}>
+      <Stack screenOptions={{ headerShown: false }} />
+      {showBottomHeader && <BottomHeader></BottomHeader>}
+    </View>
+  );
 }

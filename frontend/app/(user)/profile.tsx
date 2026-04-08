@@ -7,10 +7,10 @@ import { Spacing } from "@/constants/Spacing";
 
 import { getProfile, deleteAccount } from "@/services/api";
 import { useAuth } from "context/AuthContext";
-import ConfirmPasswordDelete from "../(auth)/components/ConfirmPasswordDelete";
+import ConfirmPasswordDelete from "./components/ConfirmPasswordDelete";
 import { useUserXp } from "@/hooks/useUserXp";
-import ProfileHeader from "../(auth)/components/ProfileHeader";
-import BottomHeader from "@/(auth)/components/BottomHeader";
+import ProfileHeader from "./components/ProfileHeader";
+import BottomHeader from "@/components/BottomHeader";
 
 export default function Profile(){ //future -> use imagePicker from Expo
   const router = useRouter();
@@ -117,7 +117,6 @@ export default function Profile(){ //future -> use imagePicker from Expo
         {error ? <Text style={styles.error}>{error}</Text> : null}
 
       </ScrollView>
-      <BottomHeader></BottomHeader>
     </View>
   );
 }
