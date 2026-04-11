@@ -4,6 +4,7 @@ from app.models.levelProgress import LevelProgress
 from app.crud.xp import add_xp, get_user_xp
 from app.utils.levels import get_user_level
 from app.utils.roles import get_role_from_level
+import copy
 
 def create_level(db: Session, level_data: dict):
     level = Level(**level_data)
@@ -16,6 +17,29 @@ def create_level(db: Session, level_data: dict):
 
 def get_level(db: Session, level_id: int): #expose the answers
     return db.query(Level).filter(Level.id == level_id).first()
+
+def get_level_secure(db: Session, level_id: int):
+    level = db.query(Level).filter(Level.id == level_id).first()
+    if not level:
+        return None
+
+    secure_content = copy.deepcopy(level.content) #to avoid modify the original object
+
+    if "questions" in secure_content: #erase correct answers and feedbacks
+        for q in secure_content["questions"]:
+            q.pop("correct_answer", None)
+            q.pop("feedback_correct", None)
+            q.pop("feedback_wrong", None)
+            q.pop("feedback", None)
+
+    return {
+        "id": level.id,
+        "module": level.module,
+        "difficulty": level.difficulty,
+        "title": level.title,
+        "content": secure_content
+    }
+
 
 def get_completed_levels(db: Session, user_id: int, level_ids: list[int]) -> set[int]:
     rows = (db.query(LevelProgress.level_id).filter(LevelProgress.user_id == user_id, LevelProgress.level_id.in_(level_ids), LevelProgress.completed == True,).all())
@@ -96,6 +120,20 @@ def evaluate_domain_analysis(questions: list, answers: list) -> int: # selection
 
     return corrects
 
+def evaluate_context_decision(questions: list, answers: list) -> int:
+    question_map = {}
+    for question in questions:
+        question_map[question["id"]] = question
+
+    corrects = 0
+
+    for user_answer in answers:
+        question = question_map.get(user_answer.question_id)
+        if question and user_answer.answer == question["correct_answer"]:
+            corrects += 1
+
+    return corrects
+
 def evaluate_answers(level: Level, answers: list) -> int: #chose evaluator based on the exercise type
     exercise_type = level.content.get("exercise_type")
     questions = level.content.get("questions", [])
@@ -105,6 +143,9 @@ def evaluate_answers(level: Level, answers: list) -> int: #chose evaluator based
     
     elif exercise_type == "domain_analysis":
         return evaluate_domain_analysis(questions, answers)
+    
+    elif exercise_type == "context_decision":
+        return evaluate_context_decision(questions, answers)
     
     else:
         return 0
