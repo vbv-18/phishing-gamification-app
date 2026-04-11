@@ -15,5 +15,6 @@ export const Colors = {
   continueButton: '#dae3f1',
   shadowContinue: '#b3b9c4',
   xp: '#eccd1b',
-  xp_background: '#474224'
+  xp_background: '#474224',
+  backgroundLevelUp: '#0f3877',
 };

@@ -2,7 +2,6 @@ import { View, Text, StyleSheet, ScrollView, Pressable } from "react-native";
 import { Colors } from "@/constants/Colors";
 import { Spacing } from "@/constants/Spacing";
 import { useRouter } from 'expo-router';
-import BottomHeader from "@/components/BottomHeader";
 import AppHeader from "@/components/AppHeader";
 
 export default function Home(){
