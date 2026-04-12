@@ -26,6 +26,14 @@ class UserAnswer(BaseModel):
     question_id: int
     answer: Any
 
+class CheckUserAnswerRequest(BaseModel):
+    question_id: int
+    answer: Any
+
+class CheckAUserAnswerResponse(BaseModel):
+    correct: bool
+    feedback: str
+
 # signal_classification -> bool
 # domain_analysis selection -> domain string chosen
 # domain_analysis highlight -> segment list marked as suspicious
