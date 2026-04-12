@@ -4,6 +4,8 @@ from app.models.levelProgress import LevelProgress
 from app.crud.xp import add_xp, get_user_xp
 from app.utils.levels import get_user_level
 from app.utils.roles import get_role_from_level
+import copy
+from typing import Any
 
 def create_level(db: Session, level_data: dict):
     level = Level(**level_data)
@@ -17,15 +19,28 @@ def create_level(db: Session, level_data: dict):
 def get_level(db: Session, level_id: int): #expose the answers
     return db.query(Level).filter(Level.id == level_id).first()
 
-def get_completed_levels(db: Session, user_id: int, level_ids: list[int]) -> set[int]:
-    rows = (db.query(LevelProgress.level_id).filter(LevelProgress.user_id == user_id, LevelProgress.level_id.in_(level_ids), LevelProgress.completed == True,).all())
+def get_level_secure(db: Session, level_id: int):
+    level = db.query(Level).filter(Level.id == level_id).first()
+    if not level:
+        return None
 
-    completed_ids = set()
-    for row in rows:
-        completed_ids.add(row.level_id)
+    secure_content = copy.deepcopy(level.content) #to avoid modify the original object
 
-    return completed_ids
+    if "questions" in secure_content: #erase correct answers and feedbacks
+        for q in secure_content["questions"]:
+            q.pop("correct_answer", None)
+            q.pop("feedback_correct", None)
+            q.pop("feedback_wrong", None)
+            q.pop("feedback", None)
 
+    return {
+        "id": level.id,
+        "module": level.module,
+        "difficulty": level.difficulty,
+        "title": level.title,
+        "theory": level.theory,
+        "content": secure_content
+    }
 
 def get_next_level(db: Session, user_id: int, module_name: str): #return the first level not completed yet
     levels = db.query(Level).filter(Level.module == module_name).order_by(Level.difficulty.asc()).all()
@@ -44,75 +59,75 @@ def get_next_level(db: Session, user_id: int, module_name: str): #return the fir
     
     return None
 
-def evaluate_signal_classification(questions: list, answers: list) -> int:
-    question_map = {}
-    for question in questions:
-        question_map[question["id"]] = question
+def validate_question(level: Level, question_id: int, user_answer: Any): #validate one question by the exercise type
+    content = level.content
+    exercise_type = content.get("exercise_type")
+    questions = content.get("questions", [])
 
-    correct = 0
+    question = None
+    for item in questions:
+        if item["id"] == question_id:
+            question = item
+            break
+
+    if not question:
+        return False, "Question not found", None
     
-    for user_answer in answers:
-        question = question_map.get(user_answer.question_id)
-        if question is None:
-            continue
-
-        if isinstance(user_answer.answer, bool) and user_answer.answer == question["correct_answer"]:
-            correct += 1
-
-    return correct
-
-def evaluate_domain_analysis(questions: list, answers: list) -> int: # selection and highlight questions
-    question_map = {}
-    for question in questions:
-        question_map[question["id"]] = question
-
-    corrects = 0
-
-    for user_answer in answers:
-        question = question_map.get(user_answer.question_id)
-        if question is None:
-            continue
-
-        question_type = question.get("type")
-        expected = question["correct_answer"]
-
-        if question_type == "selection":
-            if isinstance(user_answer.answer, str) and user_answer.answer == expected:
-                corrects += 1
-
-        elif question_type == "highlight":
-            submitted = user_answer.answer
-            if isinstance(submitted, list):
-                submitted_list = []
-                for s in submitted:
-                    submitted_list.append(str(s))
-
-                expected_list = []
-                for s in expected:
-                    expected_list.append(str(s))
-
-                if sorted(submitted_list) == sorted(expected_list):
-                    corrects += 1
-
-    return corrects
-
-def evaluate_answers(level: Level, answers: list) -> int: #chose evaluator based on the exercise type
-    exercise_type = level.content.get("exercise_type")
-    questions = level.content.get("questions", [])
+    is_correct = False
+    feedback = ""
+    correct_answer = question.get("correct_answer")
 
     if exercise_type == "signal_classification":
-        return evaluate_signal_classification(questions, answers)
-    
+        is_correct = (user_answer == correct_answer)
+        if is_correct:
+            feedback = question.get("feedback_correct")
+        
+        else:
+            feedback = question.get("feedback_wrong")
+
     elif exercise_type == "domain_analysis":
-        return evaluate_domain_analysis(questions, answers)
-    
-    else:
-        return 0
-    
+        if question.get("type") == "selection":
+            is_correct = (user_answer == correct_answer)
+        
+        elif question.get("type") == "highlight":
+            user_list = []
+            for x in user_answer:
+                user_list.append(str(x))
+
+            correct_list = []
+            for x in correct_answer:
+                correct_list.append(str(x))
+
+            user_sorted = sorted(user_list)
+            correct_sorted = sorted(correct_list)
+
+            is_correct = user_sorted == correct_sorted
+
+        if is_correct:
+            feedback = question.get("feedback_correct")
+        
+        else:
+            feedback = question.get("feedback_wrong")
+
+    elif exercise_type == "context_decision":
+        is_correct = (user_answer == correct_answer)
+        feedback_dict = question.get("feedback", {}) #feedback depends on the selected option
+        feedback = feedback_dict.get(user_answer, "Feedback not available")
+
+    return is_correct, feedback, correct_answer
+
+def evaluate_answers(level: Level, answers: list) -> int: #chose evaluator based on the exercise type
+    correct_count = 0
+
+    for ans in answers:
+        is_correct, _, _ = validate_question(level, ans.question_id, ans.answer)
+        if is_correct:
+            correct_count += 1
+
+    return correct_count
 
 def complete_level(db: Session, user_id: int, level_id: int, answers: list):
-    #level already exists?
-    level = db.query(Level).filter(Level.id == level_id).first()
+    level = get_level(db, level_id)
     if not level:
         return None
     
@@ -165,6 +180,14 @@ def complete_level(db: Session, user_id: int, level_id: int, answers: list):
             "role_changed": role_after != role_before,
             "new_role": role_after}
 
+def get_completed_levels(db: Session, user_id: int, level_ids: list[int]) -> set[int]:
+    rows = (db.query(LevelProgress.level_id).filter(LevelProgress.user_id == user_id, LevelProgress.level_id.in_(level_ids), LevelProgress.completed == True,).all())
+
+    completed_ids = set()
+    for row in rows:
+        completed_ids.add(row.level_id)
+
+    return completed_ids
 
 def get_levels_by_module(db: Session, module_name: str, user_id: int):
     levels = db.query(Level).filter(Level.module == module_name).order_by(Level.difficulty.asc()).all() #get all the levels from a module
