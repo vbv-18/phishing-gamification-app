@@ -47,12 +47,16 @@ apiClient.interceptors.response.use( //to manage the token expiration
                 }
             }
 
+            if(status === 401 && originalRequest.url?.includes("/auth/signIn")){
+                return Promise.reject(new Error("Credenciales inválidas"));
+            }
+
             if(status === 401){
-                message = originalRequest.url?.includes("/auth/signIn") ? "Credenciales inválidas" : "Sesión expirada";
                 await triggerSignOut();
+                return Promise.reject(new Error("Sesión expirada"));
             }
             
-            else if(status === 400){
+            if(status === 400){
                 message = "Datos incorrectos";
             }
 

@@ -5,17 +5,16 @@ import { Spacing } from "@/constants/Spacing";
 type Props = { //the parameters that the component use (properties)
     show: boolean;
     isCorrect: boolean | null;
-    correctText: string;
-    wrongText: string;
+    text: string;
 };
 
-export default function FeedbackText({show, isCorrect, correctText, wrongText,}: Props){
-    if(!show){
+export default function FeedbackText({show, isCorrect, text}: Props){
+    if(!show || !text){
         return null;
     }
 
     return(
-        <Text style={[styles.feedback, isCorrect ? styles.feedbackCorrect : styles.feedbackWrong,]}>{isCorrect ? correctText : wrongText}</Text>
+        <Text style={[styles.feedback, isCorrect ? styles.feedbackCorrect : styles.feedbackWrong,]}>{text}</Text>
     );
 }
 

@@ -41,6 +41,7 @@ def get_levels_from_json():  #iterates through the data/*_module folders and ext
 def seed():
     db = SessionLocal()
     levels_to_insert = get_levels_from_json()
+    levels_to_insert.sort(key=lambda x: (x.get("module", ""), x.get("difficulty", 0))) #mantain the difficulty order
 
     for level_data in levels_to_insert:
         try: 

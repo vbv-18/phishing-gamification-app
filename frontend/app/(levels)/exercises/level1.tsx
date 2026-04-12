@@ -45,7 +45,7 @@ export default function SignalClassification({levelState, question}: Props){
             {levelState.showFeedback && (
                 <>
                   <ContinueButton onPress={levelState.handleContinue}></ContinueButton>
-                  <FeedbackText show={true} isCorrect={levelState.isCorrect} correctText={question.feedback_correct} wrongText={question.feedback_wrong}></FeedbackText>
+                  <FeedbackText show={true} isCorrect={levelState.isCorrect} text={levelState.serverFeedback}></FeedbackText>
                 </>
             )}
         </View>

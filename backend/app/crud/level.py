@@ -38,6 +38,7 @@ def get_level_secure(db: Session, level_id: int):
         "module": level.module,
         "difficulty": level.difficulty,
         "title": level.title,
+        "theory": level.theory,
         "content": secure_content
     }
 

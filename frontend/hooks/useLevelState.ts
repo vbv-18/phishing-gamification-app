@@ -1,38 +1,18 @@
 import { Animated } from "react-native";
 import { useEffect, useState } from "react";
 import { UserAnswer } from "@/services/api";
-
-function checkCorrect(question: any, answer: boolean | string | string[]): boolean{ //frontend mirrors backend evaluation for immediate feedback
-  const expected = question.correct_answer;
-
-  if(typeof expected === "boolean"){
-    return answer === expected;
-  }
-
-  if(typeof expected === "string"){
-    return answer === expected;
-  }
-
-  if(Array.isArray(expected)){
-    if(!Array.isArray(answer)){
-      return false;
-    }
-    const sortedAnswer = [...answer].map(String).sort();
-    const sortedExpected = [...expected].map(String).sort();
-
-    return(sortedAnswer.length === sortedExpected.length && sortedAnswer.every((v,i) => v === sortedExpected[i]));
-  }
-
-  return false
-}
+import { checkAnswer } from "@/services/api";
 
 export function useLevelState(level: any){
     const [currentIndex, setCurrentIndex] = useState(0);
     const [showFeedback, setShowFeedback] = useState(false);
     const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
+    const [serverFeedback, setServerFeedback] = useState("");
     const [progressCount, setProgressCount] = useState(0);
     const [finished, setFinished] = useState(false);
     const [collectedAnswers, setCollectedAnswers] = useState<UserAnswer[]>([]);
+    const [isChecking, setIsChecking] = useState(false); //if the button is late
+    const [error, setError] = useState('');
 
     const progressAnimation = useState(new Animated.Value(0))[0];
 
@@ -47,26 +27,35 @@ export function useLevelState(level: any){
       Animated.timing(progressAnimation, {toValue: progress, duration: 500, useNativeDriver: false,}).start();
     }, [progressCount, level]);
 
-    const submitAnswer = (questionId: number, answer: boolean | string | string[]) => {
-      const questions = level?.content?.questions ?? [];
-      const question = questions.find((q: any) => q.id === questionId);
-      const correct = question ? checkCorrect(question, answer) : false;
+    const submitAnswer = async (questionId: number, answer: boolean | string | string[]) => {
+      if(isChecking){
+        return;
+      }
 
-      setIsCorrect(correct);
-      setShowFeedback(true);
-      setCollectedAnswers((prev) => [...prev, {question_id: questionId, answer}]);
+      setIsChecking(true);
 
-      if(correct){
-        setProgressCount((prev) => {
-          if(!level){
-            return prev;
-          }
-          //the progress bar increases for correct answer, not increases if mistake
-          const questions = level.content.questions;
-          const missedSoFar = currentIndex - prev;
-          const advance = missedSoFar > 0 ? 2 : 1; //progress 1 for actual correct, recover 1 mistake
-          return Math.min(prev + advance, questions.length);
-        });
+      try{
+        const result = await checkAnswer(level.id, questionId, answer);
+
+        setIsCorrect(result.correct);
+        setServerFeedback(result.feedback);
+        setShowFeedback(true);
+        setCollectedAnswers((prev) => [...prev, {question_id: questionId, answer}]);
+
+        if(result.correct){
+          setProgressCount((prev) => {
+            const missedSoFar = currentIndex - prev;
+            const advance = missedSoFar > 0 ? 2 : 1;
+
+            return Math.min(prev + advance, level.content.questions.length);
+          });
+        }
+      }
+      catch(error){
+        setError('Error validating the answer');
+      }
+      finally{
+        setIsChecking(false);
       }
     };
 
@@ -86,8 +75,9 @@ export function useLevelState(level: any){
         setCurrentIndex(prev => prev + 1);
         setShowFeedback(false);
         setIsCorrect(null);
+        setServerFeedback("");
       }
     };
 
-    return{currentIndex, showFeedback, isCorrect, finished, collectedAnswers, progressAnimation, submitAnswer, handleContinue};
+    return{currentIndex, showFeedback, isCorrect, serverFeedback, finished, collectedAnswers, progressAnimation, submitAnswer, handleContinue, isChecking};
 }

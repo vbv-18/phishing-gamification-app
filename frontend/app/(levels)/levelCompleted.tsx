@@ -55,18 +55,17 @@ export default function LevelCompleted(){
             return;
         }
 
-        if(!levelUserUp.show && !roleUp.show){
-            if(levelUserUp.val > 0){
-                setLevelUserUp(prev => ({...prev, show: true}));
-            }
-            else if(roleUp.val !== ''){
-                setRoleUp(prev => ({...prev, show: true}));
-            }
-            else{
-                router.replace({pathname: './moduleHome', params: {moduleName}});
-            }
+        if(levelUserUp.val > 0 && !roleUp.show){ //level up and no role up
+            setLevelUserUp(prev => ({...prev, show: true}));
         }
-    }, [isContinuePressed, levelUserUp.show, roleUp.show]);
+        else if(levelUserUp.val === 0 && roleUp.val !== ''){ //level up already processed
+                setRoleUp(prev => ({...prev, show: true}));
+        }
+        else if(levelUserUp.val === 0 && roleUp.val === ''){ //all already processed
+             router.replace({pathname: './moduleHome', params: {moduleName}});
+        }
+
+    }, [isContinuePressed, levelUserUp.show, roleUp.show, levelUserUp.val, roleUp.val]);
 
     const handleFinish = async() => {
         setIsContinuePressed(true);

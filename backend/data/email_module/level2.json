@@ -12,8 +12,8 @@
         "instructions": "Selecciona el dominio legítimo",
         "brand": "PayPal",
         "options": [
-          {"domain": "paypal.com", "is_suspicious": false},
-          {"domain": "paypa1.com", "is_suspicious": true}
+          {"domain": "paypal.com"},
+          {"domain": "paypa1.com"}
         ],
         "correct_answer": "paypal.com",
         "feedback_correct": "¡Exacto! Un número puede suplantar a una letra: 1 -> l",
@@ -25,8 +25,8 @@
         "instructions": "Selecciona el dominio legítimo",
         "brand": "Banco Santander",
         "options": [
-          {"domain": "bancosantander.es", "is_suspicious": false},
-          {"domain": "banco-santander-secure.com", "is_suspicious": true}
+          {"domain": "bancosantander.es"},
+          {"domain": "banco-santander-secure.com"}
         ],
         "correct_answer": "bancosantander.es",
         "feedback_correct": "¡Bien visto! Los dominios legítimos no necesitan palabras como 'secure'",
@@ -38,8 +38,8 @@
         "instructions": "Selecciona el dominio legítimo",
         "brand": "Correos",
         "options": [
-          {"domain": "correos.es", "is_suspicious": false},
-          {"domain": "correos.click", "is_suspicious": true}
+          {"domain": "correos.es"},
+          {"domain": "correos.click"}
         ],
         "correct_answer": "correos.es",
         "feedback_correct": "¡Perfecto! Aunque existan muchos TLDs válidos, las instituciones oficiales suelen mantener dominios con su marca y país (.es en este caso)",
@@ -57,11 +57,11 @@
         "url": {
           "full": "https://www.arnazon.com/balizaV16",
           "segments": [
-            {"protocol": "https://", "is_suspicious": false},
-            {"subdomain": "www.", "is_suspicious": false},
-            {"domain": "arnazon", "is_suspicious": true},
-            {"tld": ".com", "is_suspicious": false},
-            {"path": "/balizaV16", "is_suspicious": false}
+            {"protocol": "https://"},
+            {"subdomain": "www."},
+            {"domain": "arnazon"},
+            {"tld": ".com"},
+            {"path": "/balizaV16"}
           ]
         },
         "allow_no_selection": true,
@@ -82,11 +82,11 @@
         "url": {
           "full": "https://www.banc0santander.es/fake",
           "segments": [
-              {"protocol": "https://", "is_suspicious": false},
-              {"subdomain": "www.", "is_suspicious": false},
-              {"domain": "banc0santander", "is_suspicious": true},
-              {"tld": ".es", "is_suspicious": false},
-              {"path": "/fake", "is_suspicious": true}
+              {"protocol": "https://"},
+              {"subdomain": "www."},
+              {"domain": "banc0santander"},
+              {"tld": ".es"},
+              {"path": "/fake"}
           ]
         },
         "allow_no_selection": true,
@@ -107,16 +107,15 @@
         "url": {
           "full": "https://myaccount.google.com/activity",
           "segments": [
-              {"protocol": "https://", "is_suspicious": false},
-              {"subdomain": "myaccount.", "is_suspicious": false},
-              {"domain": "google", "is_suspicious": false},
-              {"tld": ".com", "is_suspicious": false},
-              {"path": "/activity", "is_suspicious": false}
+              {"protocol": "https://"},
+              {"subdomain": "myaccount."},
+              {"domain": "google"},
+              {"tld": ".com"},
+              {"path": "/activity"}
           ]
         },
         "allow_no_selection": true,
         "correct_answer": [],
-        "suspicious_part": null,
         "feedback_correct": "¡Correcto! Tanto el remitente como el enlace son legítimos: uso de https, subdominio legítimo (myaccount.google.com) y ruta estándar (/activity)",
         "feedback_wrong": "¡No es correcto! No hay señales de suplantación: uso de https, subdominio legítimo (myaccount.google.com) y ruta estándar (/activity)"
       }
