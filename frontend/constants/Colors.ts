@@ -16,5 +16,13 @@ export const Colors = {
   shadowContinue: '#b3b9c4',
   xp: '#eccd1b',
   xp_background: '#474224',
+  borderColor: '#E5E5E5E5',
   backgroundLevelUp: '#0f3877',
+  feedbackCorrect: '#75d397c2',
+  feedbackWrong: '#b31f1fa8',
+  backgroundFeedbackCorrect: '#D7FFB8',
+  backgroundFeedbackWrong: '#FFDFE0',
+  buttonFeedbackCorrect: '#468500',
+  buttonFeedbackWrong: '#C52121',
+  disabledButton: '#c4c4c4'
 };

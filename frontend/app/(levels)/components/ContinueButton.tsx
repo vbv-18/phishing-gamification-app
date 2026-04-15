@@ -3,13 +3,16 @@ import { Colors } from "@/constants/Colors";
 
 type Props = {
     onPress: () => void;
+    color?: string; //optional
+    shadow?: string,
+    textColor?: string,
 };
 
-export default function ContinueButton({onPress}: Props){
+export default function ContinueButton({onPress, color, shadow, textColor}: Props){
     return(
-        <Pressable onPress={onPress} style={({pressed}) => [styles.wrapper, pressed && styles.wrappedPressed]}>
-          <View style={styles.continue}>
-            <Text style={styles.text}>Continuar</Text>
+        <Pressable onPress={onPress} style={({pressed}) => [styles.wrapper, shadow ? {backgroundColor: shadow} : null, pressed && styles.wrappedPressed]}>
+          <View style={[styles.continue, color ? {backgroundColor: color} : null]}>
+            <Text style={[styles.text, textColor ? {color: textColor} : null]}>Continuar</Text>
           </View>
         </Pressable>
     )

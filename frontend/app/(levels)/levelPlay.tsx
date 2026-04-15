@@ -9,6 +9,7 @@ import { useAuth } from "context/AuthContext";
 import LevelHeader from "./components/LevelHeader";
 import SignalClassification from "./exercises/level1";
 import DomainAnalysis from "./exercises/level2";
+import ContextDecision from "./exercises/level3";
 
 export default function LevelPlay(){
     const {levelId} = useLocalSearchParams();
@@ -55,8 +56,13 @@ export default function LevelPlay(){
 
             {level.content.exercise_type === "signal_classification"
                 ? <SignalClassification question={currentQuestion} levelState={levelState}></SignalClassification>
+
                 : level.content.exercise_type === "domain_analysis"
                 ? <DomainAnalysis question={currentQuestion} levelState={levelState}></DomainAnalysis>
+
+                : level.content.exercise_type == "context_decision"
+                ? <ContextDecision question={currentQuestion} levelState={levelState} instructions={level.content.instructions}></ContextDecision>
+                
                 : <Text style={styles.error}>Ejercicio no desarrollado</Text>
             }
         </View>
