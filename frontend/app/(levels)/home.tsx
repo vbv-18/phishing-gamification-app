@@ -14,7 +14,7 @@ export default function Home(){
         <View style={{flex:1}}>
           <AppHeader></AppHeader>
           <ScrollView style={styles.container}>
-              <Text style={styles.title}>Bienvenido</Text>
+              <Text style={styles.title}>Bienvenida/o</Text>
               <Text style={styles.subtitle}>Selecciona un módulo</Text>
 
               {modules.map((m) => (

@@ -4,7 +4,6 @@ import { useCallback, useState } from "react";
 import { Colors } from "@/constants/Colors";
 import { Spacing } from "@/constants/Spacing";
 import { getLevelsbyModule } from "@/services/api";
-import BottomHeader from "@/components/BottomHeader";
 import AppHeader from "@/components/AppHeader";
 
 export default function ModuleHome(){

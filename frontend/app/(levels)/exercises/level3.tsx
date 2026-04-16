@@ -1,7 +1,6 @@
 import { View, Text, StyleSheet, Pressable, Dimensions, Image, Modal } from "react-native";
 import { Colors } from "@/constants/Colors";
 import { Spacing } from "@/constants/Spacing";
-import FeedbackText from "../components/FeedbackText";
 import ContinueButton from "../components/ContinueButton";
 
 interface Option{ //options typed
@@ -15,7 +14,7 @@ interface Question{
 }
 
 type Props = { //define interfaces for types
-    instructions: string,
+    instructions: string;
     question: Question;
     levelState: any;
 };
@@ -71,7 +70,7 @@ export default function ContextDecision({levelState, instructions, question}: Pr
                   <View style={styles.modalOverlay}>
                     <View style={[styles.feedbackScreen, levelState.isCorrect ? styles.correctBg : styles.incorrectBg]}>
                       <View style={styles.feedbackContent}>
-                        <Text style={[styles.resultTitle, levelState.isCorrect ? styles.correctText : styles.incorrectText]}>{levelState.isCorrect ? '¡Phishing!' : 'No es phishing'}</Text>
+                        <Text style={[styles.resultTitle, levelState.isCorrect ? styles.correctText : styles.incorrectText]}>{levelState.isCorrect ? '¡No es phishing!' : 'Phishing'}</Text>
                         <Image source={levelState.isCorrect ? require('../../../assets/images/winner.png') : require('../../../assets/images/robber.png')} style={styles.avatarImage}></Image>
                         <Text style={[styles.feedbackText, levelState.isCorrect ? styles.correctText : styles.incorrectText]}>{levelState.serverFeedback}</Text>
                       </View>

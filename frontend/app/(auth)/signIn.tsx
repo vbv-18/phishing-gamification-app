@@ -27,7 +27,7 @@ export default function SignIn() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Bienvenido!</Text>
+      <Text style={styles.title}>Bienvenida/o!</Text>
       <Text style={styles.subtitle}>Introduce tus credenciales</Text>
 
       <TextInput

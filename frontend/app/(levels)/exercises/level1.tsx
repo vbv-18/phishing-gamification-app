@@ -7,9 +7,10 @@ import ContinueButton from "../components/ContinueButton";
 type Props = { //define interfaces for types
     question: any;
     levelState: any;
+    instructions: string;
 };
 
-export default function SignalClassification({levelState, question}: Props){
+export default function SignalClassification({levelState, question, instructions}: Props){
   const handleAnswer = (answer: boolean) =>{
     if(levelState.showFeedback){
       return;
@@ -19,9 +20,11 @@ export default function SignalClassification({levelState, question}: Props){
     
     return(
         <View style={styles.container}>
+            <Text style={styles.instructions}>{instructions}</Text>
+
             <View style={styles.card}>
-                <Text style={styles.context}>{question.context}</Text>
-                <Text style={styles.questionText}>{question.text}</Text>
+              <Text style={styles.context}>{question.context}</Text>
+              <Text style={styles.questionText}>{question.text}</Text>
             </View>
 
             <Pressable onPress={() => handleAnswer(true)} disabled={levelState.showFeedback} style={({ pressed }) => [styles.suspiciousWrapper, pressed &&
@@ -62,15 +65,22 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     marginBottom: Spacing.lg,
   },
-  context: {
+  instructions: {
     fontSize: 18,
+    fontWeight: '700',
+    marginBottom: Spacing.md,
+    color: Colors.text,
+  },
+  context: {
+    fontSize: 17,
     fontWeight: "600",
     color: Colors.text,
     marginBottom: 8,
   },
   questionText: {
-    fontSize: 17,
+    fontSize: 15,
     color: Colors.muted,
+    lineHeight: 20,
   },
   suspiciousWrapper: {
     backgroundColor: Colors.shadowSuspicious, 

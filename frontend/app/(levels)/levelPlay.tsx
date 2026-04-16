@@ -55,7 +55,7 @@ export default function LevelPlay(){
             <LevelHeader progressAnimation={levelState.progressAnimation} onClose={() => router.back()}></LevelHeader>
 
             {level.content.exercise_type === "signal_classification"
-                ? <SignalClassification question={currentQuestion} levelState={levelState}></SignalClassification>
+                ? <SignalClassification question={currentQuestion} levelState={levelState} instructions={level.content.instructions}></SignalClassification>
 
                 : level.content.exercise_type === "domain_analysis"
                 ? <DomainAnalysis question={currentQuestion} levelState={levelState}></DomainAnalysis>

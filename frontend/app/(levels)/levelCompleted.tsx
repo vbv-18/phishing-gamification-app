@@ -1,10 +1,11 @@
-import { View, Text, StyleSheet, Pressable, Animated, ActivityIndicator } from "react-native";
+import { View, Text, StyleSheet, Pressable, Animated, ActivityIndicator, Image } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Colors } from "@/constants/Colors";
 import { Spacing } from "@/constants/Spacing";
 import { completeLevel, UserAnswer } from "@/services/api";
 import { useEffect, useRef, useState } from "react";
 import LevelUp from "./components/LevelUp";
+import ContinueButton from "./components/ContinueButton";
 
 export default function LevelCompleted(){
     const {levelId, answersJSON, totalQuestions, moduleName} = useLocalSearchParams();
@@ -74,17 +75,26 @@ export default function LevelCompleted(){
     return(
         <View style={styles.container}>
             <Animated.View style={[styles.card, {transform: [{scale: scaleAnimation}], opacity: opacityAnimation,},]}>
-                <Text style={styles.icon}>🛡️</Text>
+                <View style={styles.avatarContainer}>
+                    <Image source={require('../../assets/images/pet.png')} style={styles.avatarImage} resizeMode='contain'></Image>
+                </View>
                 <Text style={styles.title}>¡Nivel completado!</Text>
-                {xpGained !== null && <Text style={styles.score}>XP ganado: {xpGained}</Text>}
-                {correctAnswers !== null ? (<Text>Has acertado {correctAnswers}/{totalQuestions}</Text>) : (<ActivityIndicator size="small" color={Colors.primary}></ActivityIndicator>)}
-                <Text style={styles.subtitle}>¡Buen trabajo!</Text>
-
-                <Pressable onPress={handleFinish} style={({ pressed }) => [styles.continueWrapper, pressed && styles.continueWrappedPressed]}>
-                    <View style={styles.continue}>
-                        <Text style={styles.continueText}>Continuar</Text>
-                    </View>
-                </Pressable>
+                <View style={styles.stats}>
+                    {xpGained !== null &&  
+                        <View style={styles.correctsContainer}>
+                            <Image source={require('../../assets/images/xp.png')} style={styles.correctIcon}></Image>
+                            <Text style={styles.score}>{xpGained} XP</Text>
+                        </View>
+                    }
+                    {correctAnswers !== null ? (
+                        <View style={styles.correctsContainer}>
+                            <Image source={require('../../assets/images/corrects.png')} style={styles.correctIcon}></Image>
+                            <Text style={styles.corrects}>{correctAnswers}/{totalQuestions}</Text>
+                        </View>
+                    ) 
+                        : (<ActivityIndicator size="small" color={Colors.primary}></ActivityIndicator>)}
+                </View>
+                <ContinueButton onPress={handleFinish} color={Colors.primary} shadow={Colors.backgroundPrimary} textColor="white"></ContinueButton>
             </Animated.View>
 
             {levelUserUp.show && (<LevelUp type="level" value={levelUserUp.val} onClose={() => {setLevelUserUp({show: false, val: 0})}}></LevelUp>)}
@@ -109,28 +119,53 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         elevation: 5,
     },
-    icon: {
-        fontSize: 70,
-        marginBottom: Spacing.md,
-    },
+    avatarContainer: {
+        flexDirection: 'row',
+        alignItems: 'flex-start',
+  },
+    avatarImage: {
+        width: 250,
+        height: 250,
+  },
     title: {
-        fontSize: 28,
+        fontSize: 40,
         fontWeight: '700',
-        color: Colors.text,
+        color: Colors.buttonFeedbackCorrect,
         marginBottom: Spacing.sm,
         textAlign: 'center',
     },
-    score: {
-        fontSize: 20,
-        fontWeight: '600',
-        color: Colors.text,
-        marginBottom: Spacing.md,
+    stats: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        width: '100%',
+        marginBottom: 25,
+        marginTop: 10,
     },
-    subtitle: {
-        fontSize: 22,
-        fontWeight: '600',
+    correctsContainer: {
+        flexDirection: 'column',
+        alignItems: 'center',
+        alignSelf: 'flex-start',
+        marginBottom: 15,
+        paddingHorizontal: 15,
+        paddingVertical: 5,
+        borderRadius: 20,
+    },
+    correctIcon: {
+        width: 80,
+        height: 80,
+        marginRight: 8,
+    },
+    corrects: {
+        fontSize: 30,
+        fontWeight: '900',
+        color: Colors.xp,
+        marginBottom: 15,
+    },
+    score: {
+        fontSize: 30,
+        fontWeight: '900',
         color: Colors.primary,
-        marginTop: Spacing.sm,
+        marginBottom: 15,
     },
     repeatText: {
         marginTop: Spacing.md,

@@ -70,7 +70,7 @@ export default function DomainAnalysis({levelState, question}: Props){ //2 types
                 <Pressable disabled={levelState.showFeedback} onPress={() => setZoomVisible(true)} style={({pressed}) => [styles.wrapperInspection, pressed && styles.InspectorWrappedPressed]}>
                 
                   <View style={styles.inspectButton}>
-                    <Text style={styles.inspectText}>🕵️ Inspeccionar</Text>
+                    <Text style={styles.inspectText}>Inspeccionar</Text>
                   </View>
 
                 </Pressable>

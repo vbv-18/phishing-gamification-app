@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
   xpLabel: {
     fontSize: 16,
     fontWeight: '900',
-    color: Colors.xp,
+    color: Colors.primary,
     paddingHorizontal: 8,
     paddingVertical: 3,
     borderRadius: 20,
@@ -176,6 +176,8 @@ const styles = StyleSheet.create({
     width: '85%',
     height: 8,
     backgroundColor: Colors.background,
+    borderColor: '#888',
+    borderWidth: 1,
     borderRadius: 4,
     marginTop: 10,
     overflow: 'hidden',

@@ -1,67 +1,8 @@
 {
-  "module": "email",
+  "module": "Psicología del Engaño",
   "difficulty": 1,
-  "title": "Detective de señales básicas",
-  "theory": [
-    {
-      "type": "icons",
-      "title": "¿Qué es el phishing?",
-      "description": "Intento de engaño en el que alguien se hace pasar por una persona/empresa legítima para que compartas información sensible.",
-      "media": [
-        { "icon": "account-alert", "label": "Suplantanción de identidad" },
-        { "icon": "link", "label": "Enlace malicioso" },
-        { "icon": "lock", "label": "Robo de datos" }
-      ]
-    },
-    {
-      "type": "signal",
-      "title": "Correo inesperado",
-      "explanation": "Desconfía si recibes un mensaje que no estabas esperando.",
-      "example": {
-        "subject": "Tu paquete está retenido.",
-        "body": "Para poder entregar tu envío, realiza el pago pendiente en el siguiente enlace."
-      },
-      "remember": "Si no has pedido nada, no deberías tener que pagar nada."
-    },
-    {
-      "type": "signal",
-      "title": "Urgencia o amenaza",
-      "explanation": "Los atacantes generan sensación de urgencia para que actúes sin pensar ni verificar.",
-      "example": {
-        "subject": "Verifique su cuenta urgentemente",
-        "body": "Si no verifica su cuenta en las próximas 24 horas, será suspendida permanentemente."
-      },
-      "remember": "Las empresas legítimas no amenazan con bloqueos inmediatos por email."
-    },
-    {
-      "type": "signal",
-      "title": "Solicitud de datos sensibles",
-      "explanation": "Ninguna empresa legítima te pedirá contraseñas, códigos de verificación o datos bancarios por correo electrónico.",
-      "example": {
-        "subject": "Verificación de seguridad.",
-        "body": "Introduce aquí tu contraseña y código SMS para confirmar tu identidad."
-      }
-    },
-    {
-      "type": "signal",
-      "title": "Enlaces sospechosos",
-      "explanation": "El enlace puede parecer legítimo, pero el dominio puede estar ligeramente modificado.",
-      "example": {
-        "subject": "Actualiza tu información bancaria.",
-        "body": "Accede aquí: https://banco-seguridad-verifica.com/login"
-      },
-      "remember": "Fíjate bien en el dominio. Pequeños cambios pueden indicar suplantación."
-    },
-    {
-      "type": "signal",
-      "title": "Faltas de ortografía",
-      "explanation": "Algunos correos fraudulentos contienen errores gramaticales o frases poco naturales.",
-      "example": {
-        "subject": "Has sido elejido para premio esclusivo",
-        "body": "Usted ha sido seleccionado para recibir un nuebo regalo especial."
-      }
-    }
-  ],
+  "title": "Las 6 Palancas de Cialdini",
+  "theory": [],
   "content": {
       "exercise_type": "signal_classification",
       "instructions": "¿Es una señal de phishing?",
@@ -100,8 +41,8 @@
         },
         {
          "id": 5,
-          "context": "Has sido elejido para premio esclusivo!",
-          "text": "Usted ha sido seleccionado para recibir un nuebo regalo especial.",
+          "context": "Has sido elegido para premio esclusivo!",
+          "text": "Usted ha sido seleccionado para recibir un nuevo regalo especial.",
           "correct_answer": true,
           "feedback_correct": "¡Bien visto! Las faltas de ortografía son comunes en correos fraudulentos",
           "feedback_wrong": "¡Oh no! Los errores ortográficos suelen indicar que no es un correo legítimo, ¡Fíjate bien!"
