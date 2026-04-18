@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, TextInput, Pressable } from 'react-native';
+import { StyleSheet, View, Text, TextInput, Pressable, KeyboardAvoidingView, Platform } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Colors } from '@/constants/Colors';
 import { Spacing } from '@/constants/Spacing';
@@ -22,7 +22,7 @@ export default function Register() {
   };
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
       <Text style={styles.title}>Crear una cuenta</Text>
 
       <TextInput
@@ -54,7 +54,7 @@ export default function Register() {
              )}
             </Pressable>
 
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -64,7 +64,6 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.background,
     padding: Spacing.lg,
     justifyContent: 'center',
-    alignContent: 'center',
   },
   title: {
     fontSize: 32,
@@ -90,10 +89,11 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     paddingBottom: 5,
     marginBottom: 12,
+    alignSelf: 'stretch',
   },
   button: {
     backgroundColor: Colors.primary,
-    width: 364,
+    width: '100%',
     height: 50,
     borderRadius: 15,
     justifyContent: 'center',

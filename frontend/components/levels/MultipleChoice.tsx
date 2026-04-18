@@ -4,8 +4,6 @@ import { Spacing } from "@/constants/Spacing";
 import ContinueButton from "../ui/ContinueButton";
 import { ExerciseRenderProps } from "types/renderer";
 
-const {height} = Dimensions.get("window");
-
 const formatText = (text: string) => { //to format the email in the situation text
   const parts = text.split(/('.*?')/g);
 

@@ -83,6 +83,7 @@ export function useLevelState(level: Level | null): LevelState{
       const isLast = currentIndex + 1 >= questions.length;
 
       if(isLast){ //wait for the animation to get to the end
+        setShowFeedback(false);
         Animated.timing(progressAnimation, {toValue: 100, duration: 500, useNativeDriver: false,}).start(() => setFinished(true));
       }
 

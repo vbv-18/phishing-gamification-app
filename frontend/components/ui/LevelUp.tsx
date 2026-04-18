@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { View, Text, StyleSheet, Animated, Pressable } from "react-native";
+import { View, Text, StyleSheet, Animated, Pressable, Image } from "react-native";
 import { Colors } from "@/constants/Colors";
 import { Spacing } from "@/constants/Spacing";
 import {Hexagon} from "lucide-react-native"
@@ -33,13 +33,17 @@ export default function LevelUp({type, value, onClose}: Props){
 
     return(
             <Animated.View style={[styles.container, {transform: [{scale: scaleAnim}]}]}>
-                {type === 'level' ? (
-                  <View style={styles.hexagonWrapper}>
-                    <Hexagon size={160} color={Colors.primary} fill={Colors.primary} strokeLinejoin="miter" strokeWidth={1}></Hexagon>
-                    <Text style={styles.hexagonNumber}>{value}</Text>
-                  </View>
-                ) : (<Text style={styles.emoji}>🏆</Text>)}
+                <View style={type === 'level' ? styles.hexagonWrapper : styles.roleImageWrapper}>
+                    {type === 'level' ? (
+                        <>
+                        <Hexagon size={160} color={Colors.primary} fill={Colors.primary} strokeLinejoin="miter" strokeWidth={1}></Hexagon>
+                        <Text style={styles.hexagonNumber}>{value}</Text>
+                        </>
+                    ) : (<Image source={require('../../assets/images/roleUp.png')} style={styles.roleImage} resizeMode="contain"></Image>)}
+                </View>
+
                 <Text style={styles.title}>{type === 'level' ? '¡NUEVO NIVEL!' : '¡NUEVO ROL!'}</Text>
+                {type === 'role' && (<Text style={styles.roleUp}>{value}</Text>)}
 
                 {type === 'level' && (
                     <View style={styles.progressSection}>
@@ -79,9 +83,25 @@ const styles = StyleSheet.create({
         padding: Spacing.xl,
         zIndex: 1000,
     },
-    emoji: {
-        fontSize: 80,
-        marginBottom: 10,
+    roleImageWrapper: {
+        width: 160,
+        height: 160,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: 20,
+    },
+    roleImage: {
+        width: '90%',
+        height: '90%',
+    },
+    roleUp: {
+        fontSize: 32,
+        fontWeight: '900',
+        color: Colors.background,
+        textAlign: 'center',
+        textTransform: 'uppercase',
+        letterSpacing: 2,
+        marginBottom: 20,
     },
     hexagonWrapper: {
       justifyContent: 'center',
