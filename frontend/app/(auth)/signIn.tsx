@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, TextInput, Pressable } from 'react-native';
+import { StyleSheet, View, Text, TextInput, Pressable, KeyboardAvoidingView, Platform } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Colors } from '@/constants/Colors';
 import { Spacing } from '@/constants/Spacing';
@@ -26,8 +26,8 @@ export default function SignIn() {
 };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Bienvenido!</Text>
+    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
+      <Text style={styles.title}>Bienvenida/o!</Text>
       <Text style={styles.subtitle}>Introduce tus credenciales</Text>
 
       <TextInput
@@ -53,7 +53,7 @@ export default function SignIn() {
        )}
       </Pressable>
 
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -63,7 +63,6 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.background,
     padding: Spacing.lg,
     justifyContent: 'center',
-    alignContent: 'center',
   },
   title: {
     fontSize: 32,
@@ -95,11 +94,12 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     paddingBottom: 5,
     marginBottom: 12,
+    alignSelf: 'stretch',
   },
   button: {
     backgroundColor: Colors.primary,
     height: 50,
-    width: 364,
+    width: '100%',
     borderRadius: 15,
     justifyContent: 'center',
     alignItems: 'center',

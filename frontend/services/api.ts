@@ -30,6 +30,11 @@ export async function deleteAccount(password: string){
 }
 
 //levels endpoints
+export async function getModules(){
+  const res = await apiClient.get(`/levels/modules`);
+  return res.data; // {id, name}
+}
+
 export async function getNextLevel(moduleName: string){
   const res = await apiClient.get(`/levels/module/${moduleName}/next`);
   return res.data;

@@ -10,7 +10,9 @@
       "@/constants/*": ["./constants/*"],
       "@/services/*": ["./services/*"],
       "@/hooks/*": ["./hooks/*"],
-      "@/assets/*": ["./assets/*"]
+      "@/assets/*": ["./assets/*"],
+      "@/types/*": ["./types/*"],
+      "@/renderers/*": ["./renderers/*"]
     }
   },
   "include": [

@@ -1,0 +1,78 @@
+{
+  "module": "Psicología del Engaño",
+  "difficulty": 2,
+  "title": "El Gancho Emocional",
+  "theory": [],
+  "content": {
+    "exercise_type": "emotion_identification",
+    "mechanic": "multiple_choice",
+    "instructions": "¿Qué emoción intenta activar el mensaje?",
+    "questions": [
+      {
+        "id": 1,
+        "context": "Alerta de Fraude Bancario",
+        "text": "Se ha detectado un movimiento de 1.200€ desde su cuenta. Si no es usted, pulse aquí para cancelarlo inmediatamente.",
+        "options": [
+              {"id": "a", "text": "Cuiosidad"},
+              {"id": "b", "text": "Miedo/Pánico"},
+              {"id": "c", "text": "Empatía"}
+          ],
+        "correct_answer": "b",
+        "feedback_correct": "¡Exacto! Mediante la pérdida de dinero te están intentando asustar.",
+        "feedback_wrong": "¡No es correcto! Fíjate que con la posibildidad de perder dinero te están intentando asustar."
+      },
+      {
+        "id": 2,
+        "context": "¡Eres la ganadora!",
+        "text": "¡Felicidades! Has sido seleccionada para ganar un Iphone 15 Pro por el sorteo del viernes. ¡Reclámalo ya!",
+        "options": [
+              {"id": "a", "text": "Codicia"},
+              {"id": "b", "text": "Miedo/Pánico"},
+              {"id": "c", "text": "Curiosidad"}
+          ],
+        "correct_answer": "a",
+        "feedback_correct": "¡Super bien! La promesa de una recompensa activa la dopamina y codicia, ignorando la veracidad de la oferta.",
+        "feedback_wrong": "¡Oh no! Te están tentando con un regalo para que hagas clic sin pensar."
+      },
+      {
+        "id": 3,
+        "context": "Cotilleo en la oficina",
+        "text": "Oye, se ha filtrado la lista de salarios de la empresa, ¡no sabes lo que cobra el resto de empleados!",
+        "options": [
+              {"id": "a", "text": "Empatía"},
+              {"id": "b", "text": "Miedo"},
+              {"id": "c", "text": "Curiosidad"}
+          ],
+        "correct_answer": "c",
+        "feedback_correct": "¡Excelente! La curiosidad es un gancho muy bueno para caer en la estafa.",
+        "feedback_wrong": "¡Oh no! Te están ofrenciendo información 'prohibida o exclusiva' para picar tu curiosidad. "
+      },
+      {
+        "id": 4,
+        "context": "Ayuda humanitaria",
+        "text": "Un terremoto ha destruido una zona infantil. Estos niños necesitan toda la ayuda posible.",
+        "options": [
+              {"id": "a", "text": "Empatía"},
+              {"id": "b", "text": "Codicia"},
+              {"id": "c", "text": "Curiosidad"}
+          ],
+        "correct_answer": "a",
+        "feedback_correct": "¡Excelente! Se están intentado aprovechar de tu buena voluntad y compasión.",
+        "feedback_wrong": "¡Casi! Fíjate que están jugando con la ayuda al prójimo."
+      },
+      {
+        "id": 5,
+        "context": "Error en el trabajo",
+        "text": "Buenos días, desde el departamento de IT le comunicamos que ha dejado la sesión abierta bloqueado el servidor principal. Por favor, ciérrela inmediatamente en este enlace.",
+        "options": [
+              {"id": "a", "text": "Miedo"},
+              {"id": "b", "text": "Culpa/Responsabilidad"},
+              {"id": "c", "text": "Empatía"}
+          ],
+        "correct_answer": "b",
+        "feedback_correct": "¡Muy bien! Intentan hacerte sentir culpable para que actúes de forma urgente.",
+        "feedback_wrong": "¡Incorrecto! Observa que te estan haciendo sentir responsable para que actúes guiada/o por la culpa."
+      }
+    ]
+  }
+}

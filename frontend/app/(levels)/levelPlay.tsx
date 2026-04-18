@@ -6,9 +6,8 @@ import { useEffect } from "react";
 import { useLoadLevel } from "@/hooks/useLoadLevel";
 import { useLevelState } from "@/hooks/useLevelState";
 import { useAuth } from "context/AuthContext";
-import LevelHeader from "./components/LevelHeader";
-import SignalClassification from "./exercises/level1";
-import DomainAnalysis from "./exercises/level2";
+import LevelHeader from "../../components/ui/LevelHeader";
+import { TYPES } from "@/renderers/mechanicsMap";
 
 export default function LevelPlay(){
     const {levelId} = useLocalSearchParams();
@@ -48,17 +47,15 @@ export default function LevelPlay(){
 
     const questions = level.content.questions;
     const currentQuestion = questions[levelState.currentIndex];
-
+    const Renderer = TYPES[level.content.mechanic];
     return(
         <View style={styles.container}>
             <LevelHeader progressAnimation={levelState.progressAnimation} onClose={() => router.back()}></LevelHeader>
 
-            {level.content.exercise_type === "signal_classification"
-                ? <SignalClassification question={currentQuestion} levelState={levelState}></SignalClassification>
-                : level.content.exercise_type === "domain_analysis"
-                ? <DomainAnalysis question={currentQuestion} levelState={levelState}></DomainAnalysis>
-                : <Text style={styles.error}>Ejercicio no desarrollado</Text>
-            }
+            {Renderer ? (
+              <Renderer question={currentQuestion} levelState={levelState} instructions={level.content.instructions}></Renderer>
+            ) : <Text  style={styles.error}>Ejercicio no desarrollado</Text>
+          }
         </View>
     );
 }

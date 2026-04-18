@@ -4,9 +4,22 @@ from sqlalchemy.orm import Session
 from app.database.connection import get_db
 from app.core.security import get_current_user
 from app.schemas.level import LevelResponse, LevelList, CompleteLevelRequest, CheckUserAnswerRequest, CheckAUserAnswerResponse
-from app.crud.level import get_level, get_level_secure, get_next_level, complete_level, get_levels_by_module, validate_question
+from app.crud.level import get_modules, get_level, get_level_secure, get_next_level, complete_level, get_levels_by_module, validate_question
 
 router = APIRouter(prefix="/levels", tags=["Levels"])
+
+@router.get("/modules")
+def read_modules(db: Session = Depends(get_db), user = Depends(get_current_user)):
+    modules = get_modules(db)
+    if not modules:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No modules found")
+    
+    result = []
+    for i, module in enumerate(modules):
+        item= {"id": i, "name": module[0]}
+        result.append(item)
+    
+    return result
 
 @router.get("/{level_id}", response_model=LevelResponse)
 def read_level(level_id: int, db: Session = Depends(get_db), user = Depends(get_current_user)):

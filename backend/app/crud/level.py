@@ -15,6 +15,8 @@ def create_level(db: Session, level_data: dict):
 
     return level
 
+def get_modules(db: Session):
+    return db.query(Level.module).distinct().all()
 
 def get_level(db: Session, level_id: int): #expose the answers
     return db.query(Level).filter(Level.id == level_id).first()
@@ -31,7 +33,6 @@ def get_level_secure(db: Session, level_id: int):
             q.pop("correct_answer", None)
             q.pop("feedback_correct", None)
             q.pop("feedback_wrong", None)
-            q.pop("feedback", None)
 
     return {
         "id": level.id,
@@ -77,42 +78,13 @@ def validate_question(level: Level, question_id: int, user_answer: Any): #valida
     feedback = ""
     correct_answer = question.get("correct_answer")
 
-    if exercise_type == "signal_classification":
+    if exercise_type in ["hooks_identification", "emotion_identification", "pretext_identification"]:
         is_correct = (user_answer == correct_answer)
         if is_correct:
             feedback = question.get("feedback_correct")
         
         else:
             feedback = question.get("feedback_wrong")
-
-    elif exercise_type == "domain_analysis":
-        if question.get("type") == "selection":
-            is_correct = (user_answer == correct_answer)
-        
-        elif question.get("type") == "highlight":
-            user_list = []
-            for x in user_answer:
-                user_list.append(str(x))
-
-            correct_list = []
-            for x in correct_answer:
-                correct_list.append(str(x))
-
-            user_sorted = sorted(user_list)
-            correct_sorted = sorted(correct_list)
-
-            is_correct = user_sorted == correct_sorted
-
-        if is_correct:
-            feedback = question.get("feedback_correct")
-        
-        else:
-            feedback = question.get("feedback_wrong")
-
-    elif exercise_type == "context_decision":
-        is_correct = (user_answer == correct_answer)
-        feedback_dict = question.get("feedback", {}) #feedback depends on the selected option
-        feedback = feedback_dict.get(user_answer, "Feedback not available")
 
     return is_correct, feedback, correct_answer
 

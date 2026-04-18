@@ -2,8 +2,23 @@ import { Animated } from "react-native";
 import { useEffect, useState } from "react";
 import { UserAnswer } from "@/services/api";
 import { checkAnswer } from "@/services/api";
+import { Level } from "@/types/level";
 
-export function useLevelState(level: any){
+export interface LevelState{
+  currentIndex: number;
+  showFeedback: boolean;
+  isCorrect: boolean | null;
+  serverFeedback: string;
+  finished: boolean;
+  collectedAnswers: UserAnswer[];
+  progressAnimation: Animated.Value;
+  isChecking: boolean;
+
+  submitAnswer: (questionId: number, answer: boolean | string |string []) => Promise<void>;
+  handleContinue: () => void;  
+}
+
+export function useLevelState(level: Level | null): LevelState{
     const [currentIndex, setCurrentIndex] = useState(0);
     const [showFeedback, setShowFeedback] = useState(false);
     const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
@@ -19,7 +34,7 @@ export function useLevelState(level: any){
     useEffect(() => {
       if(!level){
         return;
-      }
+      };
 
       const questions = level.content.questions;
       const progress = (progressCount / questions.length) * 100;
@@ -28,7 +43,7 @@ export function useLevelState(level: any){
     }, [progressCount, level]);
 
     const submitAnswer = async (questionId: number, answer: boolean | string | string[]) => {
-      if(isChecking){
+      if(isChecking || !level){
         return;
       }
 
@@ -60,7 +75,7 @@ export function useLevelState(level: any){
     };
 
     const handleContinue = () => {
-      if(!showFeedback){
+      if(!showFeedback || !level){
         return;
       }
 
@@ -68,6 +83,7 @@ export function useLevelState(level: any){
       const isLast = currentIndex + 1 >= questions.length;
 
       if(isLast){ //wait for the animation to get to the end
+        setShowFeedback(false);
         Animated.timing(progressAnimation, {toValue: 100, duration: 500, useNativeDriver: false,}).start(() => setFinished(true));
       }
 
