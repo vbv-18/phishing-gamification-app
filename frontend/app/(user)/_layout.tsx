@@ -1,7 +1,7 @@
 import { Stack, Redirect } from 'expo-router';
 import { View } from 'react-native';
 import { useAuth } from 'context/AuthContext';
-import BottomHeader from '@/components/BottomHeader';
+import BottomHeader from '@/components/ui/BottomHeader';
 
 export default function UserLayout() {
   const {isAuthenticated, loading} = useAuth();

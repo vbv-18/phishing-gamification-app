@@ -1,23 +1,8 @@
 import { View, Text, StyleSheet, Pressable, Dimensions, Image, Modal } from "react-native";
 import { Colors } from "@/constants/Colors";
 import { Spacing } from "@/constants/Spacing";
-import ContinueButton from "../components/ContinueButton";
-
-interface Option{ //options typed
-    id: string;
-    text: string;
-}
-interface Question{
-    id: number;
-    situation: string;
-    options: Option[];
-}
-
-type Props = { //define interfaces for types
-    instructions: string;
-    question: Question;
-    levelState: any;
-};
+import ContinueButton from "../ui/ContinueButton";
+import { ExerciseRenderProps } from "types/renderer";
 
 const {height} = Dimensions.get("window");
 
@@ -34,7 +19,7 @@ const formatText = (text: string) => { //to format the email in the situation te
   });
 };
 
-export default function ContextDecision({levelState, instructions, question}: Props){
+export default function MultipleChoice({levelState, instructions, question}: ExerciseRenderProps){
     const handleAnswer = (optionId: string) =>{
         if(levelState.showFeedback){
         return;
@@ -45,11 +30,14 @@ export default function ContextDecision({levelState, instructions, question}: Pr
     return(
             <View style={styles.container}>
                 <Text style={styles.instructions}>{instructions}</Text>
+                <View style ={{marginBottom: 10}}>
+                  <Text style={{fontWeight: 'bold', color: Colors.text}}>{question.context}</Text>
+                </View>
                 <View style={styles.avatarContainer}>
-                  <Image source={require('../../../assets/images/hacker.png')} style={styles.avatarImage} resizeMode='contain'></Image>
+                  <Image source={require('../../assets/images/hacker.png')} style={styles.avatarImage} resizeMode='contain'></Image>
                   <View style={styles.situationContainer}>
                     <View style={styles.situationArrow}></View>
-                    <Text style={styles.situationText}>{formatText(question.situation)}</Text>
+                    <Text style={styles.situationText}>{question.text}</Text>
                   </View>
                 </View>                    
     
@@ -70,8 +58,8 @@ export default function ContextDecision({levelState, instructions, question}: Pr
                   <View style={styles.modalOverlay}>
                     <View style={[styles.feedbackScreen, levelState.isCorrect ? styles.correctBg : styles.incorrectBg]}>
                       <View style={styles.feedbackContent}>
-                        <Text style={[styles.resultTitle, levelState.isCorrect ? styles.correctText : styles.incorrectText]}>{levelState.isCorrect ? '¡No es phishing!' : 'Phishing'}</Text>
-                        <Image source={levelState.isCorrect ? require('../../../assets/images/winner.png') : require('../../../assets/images/robber.png')} style={styles.avatarImage}></Image>
+                        <Text style={[styles.resultTitle, levelState.isCorrect ? styles.correctText : styles.incorrectText]}>{levelState.isCorrect ? '¡Bien visto!' : '¡Casi!'}</Text>
+                        <Image source={levelState.isCorrect ? require('../../assets/images/winner.png') : require('../../assets/images/robber.png')} style={styles.avatarImage}></Image>
                         <Text style={[styles.feedbackText, levelState.isCorrect ? styles.correctText : styles.incorrectText]}>{levelState.serverFeedback}</Text>
                       </View>
                       <View style={styles.footer}>

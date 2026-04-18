@@ -7,9 +7,9 @@ import { Spacing } from "@/constants/Spacing";
 
 import { getProfile, deleteAccount } from "@/services/api";
 import { useAuth } from "context/AuthContext";
-import ConfirmPasswordDelete from "./components/ConfirmPasswordDelete";
+import ConfirmPasswordDelete from "../../components/user/ConfirmPasswordDelete";
 import { useUserXp } from "@/hooks/useUserXp";
-import ProfileHeader from "./components/ProfileHeader";
+import ProfileHeader from "../../components/user/ProfileHeader";
 
 export default function Profile(){ //future -> use imagePicker from Expo
   const router = useRouter();

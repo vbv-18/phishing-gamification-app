@@ -4,7 +4,7 @@ import { useCallback, useState } from "react";
 import { Colors } from "@/constants/Colors";
 import { Spacing } from "@/constants/Spacing";
 import { getLevelsbyModule } from "@/services/api";
-import AppHeader from "@/components/AppHeader";
+import AppHeader from "@/components/ui/AppHeader";
 
 export default function ModuleHome(){
     const {moduleName} = useLocalSearchParams();

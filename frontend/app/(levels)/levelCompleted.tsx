@@ -4,8 +4,8 @@ import { Colors } from "@/constants/Colors";
 import { Spacing } from "@/constants/Spacing";
 import { completeLevel, UserAnswer } from "@/services/api";
 import { useEffect, useRef, useState } from "react";
-import LevelUp from "./components/LevelUp";
-import ContinueButton from "./components/ContinueButton";
+import LevelUp from "../../components/ui/LevelUp";
+import ContinueButton from "../../components/ui/ContinueButton";
 
 export default function LevelCompleted(){
     const {levelId, answersJSON, totalQuestions, moduleName} = useLocalSearchParams();
