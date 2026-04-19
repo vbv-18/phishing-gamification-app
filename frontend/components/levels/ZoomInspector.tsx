@@ -1,4 +1,4 @@
-import { Modal, View, Text, StyleSheet } from "react-native";
+import { Modal, View, Text, StyleSheet, Pressable } from "react-native";
 import ContinueButton from "../ui/ContinueButton";
 import DomainSegment from "./DomainSegment";
 import { Colors } from "@/constants/Colors";
@@ -7,9 +7,9 @@ import { Spacing } from "@/constants/Spacing";
 type Props = {
     visible: boolean;
     onClose: () => void;
-    segments: any[];
+    segments: {type: string, value: string}[];
     selectedSegments: string[];
-    onSelectSegment: (index: string) => void;
+    onSelectSegment: (type: string) => void;
     onSubmit: () => void;
     showFeedback: boolean;
 };
@@ -22,28 +22,21 @@ const SEGMENT_METADATA: Record<string, {label: string, color: string}> = {
   path:      { label: "Ruta",       color: "#ffcdd2" },
 };
 
-function getSegmentKey(segment: any): string {
-  return Object.keys(segment).find((k) => k !== "is_suspicious") ?? "";
-}
-
 export default function ZoomInspector({visible, onClose, segments, selectedSegments, onSelectSegment, onSubmit, showFeedback}: Props){
     return(
         <Modal visible={visible} transparent animationType="fade">
             <View style={styles.overlay}>
                 <View style={styles.box}>
-                    <Text style={styles.title}>Análisis</Text>
+                    <Text style={styles.title}>Analizador de URLs</Text>
+                    <Text style={styles.subtitle}>Selecciona las partes sospechosas (si hay)</Text>
 
                     <View style={styles.container}>
-                        {segments.map((segment: any, index: number) => {
-                            const key = getSegmentKey(segment);
-                            const metadata = SEGMENT_METADATA[key];
-                            if(!metadata){
-                                return null;
-                            }
+                        {segments.map((segment, index) => {
+                            const metadata = SEGMENT_METADATA[segment.type];
 
                             return(
-                                <DomainSegment key={index} value={segment[key]} label={metadata.label} baseColor={metadata.color} selected={selectedSegments.includes(key)} 
-                                disabled={showFeedback} onPress={() => onSelectSegment(key)}></DomainSegment>
+                                <DomainSegment key={index} value={segment.value} label={metadata?.label || 'Link'} baseColor={metadata?.color || '#F5F5F5'} selected={selectedSegments.includes(segment.type)} 
+                                disabled={showFeedback} onPress={() => onSelectSegment(segment.type)}></DomainSegment>
                             );
                         })}
                     </View>
@@ -73,6 +66,13 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: '700',
         marginBottom: Spacing.md,
+        color: Colors.text,
+    },
+    subtitle: {
+        fontSize: 14,
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        marginBottom: 20,
         color: Colors.text,
     },
     container: {

@@ -80,6 +80,19 @@ def validate_question(level: Level, question_id: int, user_answer: Any): #valida
 
     if exercise_type in ["hooks_identification", "emotion_identification", "pretext_identification"]:
         is_correct = (user_answer == correct_answer)
+
+    elif exercise_type == "domain_analysis":
+        if isinstance(user_answer, list):
+            user_ans_sorted = sorted(user_answer)
+        else:
+            user_ans_sorted = []
+
+        if isinstance(correct_answer, list):
+            corr_ans_sorted = sorted(correct_answer)
+        else:
+            corr_ans_sorted = []
+
+        is_correct = (corr_ans_sorted == user_ans_sorted)
         if is_correct:
             feedback = question.get("feedback_correct")
         

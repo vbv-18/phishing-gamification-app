@@ -17,7 +17,9 @@ def get_levels_from_json():  #iterates through the data/*_module folders and ext
         print(f"ERROR: Folder not found in {DATA_PATH}")
         return levels
     
-    for module_folder in os.listdir(DATA_PATH):
+    module_folders = sorted(os.listdir(DATA_PATH))
+    
+    for module_folder in module_folders:
         module_path = os.path.join(DATA_PATH, module_folder)
 
         if not os.path.isdir(module_path):
@@ -32,6 +34,7 @@ def get_levels_from_json():  #iterates through the data/*_module folders and ext
               try:
                   with open(file_path, "r", encoding="utf-8") as f:
                       data = json.load(f)
+                      data['folder_name'] = module_folder
                       levels.append(data)
               except Exception as e:
                   print(f"ERROR reading {file}: {e}")
@@ -41,10 +44,11 @@ def get_levels_from_json():  #iterates through the data/*_module folders and ext
 def seed():
     db = SessionLocal()
     levels_to_insert = get_levels_from_json()
-    levels_to_insert.sort(key=lambda x: (x.get("module", ""), x.get("difficulty", 0))) #mantain the difficulty order
+    levels_to_insert.sort(key=lambda x: (x.get("folder_name", ""), x.get("difficulty", 0))) #mantain the difficulty order
 
     for level_data in levels_to_insert:
         try: 
+          level_data.pop('folder_name', None)
           module = level_data["module"]
           difficulty = level_data["difficulty"]
 

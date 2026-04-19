@@ -1,0 +1,123 @@
+{
+  "module": "Las Huellas",
+  "difficulty": 1,
+  "title": "Anatomía del Engaño",
+  "theory": [],
+  "content": {
+    "exercise_type": "domain_analysis",
+    "mechanic": "highlight",
+    "instructions": "Inspecciona el enlace, ¡A ver qué encuentras!",
+    "questions": [
+        {
+        "id": 1,
+        "email": {
+          "from": "novedades@arnazon.es",
+          "subject": "Baliza V16 Homologada",
+          "body": "Olvídate de los triángulos, V16: Más visibilidad, menos riesgo, más protección.",
+          "display_link": "Cómprala ahora"
+        },
+        "url": {
+          "full": "https://www.arnazon.com/balizaV16",
+          "segments": [
+            {"type": "protocol", "value": "https://"},
+            {"type": "subdomain", "value": "www."},
+            {"type": "domain", "value": "arnazon"},
+            {"type": "tld", "value": ".com"},
+            {"type": "path", "value": "/balizaV16"}
+          ]
+        },
+        "correct_answer": ["domain"],
+        "feedback_correct": "¡Perfecto! 'rn' se utiliza para simular la letra 'm', así igual con otras letras, ¡Atenta/o que también ocurre en el remitente!",
+        "feedback_wrong": "¡Oh no! Fíjate bien en el dominio: 'arnazon' no es 'amazon', han intercambiado la 'm' por 'rn'\n¡También ocurre en el remitente!"
+      },
+      {
+        "id": 2,
+        "email": {
+          "from": "seguridad@gruposantander.es",
+          "subject": "Actualización de seguridad",
+          "body": "La contraseña de la app Santander ha caducado, accede para actualizarla",
+          "display_link": "http://www.bancosantander.es/seguridad"
+        },
+        "url": {
+          "full": "http://www.banc0santander.es/seguridad",
+          "segments": [
+              {"type": "protocol", "value": "http://"},
+              {"type": "subdomain", "value": "www."},
+              {"type": "domain", "value": "banc0santander"},
+              {"type": "tld", "value": ".es"},
+              {"type": "path", "value": "/fake"}
+          ]
+        },
+        "correct_answer": ["protocol", "domain"],
+        "feedback_correct": "¡Super! El enlace visible no coincide con el real: utiliza un '0' en vez de la letra 'o'. Fíjate también que usa HTTP en vez de HTTPS: ¡Nunca visites enlaces sin la S!",
+        "feedback_wrong": "¡Casi! Siempre verifica manteniendo pulsado el enlace real: ¡Fíjate que la 'o' es un '0'! Además, ¡Nunca visites enlaces solo con HTTP, falta la S de Seguridad!"
+      },
+      {
+        "id": 3,
+        "email": {
+          "from": "no-reply@accounts.google.com",
+          "subject": "Alerta de seguridad",
+          "body": "Nuevo inicio de sesión en Android",
+          "display_link": "Comprobar actividad"
+        },
+        "url": {
+          "full": "https://myaccount.google.com/activity",
+          "segments": [
+              {"type": "protocol", "value": "https://"},
+              {"type": "subdomain", "value": "myaccount."},
+              {"type": "domain", "value": "google"},
+              {"type": "tld", "value": ".com"},
+              {"type": "path", "value": "/activity"}
+          ]
+        },
+        "correct_answer": [],
+        "feedback_correct": "¡Excelente! Tanto el remitente como el enlace son legítimos: uso de https, subdominio legítimo (myaccount.google.com) y ruta estándar (/activity)",
+        "feedback_wrong": "¡No es correcto! No hay señales de suplantación: uso de https, subdominio legítimo (myaccount.google.com) y ruta estándar (/activity)"
+      },
+      {
+        "id": 4,
+        "email": {
+          "from": "soporte@apple-id.com",
+          "subject": "Tu cuenta ha sido bloqueada",
+          "body": "Verifica tu identidad antes de perder los datos",
+          "display_link": "Verificar mi Apple ID"
+        },
+        "url": {
+          "full": "https://appleid.apple.com.seguridad-login.com/login",
+          "segments": [
+              {"type": "protocol", "value": "https://"},
+              {"type": "subdomain", "value": "appleid.apple.com."},
+              {"type": "domain", "value": "seguridad-login"},
+              {"type": "tld", "value": ".com"},
+              {"type": "path", "value": "/login"}
+          ]
+        },
+        "correct_answer": ["subdomain", "domain"],
+        "feedback_correct": "¡Correcto! 'appleid.apple.com' es solo es subdominio que cualquiera puede crear, el dominio real es 'seguridad-login.com', ¡No te fíes solo porque ponga una marca oficial (Apple)!",
+        "feedback_wrong": "¡No es correcto! 'appleid.apple.com es solo un subdominio falso que puede crear cualquiera, el dominio real es 'seguridad-login.com', donde está el ataque."
+      },
+      {
+        "id": 5,
+        "email": {
+          "from": "info@correos.com",
+          "subject": "Paquete pendiente de entrega",
+          "body": "Su envío no ha podido ser entregado por falta del número de la calle",
+          "display_link": "Completar dirección"
+        },
+        "url": {
+          "full": "https://www.correos.top/completar-info",
+          "segments": [
+              {"type": "protocol", "value": "https://"},
+              {"type": "subdomain", "value": "www."},
+              {"type": "domain", "value": "correos"},
+              {"type": "tld", "value": ".top"},
+              {"type": "path", "value": "/completar-info"}
+          ]
+        },
+        "correct_answer": ["tld"],
+        "feedback_correct": "¡Muy bien! Correos en España usa '.es' (como la mayoría de entidades públicas). El TLD '.top' es muy común por su bajo costo en campañas de phishing",
+        "feedback_wrong": "¡Incorrecto! ¿Por qué una entidad pública española iba a usar '.top' en vez de '.es'? El TLD '.top' es muy común por su bajo costo en campañas de phishing"
+      }
+    ]
+  }
+}
