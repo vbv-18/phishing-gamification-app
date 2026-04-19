@@ -16,7 +16,7 @@ def create_level(db: Session, level_data: dict):
     return level
 
 def get_modules(db: Session):
-    return db.query(Level.module).distinct().all()
+    return db.query(Level.module).distinct().order_by(Level.module.asc()).all() #if there are 10 modules, 10 will be before 1
 
 def get_level(db: Session, level_id: int): #expose the answers
     return db.query(Level).filter(Level.id == level_id).first()

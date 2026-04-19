@@ -58,7 +58,7 @@ def seed():
               continue
 
           create_level(db, level_data)
-          print(f"Level {difficulty} in module {module} insert")
+          print(f"Level {difficulty} in module {module} inserted")
 
         except KeyError as k:
           print(f"ERROR: a key is missing: {k}")

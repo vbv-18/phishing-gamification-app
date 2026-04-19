@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Colors } from "@/constants/Colors";
 import { Spacing } from "@/constants/Spacing";
 import ContinueButton from "../ui/ContinueButton";
-import EmailCard from "./EmailCard";
+import UrlCard from "./UrlCard";
 import ZoomInspector from "./ZoomInspector";
 import { ExerciseRenderProps } from "types/renderer";
 import { DomainAnalysisQuestion } from "@/types/exercise";
@@ -37,7 +37,7 @@ export default function DomainAnalysis({levelState, instructions, question}: Exe
         <View style={styles.container}>
             <Text style={styles.instructions}>{instructions}</Text>
 
-                <EmailCard key={q.id} emailData={q.email} realUrl={q.url.full} disabled={levelState.showFeedback} onInspect={() => setZoomVisible(true)}></EmailCard>
+                <UrlCard key={q.id} urlData={q.url} disabled={levelState.showFeedback} onInspect={() => setZoomVisible(true)}></UrlCard>
 
                 <ZoomInspector visible={zoomVisible} onClose={() => setZoomVisible(false)} segments={q.url.segments} selectedSegments={selectedSegments}
                   onSelectSegment={handleSegment} onSubmit={() => {handleSegmentSubmit(); setZoomVisible(false);}} showFeedback={levelState.showFeedback}></ZoomInspector>

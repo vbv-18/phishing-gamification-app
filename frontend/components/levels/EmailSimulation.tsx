@@ -3,49 +3,60 @@ import { useState } from "react";
 import { Colors } from "@/constants/Colors";
 import { Spacing } from "@/constants/Spacing";
 import { MaterialIcons } from "@expo/vector-icons";
-import { DomainAnalysisQuestion } from "@/types/exercise";
+import { PhishingSimulationQuestion } from "@/types/exercise";
+import { ExerciseRenderProps } from "@/types/renderer";
 
-type Props = {
-    emailData: DomainAnalysisQuestion['email'];
-    realUrl: string;
-    disabled: boolean;
-    onInspect: () => void;
-};
+type Props = ExerciseRenderProps & {
+  disabled?: boolean;
+  onInspect?: () => void;
+}
 
-export default function EmailCard({emailData, realUrl, disabled, onInspect}: Props){
+export default function EmailSimulation({levelState, instructions, question, disabled, onInspect}: Props){
     const [showRealLink, setShowRealLink] = useState(false);
-
+    const q = question as PhishingSimulationQuestion
     return(
-        <View style={styles.emailWrapper}>
-            <View style={styles.emailHeader}>
-                <View style={styles.avatar}>
-                  <MaterialIcons name="person" size={22} color={Colors.text}></MaterialIcons>
-                </View>
-                <View>
-                    <Text style={styles.from}>{emailData.from}</Text>
-                    <Text style={styles.subject}>{emailData.subject}</Text>
-                </View>
-            </View>
+      <View style={styles.container}>
+          <Text style={styles.instructions}>{instructions}</Text>
+          <View style={styles.emailWrapper}>
+              <View style={styles.emailHeader}>
+                  <View style={styles.avatar}>
+                    <MaterialIcons name="person" size={22} color={Colors.text}></MaterialIcons>
+                  </View>
+                  <View>
+                      <Text style={styles.from}>{q.email.from}</Text>
+                      <Text style={styles.subject}>{q.email.subject}</Text>
+                  </View>
+              </View>
 
-            <Text style={styles.body}>{emailData.body}</Text>
+              <Text style={styles.body}>{q.email.body}</Text>
 
-            {(emailData.display_link || realUrl) && (
-                <Pressable disabled={disabled} onPress={onInspect} onLongPress={() => setShowRealLink(true)} style={({pressed}) => [styles.linkContainer, pressed && styles.linkPressed]}>
-                    <View style={styles.linkBadge}>
-                      <MaterialIcons name="search" size={14} color='white'></MaterialIcons>
-                      <Text style={styles.linkBadgeText}> Toca para inspeccionar</Text>
-                    </View>
-                    
-                    <Text style={styles.fakeLink}>{emailData.display_link || realUrl}</Text>
+              {(q.email.display_link || q.url.full) && (
+                  <Pressable disabled={disabled} onPress={onInspect} onLongPress={() => setShowRealLink(true)} style={({pressed}) => [styles.linkContainer, pressed && styles.linkPressed]}>
+                      <View style={styles.linkBadge}>
+                        <MaterialIcons name="search" size={14} color='white'></MaterialIcons>
+                        <Text style={styles.linkBadgeText}> Toca para inspeccionar</Text>
+                      </View>
+                      
+                      <Text style={styles.fakeLink}>{q.email.display_link || q.url.full}</Text>
 
-                    {showRealLink && (<Text style={styles.realLink}>{realUrl}</Text>)}
-                </Pressable>
-             )}
+                      {showRealLink && (<Text style={styles.realLink}>{q.url.full}</Text>)}
+                  </Pressable>
+              )}
+          </View>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    padding: Spacing.lg,
+  },
+  instructions: {
+    fontSize: 18,
+    fontWeight: '700',
+    marginBottom: Spacing.md,
+    color: Colors.text,
+  },
 emailWrapper:{
     backgroundColor: Colors.card,
     padding: Spacing.md,

@@ -19,8 +19,12 @@ export interface MultipleChoiceQuestion extends BaseQuestion{
 }
 
 export interface DomainAnalysisQuestion extends BaseQuestion{
-    email: {from: string; subject: string; body: string; display_link?: string;};
+    url: {display_link: string; full: string; segments: UrlSegment[]};
+}
+
+export interface PhishingSimulationQuestion extends BaseQuestion{
+    email: {from: string; subject: string; body: string; display_link: string;};
     url: {full: string; segments: UrlSegment[]};
 }
 
-export type Question = MultipleChoiceQuestion | DomainAnalysisQuestion;
+export type Question = MultipleChoiceQuestion | DomainAnalysisQuestion | PhishingSimulationQuestion;

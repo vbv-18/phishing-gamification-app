@@ -1,17 +1,22 @@
 {
-  "module": "2. Las Huellas",
+  "module": "3. Laboratorio de Verificación",
   "difficulty": 1,
-  "title": "Anatomía del Engaño",
+  "title": "Phishing",
   "theory": [],
   "content": {
-    "exercise_type": "domain_analysis",
-    "mechanic": "highlight",
+    "exercise_type": "phishing",
+    "mechanic": "phishing_simulation",
     "instructions": "Inspecciona el enlace, ¡A ver qué encuentras!",
     "questions": [
         {
         "id": 1,
+        "email": {
+          "from": "novedades@arnazon.es",
+          "subject": "Baliza V16 Homologada",
+          "body": "Olvídate de los triángulos, V16: Más visibilidad, menos riesgo, más protección.",
+          "display_link": "Cómprala ahora"
+        },
         "url": {
-          "display_link": "https://www.arnazon.com/balizaV16",
           "full": "https://www.arnazon.com/balizaV16",
           "segments": [
             {"type": "protocol", "value": "https://"},
@@ -22,20 +27,25 @@
           ]
         },
         "correct_answer": ["domain"],
-        "feedback_correct": "¡Perfecto! 'rn' se utiliza para simular la letra 'm', así igual con otras letras",
-        "feedback_wrong": "¡Oh no! Fíjate bien en el dominio: 'arnazon' no es 'amazon', han intercambiado la 'm' por 'rn'"
+        "feedback_correct": "¡Perfecto! 'rn' se utiliza para simular la letra 'm', así igual con otras letras, ¡Atenta/o que también ocurre en el remitente!",
+        "feedback_wrong": "¡Oh no! Fíjate bien en el dominio: 'arnazon' no es 'amazon', han intercambiado la 'm' por 'rn'\n¡También ocurre en el remitente!"
       },
       {
         "id": 2,
+        "email": {
+          "from": "seguridad@gruposantander.es",
+          "subject": "Actualización de seguridad",
+          "body": "La contraseña de la app Santander ha caducado, accede para actualizarla",
+          "display_link": "http://www.bancosantander.es/seguridad"
+        },
         "url": {
-          "display_link": "http://www.bancosantander.es/seguridad",
           "full": "http://www.banc0santander.es/seguridad",
           "segments": [
               {"type": "protocol", "value": "http://"},
               {"type": "subdomain", "value": "www."},
               {"type": "domain", "value": "banc0santander"},
               {"type": "tld", "value": ".es"},
-              {"type": "path", "value": "/seguridad"}
+              {"type": "path", "value": "/fake"}
           ]
         },
         "correct_answer": ["protocol", "domain"],
@@ -44,8 +54,13 @@
       },
       {
         "id": 3,
+        "email": {
+          "from": "no-reply@accounts.google.com",
+          "subject": "Alerta de seguridad",
+          "body": "Nuevo inicio de sesión en Android",
+          "display_link": "Comprobar actividad"
+        },
         "url": {
-          "display_link": "https://myaccount.google.com/activity",
           "full": "https://myaccount.google.com/activity",
           "segments": [
               {"type": "protocol", "value": "https://"},
@@ -61,8 +76,13 @@
       },
       {
         "id": 4,
+        "email": {
+          "from": "soporte@apple-id.com",
+          "subject": "Tu cuenta ha sido bloqueada",
+          "body": "Verifica tu identidad antes de perder los datos",
+          "display_link": "Verificar mi Apple ID"
+        },
         "url": {
-          "display_link": "https://appleid.apple.com.seguridad-login.com/login",
           "full": "https://appleid.apple.com.seguridad-login.com/login",
           "segments": [
               {"type": "protocol", "value": "https://"},
@@ -78,8 +98,13 @@
       },
       {
         "id": 5,
+        "email": {
+          "from": "info@correos.com",
+          "subject": "Paquete pendiente de entrega",
+          "body": "Su envío no ha podido ser entregado por falta del número de la calle",
+          "display_link": "Completar dirección"
+        },
         "url": {
-          "display_link": "https://www.correos.top/completar-info",
           "full": "https://www.correos.top/completar-info",
           "segments": [
               {"type": "protocol", "value": "https://"},

@@ -40,8 +40,7 @@ export default function Home(){
         <View style={{flex:1}}>
           <AppHeader></AppHeader>
           <ScrollView style={styles.container}>
-              <Text style={styles.title}>Bienvenida/o</Text>
-              <Text style={styles.subtitle}>Selecciona un módulo</Text>
+              <Text style={styles.title}>Selecciona un módulo</Text>
 
               {modules.map((m) => (
                   <View key={m.id} style={styles.moduleCard}>
@@ -76,7 +75,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.background,
   },
   title: {
-    fontSize: 28,
+    fontSize: 25,
     fontWeight: '800',
     marginBottom: Spacing.lg,
     color: Colors.text,
@@ -89,18 +88,15 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   moduleCard: {
-  backgroundColor: Colors.primary,
-  borderRadius: 20,
-  padding: 20,
-  marginBottom: Spacing.lg,
-
-  // efecto 3D
-  shadowColor: Colors.shadow,
-  shadowOffset: { width: 0, height: 6 },
-  shadowOpacity: 1,
-  shadowRadius: 0,
-
-  elevation: 8, // Android
+    backgroundColor: Colors.primary,
+    borderRadius: 20,
+    padding: 20,
+    marginBottom: Spacing.lg,
+    shadowColor: Colors.shadow,
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 1,
+    shadowRadius: 0,
+    elevation: 8,
 },
 
 modulePressed: {
