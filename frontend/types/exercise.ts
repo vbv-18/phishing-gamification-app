@@ -22,9 +22,14 @@ export interface DomainAnalysisQuestion extends BaseQuestion{
     url: {display_link: string; full: string; segments: UrlSegment[]};
 }
 
+export interface FileChoiceQuestion extends MultipleChoiceQuestion{
+    file_name: string;
+    icon_type: string;
+}
+
 export interface PhishingSimulationQuestion extends BaseQuestion{
     email: {from: string; subject: string; body: string; display_link: string;};
     url: {full: string; segments: UrlSegment[]};
 }
 
-export type Question = MultipleChoiceQuestion | DomainAnalysisQuestion | PhishingSimulationQuestion;
+export type Question = MultipleChoiceQuestion | DomainAnalysisQuestion | PhishingSimulationQuestion | FileChoiceQuestion;

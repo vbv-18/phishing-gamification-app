@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Pressable, Modal, Image } from "react-native";
+import { View, Text, StyleSheet, Modal, Image } from "react-native";
 import { useEffect, useState } from "react";
 import { Colors } from "@/constants/Colors";
 import { Spacing } from "@/constants/Spacing";

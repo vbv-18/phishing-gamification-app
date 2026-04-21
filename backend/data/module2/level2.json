@@ -1,17 +1,51 @@
 {
   "module": "2. Las Huellas",
   "difficulty": 2,
-  "title": "",
+  "title": "Inspector de Archivos",
   "theory": [],
   "content": {
-    "exercise_type": "",
-    "mechanic": "",
-    "instructions": "",
+    "exercise_type": "file_analysis",
+    "mechanic": "file_choice",
+    "instructions": "¿Abrir o Eliminar el Archivo?",
     "questions": [
-        {
-        "correct_answer": "",
-        "feedback_correct": "",
-        "feedback_wrong": ""
+      {
+        "id": 1,
+        "file_name": "factura.pdf.exe",
+        "icon_type": "pdf",
+        "technique": "double extension",
+        "options": [
+          {"id": "open", "text": "Abrir"},
+          {"id": "delete", "text": "Eliminar"}
+        ],
+        "correct_answer": "delete",
+        "feedback_correct": "¡Perfecto! La última extension (.exe) es la real, por lo que es un archivo ejecutable disfrado de PDF",
+        "feedback_wrong": "¡Vaya! ¡Has abierto un archivo que ha ejecutado código malicioso! Fíjate que la última extensión es .exe (archivo ejecutable) aunque el icono sea de PDF."
+      },
+      {
+        "id": 2,
+        "file_name": "recibo.docm",
+        "icon_type": "word",
+        "technique": "macros",
+        "options": [
+          {"id": "open", "text": "Abrir"},
+          {"id": "delete", "text": "Eliminar"}
+        ],
+        "correct_answer": "delete",
+        "feedback_correct": "¡Perfecto! La letra 'm' en la extensión indica que el archivo utiliza macros (tareas repetitivas). ¡Nunca abras un archivo que utilice macros a no ser que sea tuyo propio o confiable!",
+        "feedback_wrong": "¡Oh no! Fíjate que la extensión es '.docm', la letra 'm' del final indica que el documento utiliza macros (tareas repetitivas), ¡Nunca abras un archivo que utilice macros a no ser que sea tuyo propio o confiable!"
+      },
+      {
+        "id": 3,
+        "file_name": "paisaje.png",
+        "icon_type": "png",
+        "technique": "none",
+        "options": [
+          {"id": "open", "text": "Abrir"},
+          {"id": "delete", "text": "Eliminar"}
+        ],
+        "correct_answer": "open",
+        "feedback_correct": "¡Perfecto! Es un archivo estándar",
+        "feedback_wrong": "¡Oh no! Este archivo era seguro, no todos los adjuntos son malos."
       }
     ]
   }
