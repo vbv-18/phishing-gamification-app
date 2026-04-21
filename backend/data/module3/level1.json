@@ -6,117 +6,62 @@
   "content": {
     "exercise_type": "phishing",
     "mechanic": "phishing_simulation",
-    "instructions": "Inspecciona el enlace, ¡A ver qué encuentras!",
+    "instructions": "¿Es un correo legítimo?",
     "questions": [
         {
         "id": 1,
         "email": {
-          "from": "novedades@arnazon.es",
-          "subject": "Baliza V16 Homologada",
-          "body": "Olvídate de los triángulos, V16: Más visibilidad, menos riesgo, más protección.",
-          "display_link": "Cómprala ahora"
+          "from": "Soporte IT <it-security@empresa-española.co>",
+          "subject": "AVISO: Actividad sospechosa en su cuenta - Acción requerida",
+          "body": "Hemos detectado un inicio de sesión inusual desde una dirección IP de Rusia. Por motivos de seguridad su cuenta será suspendida en las próximas 2 horas si no confirma su identidad."
         },
-        "url": {
-          "full": "https://www.arnazon.com/balizaV16",
-          "segments": [
-            {"type": "protocol", "value": "https://"},
-            {"type": "subdomain", "value": "www."},
-            {"type": "domain", "value": "arnazon"},
-            {"type": "tld", "value": ".com"},
-            {"type": "path", "value": "/balizaV16"}
-          ]
-        },
-        "correct_answer": ["domain"],
-        "feedback_correct": "¡Perfecto! 'rn' se utiliza para simular la letra 'm', así igual con otras letras, ¡Atenta/o que también ocurre en el remitente!",
-        "feedback_wrong": "¡Oh no! Fíjate bien en el dominio: 'arnazon' no es 'amazon', han intercambiado la 'm' por 'rn'\n¡También ocurre en el remitente!"
+        "correct_answer": false,
+        "feedback_correct": "¡Perfecto! Se combina la Autoridad con la emoción del Miedo que provoca la falsa urgencia. También hay un detalle: el TLD es .co (Colombia) cuando supuestamente es una empresa española",
+        "feedback_wrong": "¡Cuidado! El correo utiliza la urgencia para inducir Miedo, además de la Autoridad con 'Soporte IT' (nunca te van a dar un últimatum). Un detalle: el TLD es .co (Colombia)" 
       },
       {
         "id": 2,
         "email": {
-          "from": "seguridad@gruposantander.es",
-          "subject": "Actualización de seguridad",
-          "body": "La contraseña de la app Santander ha caducado, accede para actualizarla",
-          "display_link": "http://www.bancosantander.es/seguridad"
+          "from": "Promociones Especiales <ganadores@adídas.es>",
+          "subject": "¡Confirmado!: Eres una de las 100 afortunadas este mes",
+          "body": "Ya hemos entregado más de 70 pares de zapatillas y solo quedan 10 por reclamar. Reclama las tuyas aquí: http:://adídas.es/regalo-gratis"
         },
-        "url": {
-          "full": "http://www.banc0santander.es/seguridad",
-          "segments": [
-              {"type": "protocol", "value": "http://"},
-              {"type": "subdomain", "value": "www."},
-              {"type": "domain", "value": "banc0santander"},
-              {"type": "tld", "value": ".es"},
-              {"type": "path", "value": "/fake"}
-          ]
-        },
-        "correct_answer": ["protocol", "domain"],
-        "feedback_correct": "¡Super! El enlace visible no coincide con el real: utiliza un '0' en vez de la letra 'o'. Fíjate también que usa HTTP en vez de HTTPS: ¡Nunca visites enlaces sin la S!",
-        "feedback_wrong": "¡Casi! Siempre verifica manteniendo pulsado el enlace real: ¡Fíjate que la 'o' es un '0'! Además, ¡Nunca visites enlaces solo con HTTP, falta la S de Seguridad!"
+        "correct_answer": false,
+        "feedback_correct": "¡Super! Has detectado la trama doble: 'Prueba Social' (miles de personas ya las tienen) + Homografía (en 'adídas' la letra í tiene tilde)",
+        "feedback_wrong": "¡Caíste! El correo te engañó usando la 'Prueba Social (miles de personas ya las tienen) y la Homografía (en 'adídas' la letra í tiene tilde)" 
       },
       {
         "id": 3,
         "email": {
-          "from": "no-reply@accounts.google.com",
-          "subject": "Alerta de seguridad",
-          "body": "Nuevo inicio de sesión en Android",
-          "display_link": "Comprobar actividad"
+          "from": "Spotify <no-reply@spotify.es>",
+          "subject": "Actualización de nuestros Términos y Condiciones",
+          "body": "Te escribimos para informarte que estamos actualizando nuestros Términos de Uso. Estos cambios nos ayudan a reflejar las nuevas funciones. Puedes revisarlos desde la app oficial."
         },
-        "url": {
-          "full": "https://myaccount.google.com/activity",
-          "segments": [
-              {"type": "protocol", "value": "https://"},
-              {"type": "subdomain", "value": "myaccount."},
-              {"type": "domain", "value": "google"},
-              {"type": "tld", "value": ".com"},
-              {"type": "path", "value": "/activity"}
-          ]
-        },
-        "correct_answer": [],
-        "feedback_correct": "¡Excelente! Tanto el remitente como el enlace son legítimos: uso de https, subdominio legítimo (myaccount.google.com) y ruta estándar (/activity)",
-        "feedback_wrong": "¡No es correcto! No hay señales de suplantación: uso de https, subdominio legítimo (myaccount.google.com) y ruta estándar (/activity)"
+        "correct_answer": true,
+        "feedback_correct": "¡Excelente! Es un correo legítimo, ni rastro de señales.",
+        "feedback_wrong": "¡Incorrecto! Es un correo seguro, ni rastro de señales " 
       },
       {
         "id": 4,
         "email": {
-          "from": "soporte@apple-id.com",
-          "subject": "Tu cuenta ha sido bloqueada",
-          "body": "Verifica tu identidad antes de perder los datos",
-          "display_link": "Verificar mi Apple ID"
+          "from": "Comunidad de Vecinos <vecinos-info@vecindario.com>",
+          "subject": "FOTOS: Incidente de anoche en el portal (Pruebas)",
+          "body": "Hola a todos, como sabéis, anoche hubo un altercado en la entrada del portal y la policía tuvo que intervenir. Adjunto las imágener del responsable para que todas/os estemos al tanto: pruebas.png.exe"
         },
-        "url": {
-          "full": "https://appleid.apple.com.seguridad-login.com/login",
-          "segments": [
-              {"type": "protocol", "value": "https://"},
-              {"type": "subdomain", "value": "appleid.apple.com."},
-              {"type": "domain", "value": "seguridad-login"},
-              {"type": "tld", "value": ".com"},
-              {"type": "path", "value": "/login"}
-          ]
-        },
-        "correct_answer": ["subdomain", "domain"],
-        "feedback_correct": "¡Correcto! 'appleid.apple.com' es solo es subdominio que cualquiera puede crear, el dominio real es 'seguridad-login.com', ¡No te fíes solo porque ponga una marca oficial (Apple)!",
-        "feedback_wrong": "¡No es correcto! 'appleid.apple.com es solo un subdominio falso que puede crear cualquiera, el dominio real es 'seguridad-login.com', donde está el ataque."
+        "correct_answer": false,
+        "feedback_correct": "¡Correcto! Has visto la trampa: Curiosidad (cotilleo) + Doble Extensión en Archivos (png.exe, realmente es un ejecutable, no fotos)",
+        "feedback_wrong": "¡No es correcto! Te ha podido la curiosidad, parece inofensivo pero están haciendo uso de la Curiosidad (cotilleo) y de la Doble Extensión en Archivos (png.exe, realmente es un ejecutable, no fotos)" 
       },
       {
         "id": 5,
         "email": {
-          "from": "info@correos.com",
-          "subject": "Paquete pendiente de entrega",
-          "body": "Su envío no ha podido ser entregado por falta del número de la calle",
-          "display_link": "Completar dirección"
+          "from": "Plataforma Escolar <avisos@educa-familiads.net>",
+          "subject": "Autorización de excursión escolar",
+          "body": "Estimadas familias, como ya sabéis, la excursión de fin de curso está a la vuelta de la esquina y todas/os estamos muy ilusionadas/os. Necesitamos que valideis vuestra identidad respondiendo al correo con la contraseña"
         },
-        "url": {
-          "full": "https://www.correos.top/completar-info",
-          "segments": [
-              {"type": "protocol", "value": "https://"},
-              {"type": "subdomain", "value": "www."},
-              {"type": "domain", "value": "correos"},
-              {"type": "tld", "value": ".top"},
-              {"type": "path", "value": "/completar-info"}
-          ]
-        },
-        "correct_answer": ["tld"],
-        "feedback_correct": "¡Muy bien! Correos en España usa '.es' (como la mayoría de entidades públicas). El TLD '.top' es muy común por su bajo costo en campañas de phishing",
-        "feedback_wrong": "¡Incorrecto! ¿Por qué una entidad pública española iba a usar '.top' en vez de '.es'? El TLD '.top' es muy común por su bajo costo en campañas de phishing"
+        "correct_answer": false,
+        "feedback_correct": "¡Bien! No has caído en la Unidad: sentimiento de grupo, ni en la laguna existente: una institución escolar NUNCA pedirá tu contraseña mediante correo.",
+        "feedback_wrong": "¡Ojo! Están utilizando el sentimiento de la Unidad (familias, excursión común) para que participes. Además hay una laguna en el correo: una isntitución escolar pide tu contraseña por correo" 
       }
     ]
   }

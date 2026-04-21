@@ -1,5 +1,4 @@
 import { View, Text, StyleSheet, Modal, Image, Pressable } from "react-native";
-import { useState } from "react";
 import { Colors } from "@/constants/Colors";
 import { Spacing } from "@/constants/Spacing";
 import ContinueButton from "../ui/ContinueButton";
@@ -10,7 +9,6 @@ import { AntDesign } from "@expo/vector-icons";
 
 export default function FileChoice({levelState, instructions, question}: ExerciseRenderProps){
     const q = question as FileChoiceQuestion;
-    const [selectedSegments, setSelectedSegments] = useState<string[]>([]);
 
     const getFileIcon = (type: string) => {
         switch(type){
