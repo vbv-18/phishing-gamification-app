@@ -27,8 +27,10 @@ export interface FileChoiceQuestion extends MultipleChoiceQuestion{
     icon_type: string;
 }
 
-export interface PhishingSimulationQuestion extends BaseQuestion{
-    email: {from: string; subject: string; body: string; display_link: string;};
+export interface SimulationQuestion extends BaseQuestion{
+    type: 'email' | 'sms';
+    email?: {from: string; subject: string; body: string;};
+    sms?: {from: string; number: string; body: string;};
 }
 
-export type Question = MultipleChoiceQuestion | DomainAnalysisQuestion | FileChoiceQuestion | PhishingSimulationQuestion;
+export type Question = MultipleChoiceQuestion | DomainAnalysisQuestion | FileChoiceQuestion | SimulationQuestion;

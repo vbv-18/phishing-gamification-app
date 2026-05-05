@@ -2,12 +2,12 @@ import { View, Text, StyleSheet, Pressable, Modal, Image } from "react-native";
 import { Colors } from "@/constants/Colors";
 import { Spacing } from "@/constants/Spacing";
 import { MaterialIcons } from "@expo/vector-icons";
-import { PhishingSimulationQuestion } from "@/types/exercise";
+import { SimulationQuestion } from "@/types/exercise";
 import { ExerciseRenderProps } from "@/types/renderer";
 import ContinueButton from "../ui/ContinueButton";
 
-export default function EmailSimulation({levelState, instructions, question}: ExerciseRenderProps){
-    const q = question as PhishingSimulationQuestion
+export default function SocialSimulation({levelState, instructions, question}: ExerciseRenderProps){
+    const q = question as SimulationQuestion
 
     const handleAnswer = (optionId: boolean) =>{
         if(levelState.showFeedback){
@@ -20,20 +20,10 @@ export default function EmailSimulation({levelState, instructions, question}: Ex
     return(
       <View style={styles.container}>
           <Text style={styles.instructions}>{instructions}</Text>
-          <View style={styles.emailWrapper}>
-              <View style={styles.emailHeader}>
-                  <View style={styles.avatar}>
-                    <MaterialIcons name="person" size={22} color={Colors.text}></MaterialIcons>
-                  </View>
-                  <View style={styles.headerTextContainer}>
-                      <Text style={styles.from} ellipsizeMode="tail">{q.email.from}</Text>
-                  </View>
-              </View>
-            <View style={styles.bodyContainer}>
-                <Text style={styles.subject}>{q.email.subject}</Text>
-                <Text style={styles.body}>{q.email.body}</Text>
-              </View>
-          </View>
+          
+          {q.type === 'email' && q.email ? (<EmailCard from={q.email.from} subject={q.email.subject} body={q.email.body}></EmailCard>) :
+          q.type === 'sms' && q.sms ? (<SmsCard from={q.sms.from} number={q.sms.number} body={q.sms.body}></SmsCard>) : 
+          null}
 
             <Pressable onPress={() => handleAnswer(false)} disabled={levelState.showFeedback} style={({ pressed }) => [styles.suspiciousWrapper, pressed &&
             !levelState.showFeedback && styles.suspiciousWrappedPressed, levelState.showFeedback && styles.disabledWrapper]}>
@@ -73,6 +63,49 @@ export default function EmailSimulation({levelState, instructions, question}: Ex
     );
 }
 
+function EmailCard({from, subject, body}: {from: string; subject: string; body: string}){
+  return (
+    <View style={styles.cardWrapper}>
+      <View style={styles.emailHeader}>
+        <View style={styles.avatar}>
+          <MaterialIcons name='email' size={22} color={Colors.text}></MaterialIcons>
+        </View>
+
+        <View style={styles.headerTextContainer}>
+          <Text style={styles.from} ellipsizeMode="tail">{from}</Text>
+        </View>
+      </View>
+
+      <View style={styles.divider}></View>
+      <Text style={styles.subject} numberOfLines={2}>{subject}</Text>
+      <Text style={styles.body}>{body}</Text>
+
+    </View>
+  );
+}
+
+function SmsCard({from, number, body}: {from: string; number: string; body: string}){
+  return (
+    <View style={styles.cardWrapper}>
+      <View style={styles.emailHeader}>
+        <View style={styles.avatar}>
+          <MaterialIcons name='sms' size={22} color={Colors.text}></MaterialIcons>
+        </View>
+
+        <View style={styles.headerTextContainer}>
+          <Text style={styles.from} ellipsizeMode="tail" numberOfLines={1}>{from}</Text>
+          <Text style={styles.number}>{number}</Text>
+        </View>
+      </View>
+
+      <View style={styles.divider}></View>
+      <View style={styles.smsBubble}>
+        <Text style={styles.smsBubbleText}>{body}</Text>
+      </View>
+    </View>
+  );
+}
+
 const styles = StyleSheet.create({
   container: {
     padding: Spacing.lg,
@@ -84,7 +117,7 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.md,
     color: Colors.text,
   },
-emailWrapper:{
+  cardWrapper: {
     backgroundColor: Colors.card,
     padding: Spacing.md,
     borderRadius: 16,
@@ -124,17 +157,40 @@ emailWrapper:{
   },
   subject: {
     fontWeight: '700',
-    fontSize: 16,
+    fontSize: 14,
+    marginTop: 2,
+    marginBottom: 5,
+    color: Colors.text,
   },
-  bodyContainer: {
-    marginTop: 8,
-    paddingTop: 5,
-    borderTopColor: '#EEE',
+  number: {
+    fontSize: 11,
+    color: Colors.text,
+    opacity: 0.5,
+    marginTop: 2,
+  },
+  divider: {
+    height: 1,
+    backgroundColor: '#EEE',
+    marginBottom: 10,
   },
   body: {
-    marginTop: 10,
     fontSize: 14,
     lineHeight: 20,
+    color: Colors.text,
+  },
+  smsBubble: {
+    backgroundColor: '#E8E8E8',
+    borderRadius: 14,
+    borderBottomLeftRadius: 4,
+    paddingHorizontal: 14,
+    paddingVertical: 10,
+    alignSelf: 'flex-start',
+    maxWidth: '90%',
+  },
+  smsBubbleText: {
+    fontSize: 14,
+    lineHeight: 20,
+    color: Colors.text,
   },
   suspiciousWrapper: {
     backgroundColor: Colors.shadowSuspicious, 

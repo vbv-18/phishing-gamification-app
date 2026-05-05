@@ -3,12 +3,13 @@
   "difficulty": 1,
   "title": "Phishing",
   "content": {
-    "exercise_type": "phishing",
-    "mechanic": "phishing_simulation",
-    "instructions": "¿Es un correo legítimo?",
+    "exercise_type": "simulation",
+    "mechanic": "social_simulation",
+    "instructions": "¿Es legítimo?",
     "questions": [
         {
         "id": 1,
+        "type": "email",
         "email": {
           "from": "Soporte IT <it-security@empresa-española.co>",
           "subject": "AVISO: Actividad sospechosa en su cuenta - Acción requerida",
@@ -20,17 +21,43 @@
       },
       {
         "id": 2,
-        "email": {
-          "from": "Promociones Especiales <ganadores@adídas.es>",
-          "subject": "¡Confirmado!: Eres una de las 100 afortunadas este mes",
-          "body": "Ya hemos entregado más de 70 pares de zapatillas y solo quedan 10 por reclamar. Reclama las tuyas aquí: http://adídas.es/regalo-gratis"
+        "type": "sms",
+        "sms": {
+          "from": "Banco BBVA",
+          "number": "+34 123 456 789",
+          "body": "Hemos bloqueado una transferencia de 480€. Si no la reconoce, verifica aquí: http://bbva-seguro.net/-verificacion"
         },
         "correct_answer": false,
-        "feedback_correct": "¡Super! Has detectado la trama doble: 'Prueba Social' (miles de personas ya las tienen) + Homografía (en 'adídas' la letra í tiene tilde) + uso de HTTP",
-        "feedback_wrong": "¡Caíste! El correo te engañó usando la 'Prueba Social (miles de personas ya las tienen) y la Homografía (en 'adídas' la letra í tiene tilde)" 
+        "feedback_correct": "¡Muy bien! El SMS usa el Miedo + HTTP vs HTTPS + dominio falso (bbva-seguro.net vs bbva.es). Además, el banco nunca envía links de verificación por SMS",
+        "feedback_wrong": "¡Cuidado! Los bancos nunca envían enlaces de verificación por SMS. Además, el dominio bbva-seguro.net es falso (bbva.es) y usa HTTP vs HTTPS" 
       },
       {
         "id": 3,
+        "type": "email",
+        "email": {
+          "from": "Promociones Especiales <ganadores@adídas.es>",
+          "subject": "¡Confirmado!: Eres una de las 100 afortunadas este mes",
+          "body": "Ya hemos entregado más de 70 pares de zapatillas y solo quedan 10 por reclamar. Reclama las tuyas aquí: https://adídas.es/regalo-gratis"
+        },
+        "correct_answer": false,
+        "feedback_correct": "¡Super! Has detectado la trama doble: 'Prueba Social' (miles de personas ya las tienen) + Homografía (en 'adídas' la letra í tiene tilde)",
+        "feedback_wrong": "¡Caíste! El correo te engañó usando la 'Prueba Social (miles de personas ya las tienen) y la Homografía (en 'adídas' la letra í tiene tilde)" 
+      },
+      {
+        "id": 4,
+        "type": "sms",
+        "sms": {
+          "from": "Correos",
+          "number": "+34 123 456 789",
+          "body": "CORREOS S.A: Tu paquete esta en espera por direccion incompleta (falta numero). Actualiza tus datos aquí: https://clck.ru/3SVVhx"
+        },
+        "correct_answer": false,
+        "feedback_correct": "¡Muy bien! El SMS contiene varias faltas de ortografía (tildes). Aunque el enlace puede ser legítimo, el acortador de enlaces 'clck.ru' es muy usado para ocultar el destino final. ¡Verifica siempre antes!",
+        "feedback_wrong": "¡Oh no! Fíjate que faltan varias tildes. Aunque el enlace puede ser legítimo, el acortador de enlaces 'clck.ru' es muy usado para ocultar el destino final. ¡Verifica siempre antes!" 
+      },
+      {
+        "id": 5,
+        "type": "email",
         "email": {
           "from": "Spotify <no-reply@spotify.es>",
           "subject": "Actualización de nuestros Términos y Condiciones",
@@ -41,7 +68,20 @@
         "feedback_wrong": "¡Incorrecto! Es un correo seguro, ni rastro de señales " 
       },
       {
-        "id": 4,
+        "id": 6,
+        "type": "sms",
+        "sms": {
+          "from": "AEAT",
+          "number": "AEAT",
+          "body": "Se ha procesado su declaración. Tiene una devolución de 312€ por reclamar, hágalo en https://agenciatributaria.cyou"
+        },
+        "correct_answer": false,
+        "feedback_correct": "¡Perfecto! La Agencia Tributaria nunca notifica devoluciones por SMS ni incluye enlaces directos. Además utiliza la 'Reciprocidad' (te deben dinero) junto con un dominio falso, el real debe ser '.aeat.es' o '.gob.es'",
+        "feedback_wrong": "¡Casi! Fíjate que se utiliza la 'Reciprocidad' (te deben dinero) junto con un dominio falso (debe ser '.aeat.es' o '.gob.es'). Recuerda que la Agencia Tributaria nunca solicita por SMS información confidencial, ¡ante la duda accede directamente a la Sede Electrónica!" 
+      },
+      {
+        "id": 7,
+        "type": "email",
         "email": {
           "from": "Comunidad de Vecinos <vecinos-info@vecindario.com>",
           "subject": "FOTOS: Incidente de anoche en el portal (Pruebas)",
@@ -52,7 +92,20 @@
         "feedback_wrong": "¡No es correcto! Te ha podido la curiosidad, parece inofensivo pero están haciendo uso de la Curiosidad (cotilleo) y de la Doble Extensión en Archivos (png.exe, realmente es un ejecutable, no fotos)" 
       },
       {
-        "id": 5,
+        "id": 8,
+        "type": "sms",
+        "sms": {
+          "from": "SedeInforma",
+          "number": "DGT",
+          "body": "Tiene una multa de tráfico pendiente con fecha de caducidad próxima. Verifique su identidad y método de pago. Consulta aquí: https://gdt-multas.es/pagar"
+        },
+        "correct_answer": false,
+        "feedback_correct": "¡Super! Hay doble trampa: Urgencia (fecha de caducidad próxima) + Autoridad (DGT) + dominio falso (el portal oficial es https://sede.dgt.gob.es) ¡La DGT nunca notifica multas por SMS!",
+        "feedback_wrong": "¡Oh no! Se utiliza tanto la Urgencia (fecha de caducidad próxima) como la Autoridad (DGT), incluso un dominio falso (el portal oficial es https://sede.dgt.gob.es) ¡La DGT nunca notifica multas por SMS!" 
+      },
+      {
+        "id": 9,
+        "type": "email",
         "email": {
           "from": "Plataforma Escolar <avisos@educa-familiads.net>",
           "subject": "Autorización de excursión escolar",
