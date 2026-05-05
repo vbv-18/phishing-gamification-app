@@ -5,17 +5,18 @@ import { Colors } from "@/constants/Colors";
 import { Spacing } from "@/constants/Spacing";
 import { getLevelsbyModule } from "@/services/api";
 import AppHeader from "@/components/ui/AppHeader";
+import { LevelSummary } from "@/types/level";
 
 export default function ModuleHome(){
-    const {moduleName} = useLocalSearchParams();
+    const {moduleId} = useLocalSearchParams();
     const router = useRouter();
-    const [levels, setLevels] = useState<any[]>([]);
+    const [levels, setLevels] = useState<LevelSummary[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
    const loadLevels = async () => {
     try{
-      const data = await getLevelsbyModule(moduleName as string);
+      const data = await getLevelsbyModule(Number(moduleId));
         setLevels(data);
     }
     catch(err: any){
@@ -29,7 +30,7 @@ export default function ModuleHome(){
   useFocusEffect(
     useCallback(() => {
       loadLevels();
-    }, [moduleName])
+    }, [moduleId])
   );
 
   if(loading){ //loader while it is loading
@@ -47,7 +48,7 @@ export default function ModuleHome(){
           <Text style={styles.title}>Niveles</Text>
 
           {levels.map((level) => (
-              <Pressable key={level.id} style={[styles.levelCard, !level.unlocked && styles.levelLocked,]} disabled={!level.unlocked} onPress={() => router.push({pathname: './levelPlay', params: {levelId: level.id, moduleName},})}>
+              <Pressable key={level.id} style={[styles.levelCard, !level.unlocked && styles.levelLocked,]} disabled={!level.unlocked} onPress={() => router.push({pathname: './levelPlay', params: {levelId: level.id, moduleId},})}>
                   <Text style={styles.levelTitle}>Nivel {level.difficulty}: {level.title}</Text>
                   <Text style={styles.status}>{level.completed ? "Completado" : level.unlocked ? "Disponible" : "Bloqueado"}</Text>
               </Pressable>

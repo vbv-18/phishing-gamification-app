@@ -1,8 +1,9 @@
-import { View, Text, StyleSheet, Pressable, Dimensions, Image, Modal } from "react-native";
+import { View, Text, StyleSheet, Pressable, Image, Modal } from "react-native";
 import { Colors } from "@/constants/Colors";
 import { Spacing } from "@/constants/Spacing";
 import ContinueButton from "../ui/ContinueButton";
 import { ExerciseRenderProps } from "types/renderer";
+import { MultipleChoiceQuestion } from "@/types/exercise";
 
 const formatText = (text: string) => { //to format the email in the situation text
   const parts = text.split(/('.*?')/g);
@@ -18,6 +19,8 @@ const formatText = (text: string) => { //to format the email in the situation te
 };
 
 export default function MultipleChoice({levelState, instructions, question}: ExerciseRenderProps){
+    const q = question as MultipleChoiceQuestion;
+  
     const handleAnswer = (optionId: string) =>{
         if(levelState.showFeedback){
         return;
@@ -35,11 +38,11 @@ export default function MultipleChoice({levelState, instructions, question}: Exe
                   <Image source={require('../../assets/images/hacker.png')} style={styles.avatarImage} resizeMode='contain'></Image>
                   <View style={styles.situationContainer}>
                     <View style={styles.situationArrow}></View>
-                    <Text style={styles.situationText}>{question.text}</Text>
+                    <Text style={styles.situationText}>{q.text}</Text>
                   </View>
                 </View>                    
     
-                {question.options.map((option) => (
+                {q.options.map((option) => (
                     <Pressable key={option.id} onPress={() => handleAnswer(option.id)} disabled={levelState.showFeedback} style={({ pressed }) => [styles.optionWrapper, pressed &&
                         !levelState.showFeedback && styles.optionWrappedPressed, levelState.showFeedback && styles.disabledWrapper,]}
                         

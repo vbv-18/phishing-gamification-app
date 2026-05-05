@@ -1,11 +1,19 @@
 from pydantic import BaseModel
 from typing import Any
 
+class ModuleBase(BaseModel):
+    title: str
+    theory: list[dict]
+
+class ModuleResponse(ModuleBase):
+    id: int
+
+    model_config = {'from_attributes': True}
+
 class LevelBase(BaseModel):
-    module: str
+    module_id: int
     difficulty: int
     title: str
-    theory: Any
     content: Any
 
 class LevelResponse(LevelBase):

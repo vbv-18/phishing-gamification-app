@@ -32,11 +32,11 @@ export async function deleteAccount(password: string){
 //levels endpoints
 export async function getModules(){
   const res = await apiClient.get(`/levels/modules`);
-  return res.data; // {id, name}
+  return res.data; 
 }
 
-export async function getNextLevel(moduleName: string){
-  const res = await apiClient.get(`/levels/module/${moduleName}/next`);
+export async function getNextLevel(moduleId: number){
+  const res = await apiClient.get(`/levels/module/${moduleId}/next`);
   return res.data;
 }
 
@@ -45,8 +45,8 @@ export async function getLevel(id: number){
   return res.data;
 }
 
-export async function getLevelsbyModule(moduleName: string){
-  const res = await apiClient.get(`/levels/module/${moduleName}`);
+export async function getLevelsbyModule(moduleId: number){
+  const res = await apiClient.get(`/levels/module/${moduleId}`);
   return res.data;
 }
 

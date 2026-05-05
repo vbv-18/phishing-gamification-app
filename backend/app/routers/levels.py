@@ -14,12 +14,7 @@ def read_modules(db: Session = Depends(get_db), user = Depends(get_current_user)
     if not modules:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No modules found")
     
-    result = []
-    for i, module in enumerate(modules):
-        item= {"id": i, "name": module[0]}
-        result.append(item)
-    
-    return result
+    return modules
 
 @router.get("/{level_id}", response_model=LevelResponse)
 def read_level(level_id: int, db: Session = Depends(get_db), user = Depends(get_current_user)):
@@ -29,17 +24,17 @@ def read_level(level_id: int, db: Session = Depends(get_db), user = Depends(get_
     
     return level
 
-@router.get("/module/{module_name}/next", response_model=LevelResponse) #if continue button?
-def read_next_level(module_name: str, db: Session = Depends(get_db), user = Depends(get_current_user)):
-    next_level = get_next_level(db, user.id, module_name)
+@router.get("/module/{module_id}/next", response_model=LevelResponse) #if continue button?
+def read_next_level(module_id: int, db: Session = Depends(get_db), user = Depends(get_current_user)):
+    next_level = get_next_level(db, user.id, module_id)
     if not next_level:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No levels available")
     
     return get_level_secure(db, next_level.id)
 
-@router.get("/module/{module_name}", response_model=list[LevelList])
-def read_levels_by_module(module_name: str, db: Session = Depends(get_db), user = Depends(get_current_user)):
-    levels = get_levels_by_module(db, module_name, user.id)
+@router.get("/module/{module_id}", response_model=list[LevelList])
+def read_levels_by_module(module_id: int, db: Session = Depends(get_db), user = Depends(get_current_user)):
+    levels = get_levels_by_module(db, module_id, user.id)
 
     if not levels:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Module not found")

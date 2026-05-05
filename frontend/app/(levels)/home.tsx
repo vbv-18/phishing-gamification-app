@@ -5,10 +5,11 @@ import { useRouter } from 'expo-router';
 import AppHeader from "@/components/ui/AppHeader";
 import { useEffect, useState } from "react";
 import { getModules } from "@/services/api";
+import { Module } from "@/types/module";
 
 export default function Home(){
     const router = useRouter();
-    const [modules, setModules] = useState<{id: number, name: string}[]>([]);
+    const [modules, setModules] = useState<Module[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
@@ -40,19 +41,18 @@ export default function Home(){
         <View style={{flex:1}}>
           <AppHeader></AppHeader>
           <ScrollView style={styles.container}>
-              <Text style={styles.title}>Bienvenida/o</Text>
-              <Text style={styles.subtitle}>Selecciona un módulo</Text>
+              <Text style={styles.title}>Selecciona un módulo</Text>
 
               {modules.map((m) => (
                   <View key={m.id} style={styles.moduleCard}>
                       <View style={styles.cardTop}>
-                          <Text style={styles.levelText}>{m.name.charAt(0).toUpperCase() + m.name.slice(1)}</Text>
+                          <Text style={styles.levelText}>{m.title.charAt(0).toUpperCase() + m.title.slice(1)}</Text>
                       </View>
 
                       <Pressable style={({pressed}) => [
                           styles.startButton, pressed && styles.startPressed,]}
 
-                          onPress={() => router.push({pathname: "./moduleHome", params: {moduleName: m.name},})}>
+                          onPress={() => router.push({pathname: "./moduleHome", params: {moduleId: m.id, moduleName: m.title},})}>
                           <Text style={styles.startText}>START</Text>
                       </Pressable>
 
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.background,
   },
   title: {
-    fontSize: 28,
+    fontSize: 25,
     fontWeight: '800',
     marginBottom: Spacing.lg,
     color: Colors.text,
@@ -89,18 +89,15 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   moduleCard: {
-  backgroundColor: Colors.primary,
-  borderRadius: 20,
-  padding: 20,
-  marginBottom: Spacing.lg,
-
-  // efecto 3D
-  shadowColor: Colors.shadow,
-  shadowOffset: { width: 0, height: 6 },
-  shadowOpacity: 1,
-  shadowRadius: 0,
-
-  elevation: 8, // Android
+    backgroundColor: Colors.primary,
+    borderRadius: 20,
+    padding: 20,
+    marginBottom: Spacing.lg,
+    shadowColor: Colors.shadow,
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 1,
+    shadowRadius: 0,
+    elevation: 8,
 },
 
 modulePressed: {

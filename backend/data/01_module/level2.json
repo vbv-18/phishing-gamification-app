@@ -1,8 +1,7 @@
 {
-  "module": "Psicología del Engaño",
+  "module": 1,
   "difficulty": 2,
   "title": "El Gancho Emocional",
-  "theory": [],
   "content": {
     "exercise_type": "emotion_identification",
     "mechanic": "multiple_choice",

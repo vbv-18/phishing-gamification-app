@@ -8,7 +8,7 @@ import LevelUp from "../../components/ui/LevelUp";
 import ContinueButton from "../../components/ui/ContinueButton";
 
 export default function LevelCompleted(){
-    const {levelId, answersJSON, totalQuestions, moduleName} = useLocalSearchParams();
+    const {levelId, answersJSON, totalQuestions, moduleId} = useLocalSearchParams();
     const [xpGained, setXpGained] = useState<number | null>(null);
     const [correctAnswers, setCorrectAnswers] = useState<number | null>(null);
     const [levelUserUp, setLevelUserUp] = useState<{show: boolean, val: number}>({show: false, val: 0});
@@ -63,7 +63,7 @@ export default function LevelCompleted(){
                 setRoleUp(prev => ({...prev, show: true}));
         }
         else if(levelUserUp.val === 0 && roleUp.val === ''){ //all already processed
-             router.replace({pathname: './moduleHome', params: {moduleName}});
+             router.replace({pathname: './moduleHome', params: {moduleId}});
         }
 
     }, [isContinuePressed, levelUserUp.show, roleUp.show, levelUserUp.val, roleUp.val]);
