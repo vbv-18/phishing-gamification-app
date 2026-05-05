@@ -1,8 +1,7 @@
 {
-  "module": "2. Las Huellas",
+  "module": 2,
   "difficulty": 1,
   "title": "Anatomía del Engaño",
-  "theory": [],
   "content": {
     "exercise_type": "domain_analysis",
     "mechanic": "highlight",

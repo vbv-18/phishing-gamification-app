@@ -1,6 +1,7 @@
 from app.database.connection import SessionLocal
-from app.crud.level import create_level
+from app.crud.level import create_level, create_module
 from app.models.level import Level
+from app.models.module import Module
 import json
 import os
 
@@ -10,12 +11,12 @@ import os
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_PATH = os.path.join(BASE_DIR, "data")
 
-def get_levels_from_json():  #iterates through the data/*_module folders and extracts the levels
-    levels = []
+def get_data_from_json():  #iterates through the data/*_module folders and extracts the levels
+    data = []
 
     if not os.path.exists(DATA_PATH):
         print(f"ERROR: Folder not found in {DATA_PATH}")
-        return levels
+        return data
     
     module_folders = sorted(os.listdir(DATA_PATH))
     
@@ -25,45 +26,66 @@ def get_levels_from_json():  #iterates through the data/*_module folders and ext
         if not os.path.isdir(module_path):
             continue
 
-        for file in os.listdir(module_path):
-              if not file.endswith(".json"):
-                  continue
-                  
-              file_path = os.path.join(module_path, file)
+        theory_file = os.path.join(module_path, 'theory.json')
+        if not os.path.exists(theory_file):
+            continue
 
+        module = None
+        try:
+            with open(theory_file, 'r', encoding='utf-8') as f:
+                module = json.load(f)
+
+        except Exception as e:
+            print(f"ERROR reading theory file in {module_folder}: {e}")
+
+        module_levels = []
+        for file in os.listdir(module_path):
+              if not file.endswith(".json") or file == 'theory.json':
+                  continue
+        
               try:
+                  file_path = os.path.join(module_path, file)
                   with open(file_path, "r", encoding="utf-8") as f:
-                      data = json.load(f)
-                      data['folder_name'] = module_folder
-                      levels.append(data)
+                      level_content = json.load(f)
+                      module_levels.append(level_content)
+
               except Exception as e:
                   print(f"ERROR reading {file}: {e}")
-    return levels
-    
+                
+        module_levels.sort(key=lambda x: x.get("difficulty", 0))
+        data.append({'module': module, 'levels': module_levels})
+
+    return data
 
 def seed():
     db = SessionLocal()
-    levels_to_insert = get_levels_from_json()
-    levels_to_insert.sort(key=lambda x: (x.get("folder_name", ""), x.get("difficulty", 0))) #mantain the difficulty order
+    data_to_insert = get_data_from_json()
 
-    for level_data in levels_to_insert:
+    for item in data_to_insert:
         try: 
-          level_data.pop('folder_name', None)
-          module = level_data["module"]
-          difficulty = level_data["difficulty"]
+            module = item["module"]
+            m_id = module['module_id']
 
-          exists = (db.query(Level).filter(Level.module == module, Level.difficulty == difficulty).first())
-          if exists:
-              print(f"Level {difficulty} in module {module} already exists")
-              continue
+            m_exists = (db.query(Module).filter(Module.id == m_id).first())
+            if not m_exists:
+                create_module(db, module)
+                print(f"Module {m_id} inserted")
+            else:
+                print(f"Module {m_id} already exists")
 
-          create_level(db, level_data)
-          print(f"Level {difficulty} in module {module} inserted")
+            for level in item['levels']:
+                difficulty = level['difficulty']
 
-        except KeyError as k:
-          print(f"ERROR: a key is missing: {k}")
+                l_exists = (db.query(Level).filter(Level.module_id == m_id, Level.difficulty == difficulty).first())
+                if not l_exists:
+                    level['module_id'] = m_id
+                    create_level(db, level)
+                    print(f"Level {difficulty} inserted in module {m_id}")
+                else:
+                    print(f"Level {difficulty} already exists")
 
         except Exception as e:
+            db.rollback()
             print(f"ERROR: {e}")
 
     db.close()

@@ -1,8 +1,7 @@
 {
-  "module": "1. Psicología del Engaño",
+  "module_id": 1,
   "difficulty": 1,
   "title": "Las 6 Palancas de Cialdini",
-  "theory": [],
   "content": {
       "exercise_type": "hooks_identification",
       "mechanic": "multiple_choice",

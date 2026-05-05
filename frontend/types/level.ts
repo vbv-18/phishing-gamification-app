@@ -6,8 +6,18 @@ export interface LevelContent{
     questions: Question[];
 }
 
+export interface LevelSummary{
+    id: number;
+    title: string;
+    difficulty: number;
+    completed: boolean;
+    unlocked: boolean;
+}
+
 export interface Level{
     id: number;
-    module: string;
+    title: string;
+    module_id: number;
+    difficulty: number;
     content: LevelContent;
 }

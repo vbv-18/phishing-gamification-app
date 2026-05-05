@@ -1,5 +1,6 @@
 from sqlalchemy.orm import Session
 from app.models.level import Level
+from app.models.module import Module
 from app.models.levelProgress import LevelProgress
 from app.crud.xp import add_xp, get_user_xp
 from app.utils.levels import get_user_level
@@ -7,8 +8,16 @@ from app.utils.roles import get_role_from_level
 import copy
 from typing import Any
 
+def create_module(db: Session, module_data: dict):
+    module = Module(id=module_data['module_id'], title=module_data['title'], theory=module_data['theory'])
+    db.add(module)
+    db.commit()
+    db.refresh(module)
+
+    return module
+
 def create_level(db: Session, level_data: dict):
-    level = Level(**level_data)
+    level = Level(module_id=int(level_data['module_id']), difficulty=int(level_data['difficulty']), title=str(level_data['title']), content=level_data['content'])
     db.add(level)
     db.commit()
     db.refresh(level)
@@ -16,7 +25,7 @@ def create_level(db: Session, level_data: dict):
     return level
 
 def get_modules(db: Session):
-    return db.query(Level.module).distinct().order_by(Level.module.asc()).all() #if there are 10 modules, 10 will be before 1
+    return db.query(Module).order_by(Module.id.asc()).all() #if there are 10 modules, 10 will be before 1
 
 def get_level(db: Session, level_id: int): #expose the answers
     return db.query(Level).filter(Level.id == level_id).first()
@@ -36,15 +45,38 @@ def get_level_secure(db: Session, level_id: int):
 
     return {
         "id": level.id,
-        "module": level.module,
+        "module_id": level.module_id,
         "difficulty": level.difficulty,
         "title": level.title,
-        "theory": level.theory,
         "content": secure_content
     }
 
-def get_next_level(db: Session, user_id: int, module_name: str): #return the first level not completed yet
-    levels = db.query(Level).filter(Level.module == module_name).order_by(Level.difficulty.asc()).all()
+def get_levels_by_module(db: Session, module_id: int, user_id: int):
+    levels = db.query(Level).filter(Level.module_id == module_id).order_by(Level.difficulty.asc()).all() #get all the levels from a module
+
+    if not levels:
+        return []
+    
+    level_ids = []
+    for level in levels:
+        level_ids.append(level.id)
+
+    completed_ids = get_completed_levels(db, user_id, level_ids)
+
+    result = []
+    unlocked = True #first level always unlocked
+
+    for level in levels:
+        completed = level.id in completed_ids
+        result.append({"id": level.id, "title": level.title, "difficulty": level.difficulty, "completed": completed, "unlocked": unlocked})
+
+        if not completed: #next level locked
+            unlocked = False
+
+    return result
+
+def get_next_level(db: Session, user_id: int, module_id: int): #return the first level not completed yet
+    levels = db.query(Level).filter(Level.module_id == module_id).order_by(Level.difficulty.asc()).all()
     if not levels:
         return None
     
@@ -175,26 +207,4 @@ def get_completed_levels(db: Session, user_id: int, level_ids: list[int]) -> set
 
     return completed_ids
 
-def get_levels_by_module(db: Session, module_name: str, user_id: int):
-    levels = db.query(Level).filter(Level.module == module_name).order_by(Level.difficulty.asc()).all() #get all the levels from a module
 
-    if not levels:
-        return []
-    
-    level_ids = []
-    for level in levels:
-        level_ids.append(level.id)
-
-    completed_ids = get_completed_levels(db, user_id, level_ids)
-
-    result = []
-    unlocked = True #first level always unlocked
-
-    for level in levels:
-        completed = level.id in completed_ids
-        result.append({"id": level.id, "title": level.title, "difficulty": level.difficulty, "completed": completed, "unlocked": unlocked})
-
-        if not completed: #next level locked
-            unlocked = False
-
-    return result

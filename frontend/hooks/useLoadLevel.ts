@@ -2,7 +2,7 @@ import { getLevel } from "@/services/api";
 import { Level } from "@/types/level";
 import { useEffect, useState } from "react";
 
-export function useLoadLevel(levelId: string | string[]){ //useLocalSearchParams return strings
+export function useLoadLevel(levelId: number | string){ //useLocalSearchParams return strings
     const [level, setLevel] = useState<Level | null>(null); //replace any for defining types
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
@@ -23,7 +23,9 @@ export function useLoadLevel(levelId: string | string[]){ //useLocalSearchParams
           setLoading(false);
         }
       }
-      loadLevel();
+      if(levelId){
+        loadLevel();
+      }
     }, [levelId]);
 
     return {level, loading, error};

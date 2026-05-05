@@ -1,8 +1,7 @@
 {
-  "module": "3. Laboratorio de Verificación",
+  "module": 3,
   "difficulty": 1,
   "title": "Phishing",
-  "theory": [],
   "content": {
     "exercise_type": "phishing",
     "mechanic": "phishing_simulation",
@@ -24,10 +23,10 @@
         "email": {
           "from": "Promociones Especiales <ganadores@adídas.es>",
           "subject": "¡Confirmado!: Eres una de las 100 afortunadas este mes",
-          "body": "Ya hemos entregado más de 70 pares de zapatillas y solo quedan 10 por reclamar. Reclama las tuyas aquí: http:://adídas.es/regalo-gratis"
+          "body": "Ya hemos entregado más de 70 pares de zapatillas y solo quedan 10 por reclamar. Reclama las tuyas aquí: http://adídas.es/regalo-gratis"
         },
         "correct_answer": false,
-        "feedback_correct": "¡Super! Has detectado la trama doble: 'Prueba Social' (miles de personas ya las tienen) + Homografía (en 'adídas' la letra í tiene tilde)",
+        "feedback_correct": "¡Super! Has detectado la trama doble: 'Prueba Social' (miles de personas ya las tienen) + Homografía (en 'adídas' la letra í tiene tilde) + uso de HTTP",
         "feedback_wrong": "¡Caíste! El correo te engañó usando la 'Prueba Social (miles de personas ya las tienen) y la Homografía (en 'adídas' la letra í tiene tilde)" 
       },
       {

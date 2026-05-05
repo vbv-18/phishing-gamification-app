@@ -5,10 +5,11 @@ import { useRouter } from 'expo-router';
 import AppHeader from "@/components/ui/AppHeader";
 import { useEffect, useState } from "react";
 import { getModules } from "@/services/api";
+import { Module } from "@/types/module";
 
 export default function Home(){
     const router = useRouter();
-    const [modules, setModules] = useState<{id: number, name: string}[]>([]);
+    const [modules, setModules] = useState<Module[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
@@ -45,13 +46,13 @@ export default function Home(){
               {modules.map((m) => (
                   <View key={m.id} style={styles.moduleCard}>
                       <View style={styles.cardTop}>
-                          <Text style={styles.levelText}>{m.name.charAt(0).toUpperCase() + m.name.slice(1)}</Text>
+                          <Text style={styles.levelText}>{m.title.charAt(0).toUpperCase() + m.title.slice(1)}</Text>
                       </View>
 
                       <Pressable style={({pressed}) => [
                           styles.startButton, pressed && styles.startPressed,]}
 
-                          onPress={() => router.push({pathname: "./moduleHome", params: {moduleName: m.name},})}>
+                          onPress={() => router.push({pathname: "./moduleHome", params: {moduleId: m.id, moduleName: m.title},})}>
                           <Text style={styles.startText}>START</Text>
                       </Pressable>
 

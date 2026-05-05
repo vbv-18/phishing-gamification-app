@@ -1,8 +1,7 @@
 {
-  "module": "2. Las Huellas",
+  "module": 2,
   "difficulty": 2,
   "title": "Inspector de Archivos",
-  "theory": [],
   "content": {
     "exercise_type": "file_analysis",
     "mechanic": "file_choice",

@@ -10,16 +10,16 @@ import LevelHeader from "../../components/ui/LevelHeader";
 import { TYPES } from "@/renderers/mechanicsMap";
 
 export default function LevelPlay(){
-    const {levelId} = useLocalSearchParams();
+    const {levelId, moduleId} = useLocalSearchParams();
     const router = useRouter();
     const {isAuthenticated} = useAuth();
-    const {level, loading, error} = useLoadLevel(levelId);
+    const {level, loading, error} = useLoadLevel(levelId as string);
     const levelState = useLevelState(level);
 
     useEffect(() => {
       if(levelState.finished && level){
         const questions = level.content.questions;
-        router.replace({pathname: './levelCompleted', params: {levelId, answersJSON: JSON.stringify(levelState.collectedAnswers), totalQuestions: questions.length, moduleName: level.module},});
+        router.replace({pathname: './levelCompleted', params: {levelId, answersJSON: JSON.stringify(levelState.collectedAnswers), totalQuestions: questions.length, moduleId},});
       }
     }, [levelState.finished]);
 

@@ -1,8 +1,7 @@
 {
-  "module": "1. Psicología del Engaño",
+  "module": 1,
   "difficulty": 3,
   "title": "El Pretexto",
-  "theory": [],
   "content": {
     "exercise_type": "pretext_identification",
     "mechanic": "multiple_choice",
