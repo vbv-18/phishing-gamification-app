@@ -13,11 +13,6 @@ export default function DomainAnalysis({levelState, instructions, question}: Exe
     const [zoomVisible, setZoomVisible] = useState(false);
     const q = question as DomainAnalysisQuestion
 
-    useEffect(() => {
-      setSelectedSegments([]);
-      setZoomVisible(false);
-    }, [question]);
-
     const handleSegment = (type: string) => {
         if(levelState.showFeedback){
             return;

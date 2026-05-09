@@ -125,6 +125,9 @@ def validate_question(level: Level, question_id: int, user_answer: Any): #valida
             corr_ans_sorted = []
 
         is_correct = (corr_ans_sorted == user_ans_sorted)
+
+    elif exercise_type == "steps_sorted":
+        is_correct = (user_answer == correct_answer)
         
     if is_correct:
         feedback = question.get("feedback_correct")
