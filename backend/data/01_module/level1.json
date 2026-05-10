@@ -17,8 +17,8 @@
                 {"id": "c", "text": "Simpatía"}
             ],
           "correct_answer": "b",
-          "feedback_correct": "¡Exacto! El límite de tiempo presiona al cerebro para forzar una acción sin pensar.",
-          "feedback_wrong": "¡No es correcto! Aunque parezca un mensaje oficial, el límite de tiempo es la presión principal."
+          "feedback_correct": "El límite de tiempo presiona al cerebro para forzar una acción sin pensar",
+          "feedback_wrong": "Aunque parezca un mensaje oficial, el límite de tiempo es la presión principal"
         },
         {
           "id": 2,
@@ -30,8 +30,8 @@
                 {"id": "c", "text": "Prueba Social"}
             ],
           "correct_answer": "a",
-          "feedback_correct": "¡Excelente! El atacante utiliza el nombre de un superior o normativas legales para que no cuestiones.",
-          "feedback_wrong": "¡Oh no! Fíjate que se menciona al Soporte Técnico y normativas externas, están usando a la autoridad para que obedezcas."
+          "feedback_correct": "El atacante utiliza el nombre de un superior o normativas legales para que no cuestiones",
+          "feedback_wrong": "Fíjate que se menciona al Soporte Técnico y normativas externas, están usando a la autoridad para que obedezcas"
         },
         {
           "id": 3,
@@ -43,8 +43,8 @@
                 {"id": "c", "text": "Reciprocidad"}
             ],
           "correct_answer": "c",
-          "feedback_correct": "¡Perfecto! Te ofrecen algo primero (cupón) para que sientas la obligación de contestar corresponder.",
-          "feedback_wrong": "¡Incorrecto! La clave es ese regalo previo (cupón): cuesta decir que no a alguien que ya te ha dado algo."
+          "feedback_correct": "Te ofrecen algo primero (cupón) para que sientas la obligación de contestar corresponder",
+          "feedback_wrong": "La clave es ese regalo previo (cupón): cuesta decir que no a alguien que ya te ha dado algo"
         },
         {
           "id": 4,
@@ -56,8 +56,8 @@
                 {"id": "c", "text": "Prueba Social"}
             ],
           "correct_answer": "c",
-          "feedback_correct": "¡Muy bien! Que te digan que todo el mundo lo hace, no implica que sea seguro o necesario.",
-          "feedback_wrong": "¡Casi! Cuando te dicen que la mayoría de tus compañeros ya lo han hecho, intentan influir en tu decisión."
+          "feedback_correct": "Que te digan que todo el mundo lo hace, no implica que sea seguro o necesario",
+          "feedback_wrong": "Cuando te dicen que la mayoría de tus compañeros ya lo han hecho, intentan influir en tu decisión"
         },
         {
           "id": 5,
@@ -69,8 +69,8 @@
                 {"id": "c", "text": "Simpatía"}
             ],
           "correct_answer": "b",
-          "feedback_correct": "¡Super! Reflejan que ya eres una persona comprometida por lo que no puedes no hacer lo que te piden.",
-          "feedback_wrong": "¡Incorrecto! Te recuerdan una acción pasada para que seas coherente con tus valores y hagas lo que te piden."
+          "feedback_correct": "Reflejan que ya eres una persona comprometida por lo que no puedes no hacer lo que te piden",
+          "feedback_wrong": "Te recuerdan una acción pasada para que seas coherente con tus valores y hagas lo que te piden"
         },
         {
           "id": 6,
@@ -82,8 +82,8 @@
                 {"id": "c", "text": "Reciprocidad"}
             ],
           "correct_answer": "a",
-          "feedback_correct": "¡Excelente! El atacante intenta establecer un vículo contigo y un tono amigable para que te cueste más decir que no.",
-          "feedback_wrong": "¡Oh no! Están usando tus gustos y la amabilidad para bajar tus defensas."
+          "feedback_correct": "El atacante intenta establecer un vículo contigo y un tono amigable para que te cueste más decir que no",
+          "feedback_wrong": "Están usando tus gustos y la amabilidad para bajar tus defensas"
         },
         {
           "id": 7,
@@ -95,8 +95,8 @@
                 {"id": "c", "text": "Compromiso y Coherencia"}
             ],
           "correct_answer": "a",
-          "feedback_correct": "¡Perfecto! El atacante intenta generar confianza mediante un vínculo familiar y que actúes sin pensar.",
-          "feedback_wrong": "¡No es correcto! Se hacen pasar por un familiar para aprovechar la cercanía del vínculo familiar."
+          "feedback_correct": "El atacante intenta generar confianza mediante un vínculo familiar y que actúes sin pensar",
+          "feedback_wrong": "Se hacen pasar por un familiar para aprovechar la cercanía del vínculo familiar"
         }
       ]
   }

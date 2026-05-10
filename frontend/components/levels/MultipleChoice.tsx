@@ -5,19 +5,6 @@ import ContinueButton from "../ui/ContinueButton";
 import { ExerciseRenderProps } from "types/renderer";
 import { MultipleChoiceQuestion } from "@/types/exercise";
 
-const formatText = (text: string) => { //to format the email in the situation text
-  const parts = text.split(/('.*?')/g);
-
-  return parts.map((part, index) => {
-    if(part.startsWith("'") && part.endsWith("'")){
-      return (
-        <Text key={index} style={styles.emailHighlight}>{part}</Text>
-      );
-    }
-    return <Text key={index}>{part}</Text>;
-  });
-};
-
 export default function MultipleChoice({levelState, instructions, question}: ExerciseRenderProps){
     const q = question as MultipleChoiceQuestion;
   

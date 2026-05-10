@@ -1,8 +1,8 @@
 import { apiClient } from "./client";
 
 export interface UserAnswer{ //define types of answers admitted
-  question_id: number,
-  answer: boolean | string | string[]
+  question_id: number;
+  answer: boolean | string | string[] | Record<string, string>;
 }
 
 //auth endpoints

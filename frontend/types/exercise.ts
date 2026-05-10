@@ -33,4 +33,14 @@ export interface SimulationQuestion extends BaseQuestion{
     sms?: {from: string; number: string; body: string;};
 }
 
-export type Question = MultipleChoiceQuestion | DomainAnalysisQuestion | FileChoiceQuestion | SimulationQuestion;
+export interface StepsQuestion extends BaseQuestion{
+    steps: Option[];
+    display_order: string[];
+}
+
+export interface MatchQuestion extends BaseQuestion {
+    left: Option[];
+    right: Option[],
+}
+
+export type Question = MultipleChoiceQuestion | DomainAnalysisQuestion | FileChoiceQuestion | SimulationQuestion | StepsQuestion | MatchQuestion;

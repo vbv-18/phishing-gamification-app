@@ -1,0 +1,53 @@
+{
+  "module": 4,
+  "difficulty": 1,
+  "title": "¿Y Ahora Qué?",
+  "content": {
+    "exercise_type": "steps_sorted",
+    "mechanic": "sort",
+    "instructions": "Ordena los pasos",
+    "questions": [
+      {
+        "id": 1,
+        "context": "Acabas de hacer clic en un enlace de un SMS sospechoso que pedía verificar tu cuenta bancaria",
+        "steps": [
+          {"id": "a", "text": "Cambiar la contraseña del banco"},
+          {"id": "b", "text": "Contactar con el banco para alertar del posible fraude"},
+          {"id": "c", "text": "Denunciar a las autoridades"}
+        ],
+        "display_order": ["b", "a", "c"],
+        "correct_answer": ["a", "b", "c"],
+        "feedback_correct": "Asegurar credenciales, alertar al banco y reportar",
+        "feedback_wrong": "Primero hay que asegurar la cuenta y por último reportar" 
+      },
+      {
+        "id": 2,
+        "context": "Has recibido una llamada de alguien que decía ser de soporte técnico de Microsoft y has instalado un programa de acceso remoto",
+        "steps": [
+          {"id": "a", "text": "Desinstalar el programa"},
+          {"id": "b", "text": "Cambiar todas las contraseñas"},
+          {"id": "c", "text": "Escanear el dispositivo con un antivirus"},
+          {"id": "d", "text": "Presentar una denuncia"}
+        ],
+        "display_order": ["c", "a", "d", "b"],
+        "correct_answer": ["a", "b", "c", "d"],
+        "feedback_correct": "Primero limpias el equipo, aseguras cuentas, escanear el dispositivo y reportas",
+        "feedback_wrong": "Primero desinstalas el programa, cambias contraseñas, escaneas en busca de persistencia (CRUCIAL) y denuncias" 
+      },
+      {
+        "id": 3,
+        "context": "Recibes un aviso de inicio de sesión desde el extranjero",
+        "steps": [
+          {"id": "a", "text": "Cerrar todas las sesiones activas"},
+          {"id": "b", "text": "Cambiar la contraseña de la cuenta"},
+          {"id": "c", "text": "Cambiar la contraseña en otros servicios donde se usara"},
+          {"id": "d", "text": "Activar autenticación multifactor (MFA)"}
+        ],
+        "display_order": ["d", "a", "b", "c"],
+        "correct_answer": ["a", "b", "c", "d"],
+        "feedback_correct": "Primero cierras todas las sesiones activas, cambias la contraseña comprometida en la cuenta y en otros servicios y después refuerzas la protección",
+        "feedback_wrong": "Tienes que echar al atacante primero cerrando sesiones y cambiando las contraseñas, después refuerzas la seguridad" 
+      }
+    ]
+  }
+}

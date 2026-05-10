@@ -17,8 +17,8 @@
               {"id": "c", "text": "Empatía"}
           ],
         "correct_answer": "b",
-        "feedback_correct": "¡Exacto! Mediante la pérdida de dinero te están intentando asustar.",
-        "feedback_wrong": "¡No es correcto! Fíjate que con la posibildidad de perder dinero te están intentando asustar."
+        "feedback_correct": "Mediante la pérdida de dinero te están intentando asustar",
+        "feedback_wrong": "Fíjate que con la posibildidad de perder dinero te están intentando asustar"
       },
       {
         "id": 2,
@@ -30,8 +30,8 @@
               {"id": "c", "text": "Curiosidad"}
           ],
         "correct_answer": "a",
-        "feedback_correct": "¡Super bien! La promesa de una recompensa activa la dopamina y codicia, ignorando la veracidad de la oferta.",
-        "feedback_wrong": "¡Oh no! Te están tentando con un regalo para que hagas clic sin pensar."
+        "feedback_correct": "La promesa de una recompensa activa la dopamina y codicia, ignorando la veracidad de la oferta",
+        "feedback_wrong": "¡Oh no! Te están tentando con un regalo para que hagas clic sin pensar"
       },
       {
         "id": 3,
@@ -43,8 +43,8 @@
               {"id": "c", "text": "Curiosidad"}
           ],
         "correct_answer": "c",
-        "feedback_correct": "¡Excelente! La curiosidad es un gancho muy bueno para caer en la estafa.",
-        "feedback_wrong": "¡Oh no! Te están ofrenciendo información 'prohibida o exclusiva' para picar tu curiosidad. "
+        "feedback_correct": "La curiosidad es un gancho muy bueno para caer en la estafa",
+        "feedback_wrong": "¡Oh no! Te están ofrenciendo información 'prohibida o exclusiva' para picar tu curiosidad"
       },
       {
         "id": 4,
@@ -56,8 +56,8 @@
               {"id": "c", "text": "Curiosidad"}
           ],
         "correct_answer": "a",
-        "feedback_correct": "¡Excelente! Se están intentado aprovechar de tu buena voluntad y compasión.",
-        "feedback_wrong": "¡Casi! Fíjate que están jugando con la ayuda al prójimo."
+        "feedback_correct": "Se están intentado aprovechar de tu buena voluntad y compasión",
+        "feedback_wrong": "Fíjate que están jugando con la ayuda al prójimo"
       },
       {
         "id": 5,
@@ -69,8 +69,8 @@
               {"id": "c", "text": "Empatía"}
           ],
         "correct_answer": "b",
-        "feedback_correct": "¡Muy bien! Intentan hacerte sentir culpable para que actúes de forma urgente.",
-        "feedback_wrong": "¡Incorrecto! Observa que te estan haciendo sentir responsable para que actúes guiada/o por la culpa."
+        "feedback_correct": "Intentan hacerte sentir culpable para que actúes de forma urgente",
+        "feedback_wrong": "Observa que te estan haciendo sentir responsable para que actúes guiada/o por la culpa"
       }
     ]
   }

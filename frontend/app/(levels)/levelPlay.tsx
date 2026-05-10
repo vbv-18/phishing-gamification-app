@@ -53,7 +53,7 @@ export default function LevelPlay(){
             <LevelHeader progressAnimation={levelState.progressAnimation} onClose={() => router.back()}></LevelHeader>
 
             {Renderer ? (
-              <Renderer question={currentQuestion} levelState={levelState} instructions={level.content.instructions}></Renderer>
+              <Renderer key={currentQuestion.id} question={currentQuestion} levelState={levelState} instructions={level.content.instructions}></Renderer>
             ) : <Text  style={styles.error}>Ejercicio no desarrollado</Text>
           }
         </View>
