@@ -24,8 +24,27 @@ def create_level(db: Session, level_data: dict):
 
     return level
 
-def get_modules(db: Session):
-    return db.query(Module).order_by(Module.id.asc()).all() #if there are 10 modules, 10 will be before 1
+def get_modules(db: Session, user_id: int):
+    modules =  db.query(Module).order_by(Module.id.asc()).all() #if there are 10 modules, 10 will be before 1
+
+    result = []
+    for module in modules:
+        levels = get_levels_by_module(db, module.id, user_id)
+        all_completed = True
+
+        if len(levels) == 0:
+            all_completed = False
+
+        else:
+            for l in levels:
+                if not l["completed"]:
+                    all_completed = False
+                    break
+
+        module_info = {"id": module.id, "title": module.title, "all_completed": all_completed}
+        result.append(module_info)
+
+    return result
 
 def get_level(db: Session, level_id: int): #expose the answers
     return db.query(Level).filter(Level.id == level_id).first()

@@ -6,5 +6,6 @@ export interface Theory{
 export interface Module{
     id: number;
     title: string;
+    all_completed: boolean;
     theory: Theory[];
 }

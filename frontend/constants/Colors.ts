@@ -8,6 +8,8 @@ export const Colors = {
   muted: '#64748B',
   shadow: '#0B5ED7',
   startButton: '#1E90FF',
+  moduleCompleted: '#dbbc64',
+  shadowModuleCompleted: '#8B6914',
   suspiciousButton: '#cf1313',
   shadowSuspicious: '#a11818',
   legitimateButton: '#22C55E',

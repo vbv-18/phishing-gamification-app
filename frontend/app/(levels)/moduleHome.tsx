@@ -48,7 +48,7 @@ export default function ModuleHome(){
           <Text style={styles.title}>Niveles</Text>
 
           {levels.map((level) => (
-              <Pressable key={level.id} style={[styles.levelCard, !level.unlocked && styles.levelLocked,]} disabled={!level.unlocked} onPress={() => router.push({pathname: './levelPlay', params: {levelId: level.id, moduleId},})}>
+              <Pressable key={level.id} style={[styles.levelCard, !level.unlocked && styles.levelLocked,]} disabled={!level.unlocked} onPress={() => router.replace({pathname: './levelPlay', params: {levelId: level.id, moduleId},})}>
                   <Text style={styles.levelTitle}>Nivel {level.difficulty}: {level.title}</Text>
                   <Text style={styles.status}>{level.completed ? "Completado" : level.unlocked ? "Disponible" : "Bloqueado"}</Text>
               </Pressable>

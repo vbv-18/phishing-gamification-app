@@ -10,7 +10,7 @@ router = APIRouter(prefix="/levels", tags=["Levels"])
 
 @router.get("/modules")
 def read_modules(db: Session = Depends(get_db), user = Depends(get_current_user)):
-    modules = get_modules(db)
+    modules = get_modules(db, user.id)
     if not modules:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No modules found")
     
