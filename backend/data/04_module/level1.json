@@ -17,8 +17,8 @@
         ],
         "display_order": ["b", "a", "c"],
         "correct_answer": ["a", "b", "c"],
-        "feedback_correct": "¡Super! Asegurar credenciales, alertar al banco y reportar",
-        "feedback_wrong": "¡Casi! Primero hay que asegurar la cuenta y por último reportar" 
+        "feedback_correct": "Asegurar credenciales, alertar al banco y reportar",
+        "feedback_wrong": "Primero hay que asegurar la cuenta y por último reportar" 
       },
       {
         "id": 2,
@@ -31,8 +31,8 @@
         ],
         "display_order": ["c", "a", "d", "b"],
         "correct_answer": ["a", "b", "c", "d"],
-        "feedback_correct": "¡Excelente! Primero limpias el equipo, aseguras cuentas, escanear el dispositivo y reportas",
-        "feedback_wrong": "¡Vaya! Primero desinstalas el programa, cambias contraseñas, escaneas en busca de persistencia (CRUCIAL) y denuncias" 
+        "feedback_correct": "Primero limpias el equipo, aseguras cuentas, escanear el dispositivo y reportas",
+        "feedback_wrong": "Primero desinstalas el programa, cambias contraseñas, escaneas en busca de persistencia (CRUCIAL) y denuncias" 
       },
       {
         "id": 3,
@@ -45,8 +45,8 @@
         ],
         "display_order": ["d", "a", "b", "c"],
         "correct_answer": ["a", "b", "c", "d"],
-        "feedback_correct": "¡Bien! Primero cierras todas las sesiones activas, cambias la contraseña comprometida en la cuenta y en otros servicios y después refuerzas la protección",
-        "feedback_wrong": "¡No es correcto! Tienes que echar al atacante primero cerrando sesiones y cambiando las contraseñas, después refuerzas la seguridad" 
+        "feedback_correct": "Primero cierras todas las sesiones activas, cambias la contraseña comprometida en la cuenta y en otros servicios y después refuerzas la protección",
+        "feedback_wrong": "Tienes que echar al atacante primero cerrando sesiones y cambiando las contraseñas, después refuerzas la seguridad" 
       }
     ]
   }

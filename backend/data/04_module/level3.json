@@ -1,0 +1,64 @@
+{
+  "module": 4,
+  "difficulty": 3,
+  "title": "¿Cómo me protejo?",
+  "content": {
+    "exercise_type": "protection_choice",
+    "mechanic": "multiple_choice",
+    "instructions": "Elige la medida que te hubiera protegido/reducido daños",
+    "questions": [
+      {
+        "id": 1,
+        "text": "Recibes un correo de un remitente desconocido con el asunto 'Tienes un paquete pendiente', entras en el enlace e introduces tus datos en una web falsa",
+        "options": [
+              {"id": "a", "text": "Contraseña más segura"},
+              {"id": "b", "text": "No abrir el correo y eliminarlo directamente"},
+              {"id": "c", "text": "Comprobar que la web utiliza HTTPS en vez de HTTP"},
+              {"id": "d", "text": "Responder al correo preguntando si es legítimo"}
+          ],
+        "correct_answer": "b",
+        "feedback_correct": "Lo más seguro es eliminarlo y bloquear el remitente si no lo esperas. HTTPS no garantiza que el sitio sea seguro y nunca pulses enlaces sin verificar la web a la que redirigen",
+        "feedback_wrong": "HTTPS no garantiza que el sitio sea seguro, tener una contraseña más segura en este caso no tiene efecto, y ¡Nunca hay que responder de vuelta!"
+      },
+      {
+        "id": 2,
+        "text": "Recibes un email de un(a) amigo/a con un adjunto llamado 'Presupuesto.pdf', lo descargas y lo abres. Tu dispositivo queda infectado con malware",
+        "options": [
+              {"id": "a", "text": "No descargar ficheros adjuntos sin verificar el remitente"},
+              {"id": "b", "text": "Haber guardado el archivo en el escritorio antes de abrirlo"},
+              {"id": "c", "text": "Comprobar que el fichero tiene extensión '.pdf'"},
+              {"id": "d", "text": "Responder al correo de preguntando qué es el adjunto"}
+          ],
+        "correct_answer": "a",
+        "feedback_correct": "Los adjuntos pueden tener malware aunque parezca que te lo envía alguien conocido (su cuenta puede haber sido suplantada), revísalo siempre antes",
+        "feedback_wrong": "Aunque siempre es buena práctica comprobar la extensión, no siempre indica legitimidad 100%, ¡Comprueba también por otras vías!"
+      },
+      {
+        "id": 3,
+        "text": "Llevas meses sin actualizar el sistema operativo, pero un atacante consigue acceder mediante un SMS y tomar el control de tu equipo",
+        "options": [
+              {"id": "a", "text": "Cambiar la contraseña del correo"},
+              {"id": "b", "text": "Desactivar las notificaciones de actualización"},
+              {"id": "c", "text": "Poner el modo avión"},
+              {"id": "d", "text": "Mantener siempre actualizado el Sistema Operativo y demás programas"}
+          ],
+        "correct_answer": "d",
+        "feedback_correct": "Las actualizaciones corrigen vulnerabilidades conocidas, mantener el equipo actualizado es muy efectivo",
+        "feedback_wrong": "Cambiar la contraseña es una buena medida una vez has caído, pero para protegerte mantén el equipo actualizado para cerrar poibles vías de ataque"
+      },
+      {
+        "id": 4,
+        "text": "Un atacante ya tiene tus credenciales del banco, logra acceder y hace transferencias en tu nombre.",
+        "options": [
+              {"id": "a", "text": "Contraseña más segura"},
+              {"id": "b", "text": "Haber ignorado el SMS"},
+              {"id": "c", "text": "Haber cerrado sesión"},
+              {"id": "d", "text": "La autenticación doble factor (2FA) ya impidió el acceso"}
+          ],
+        "correct_answer": "d",
+        "feedback_correct": "Aunque tuviera tus credenciales, al enviarte un código para verificar el acceso no hubiera logrado tener éxito",
+        "feedback_wrong": "Si ya tiene tus credenciales, cambiar la contraseña o cerrar sesión puede ser demasiado tarde. Tener el 2FA hubiera bloqueado el ataque"
+      }
+    ]
+  }
+}

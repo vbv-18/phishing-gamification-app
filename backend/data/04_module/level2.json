@@ -21,8 +21,8 @@
             {"id": "policia", "text": "Policía Nacional/Guardia Civil"}
         ],
         "correct_answer": {"a": "incibe", "b": "policia", "c": "policia", "d": "incibe", "e": "incibe"},
-        "feedback_correct": "¡Perfecto! A INCIBE-CERT cuando solo lo has detectado, a la Policía Nacional o la Guardia Civil si has caído en ello",
-        "feedback_wrong": "¡Casi! La clave es: lo detectas sin caer, INCIBE-CERT; has sido víctima con perjuicio real, Policía Nacional o la Guardia Civil"
+        "feedback_correct": "A INCIBE-CERT cuando solo lo has detectado, a la Policía Nacional o la Guardia Civil si has caído en ello",
+        "feedback_wrong": "La clave es: lo detectas sin caer, INCIBE-CERT; has sido víctima con perjuicio real, Policía Nacional o la Guardia Civil"
       }
     ]
   }

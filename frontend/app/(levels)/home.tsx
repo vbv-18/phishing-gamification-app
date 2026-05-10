@@ -132,5 +132,4 @@ startPressed: {
   transform: [{ translateY: 2 }],
   elevation: 2,
 },
-
 });

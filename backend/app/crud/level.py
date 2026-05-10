@@ -110,7 +110,7 @@ def validate_question(level: Level, question_id: int, user_answer: Any): #valida
     feedback = ""
     correct_answer = question.get("correct_answer")
 
-    if exercise_type in ["hooks_identification", "emotion_identification", "pretext_identification", "file_analysis", "simulation", "steps_sorted", "report_match"]:
+    if exercise_type in ["hooks_identification", "emotion_identification", "pretext_identification", "file_analysis", "simulation", "steps_sorted", "report_match", "protection_choice"]:
         is_correct = (user_answer == correct_answer) 
 
     elif exercise_type == "domain_analysis":
