@@ -1,0 +1,29 @@
+{
+  "module": 4,
+  "difficulty": 2,
+  "title": "¿A quién aviso?",
+  "content": {
+    "exercise_type": "report_match",
+    "mechanic": "match",
+    "instructions": "Relacionada cada incidente con la entidad correcta",
+    "questions": [
+      {
+        "id": 1,
+        "left": [
+            {"id": "a", "text": "Has recibido un correo de phishing suplantando a tu banco"},
+            {"id": "b", "text": "Has sido víctima de una estafa tras una llamada y has transferido dinero"},
+            {"id": "c", "text": "Un falso técnico de soporte te convenció para instalar un programa y te robaron dinero"},
+            {"id": "d", "text": "Recibes un correo sospechoso, lo abres pero no haces clic en el enlace"},
+            {"id": "e", "text": "Has encontrado una tienda online fraudulenta"}
+        ],
+        "right": [
+            {"id": "incibe", "text": "INCIBE-CERT"},
+            {"id": "policia", "text": "Policía Nacional/Guardia Civil"}
+        ],
+        "correct_answer": {"a": "incibe", "b": "policia", "c": "policia", "d": "incibe", "e": "incibe"},
+        "feedback_correct": "¡Perfecto! A INCIBE-CERT cuando solo lo has detectado, a la Policía Nacional o la Guardia Civil si has caído en ello",
+        "feedback_wrong": "¡Casi! La clave es: lo detectas sin caer, INCIBE-CERT; has sido víctima con perjuicio real, Policía Nacional o la Guardia Civil"
+      }
+    ]
+  }
+}

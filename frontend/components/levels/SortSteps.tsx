@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
   stepCardPlaced: {
     backgroundColor: Colors.background,
     borderLeftWidth: 3,
-    borderLeftColor: Colors.legitimateButton,
+    borderLeftColor: Colors.backgroundPrimary,
   },
   stepCardPressed: {
     opacity: 0.75,
@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
     width: 24,
     height: 24,
     borderRadius: 12,
-    backgroundColor: Colors.legitimateButton,
+    backgroundColor: Colors.primary,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 10,
@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
     marginTop: Spacing.sm,
   },
   checkButtonWrapper: {
-    backgroundColor: Colors.shadowLegitimate,
+    backgroundColor: Colors.shadowContinue,
     borderRadius: 15,
     paddingBottom: 5,
     alignSelf: 'stretch',
@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
     transform: [{ translateY: 5 }],
   },
   checkButton: {
-    backgroundColor: Colors.legitimateButton,
+    backgroundColor: Colors.continueButton,
     height: 50,
     borderRadius: 15,
     justifyContent: 'center',
@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
     transform: [{translateY: 0}],
   },
   checkButtonText: {
-    color: Colors.card,
+    color: Colors.primary,
     fontWeight: '700',
     fontSize: 16,
   },

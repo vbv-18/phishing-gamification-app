@@ -38,4 +38,9 @@ export interface StepsQuestion extends BaseQuestion{
     display_order: string[];
 }
 
-export type Question = MultipleChoiceQuestion | DomainAnalysisQuestion | FileChoiceQuestion | SimulationQuestion | StepsQuestion;
+export interface MatchQuestion extends BaseQuestion {
+    left: Option[];
+    right: Option[],
+}
+
+export type Question = MultipleChoiceQuestion | DomainAnalysisQuestion | FileChoiceQuestion | SimulationQuestion | StepsQuestion | MatchQuestion;

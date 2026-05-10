@@ -14,7 +14,7 @@ export interface LevelState{
   progressAnimation: Animated.Value;
   isChecking: boolean;
 
-  submitAnswer: (questionId: number, answer: boolean | string |string []) => Promise<void>;
+  submitAnswer: (questionId: number, answer: boolean | string |string [] | Record<string, string>) => Promise<void>;
   handleContinue: () => void;  
 }
 
@@ -42,7 +42,7 @@ export function useLevelState(level: Level | null): LevelState{
       Animated.timing(progressAnimation, {toValue: progress, duration: 500, useNativeDriver: false,}).start();
     }, [progressCount, level]);
 
-    const submitAnswer = async (questionId: number, answer: boolean | string | string[]) => {
+    const submitAnswer = async (questionId: number, answer: boolean | string | string[] | Record<string, string>) => {
       if(isChecking || !level){
         return;
       }
