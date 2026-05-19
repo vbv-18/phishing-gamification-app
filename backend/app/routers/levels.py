@@ -48,8 +48,8 @@ def complete_theory(module_id: int, db: Session = Depends(get_db), user=Depends(
     if not theory:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Theory not found")
     
-    mark_theory_seen(db, user.id, module_id)
-    return {"message": "Theory completed"}
+    progress_data = mark_theory_seen(db, user.id, module_id)
+    return {"message": "Theory completed", **progress_data}
 
 @router.get("/{level_id}", response_model=LevelResponse)
 def read_level(level_id: int, db: Session = Depends(get_db), user = Depends(get_current_user)):

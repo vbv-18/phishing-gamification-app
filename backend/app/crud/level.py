@@ -239,17 +239,42 @@ def seen_theory(db: Session, user_id: int, module_id: int) -> bool:
     return bool(row and row.seen)
 
 def mark_theory_seen(db: Session, user_id: int, module_id: int):
-    row = get_theory(db, user_id, module_id)
-    if not row:
-        row = TheoryProgress(user_id=user_id, module_id=module_id, seen=True)
-        db.add(row)
+    xp_before = get_user_xp(db, user_id).xp
+    level_xp_before = get_user_level(xp_before)
+    role_before = get_role_from_level(level_xp_before)
 
+    db_progress = get_theory(db, user_id, module_id)
+    already_seen = db_progress is not None and db_progress.seen
+
+    if already_seen:
+        xp_award = 0
     else:
-        row.seen = True
+        xp_award = 20
+
+    if not db_progress:
+        db_progress = TheoryProgress(user_id=user_id, module_id=module_id, seen=True)
+        db.add(db_progress)
+    elif not already_seen:
+        db_progress.seen = True
+
+    if xp_award > 0:
+        add_xp(db, user_id, xp_award)
 
     db.commit()
+    db.refresh(db_progress)
 
-    return row
+    xp_after = xp_before + xp_award
+    level_xp_after = get_user_level(xp_after)
+    role_after = get_role_from_level(level_xp_after)
+
+    return {
+        "theory_seen": db_progress.seen,
+        "xp_gained": xp_award,
+        "level_up": level_xp_after > level_xp_before,
+        "new_level": level_xp_after,
+        "role_changed": role_after != role_before,
+        "new_role": role_after
+    }
 
 def get_completed_levels(db: Session, user_id: int, level_ids: list[int]) -> set[int]:
     rows = (db.query(LevelProgress.level_id).filter(LevelProgress.user_id == user_id, LevelProgress.level_id.in_(level_ids), LevelProgress.completed == True,).all())

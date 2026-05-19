@@ -31,8 +31,7 @@ export default function TheoryView(){
 
         setCompleting(true);
         try{
-            await completeTheory(Number(moduleId));
-            router.back();
+            router.replace({pathname: './levelCompleted', params: {moduleId, type: 'theory'}});
         }
 
         catch{

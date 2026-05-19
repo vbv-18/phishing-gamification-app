@@ -86,7 +86,6 @@ export default function Profile(){ //future -> use imagePicker from Expo
 
         <View style={styles.xpBadge}>
           <Text style={styles.xpLabel}>Nivel {level ?? "-"}</Text>
-          <Text style={styles.xpText}>{xp !== null ? xp : '0'}</Text>
         </View>
 
         <View style={styles.progressContainer}>
