@@ -2,6 +2,7 @@ from sqlalchemy.orm import Session
 from app.models.level import Level
 from app.models.module import Module
 from app.models.levelProgress import LevelProgress
+from app.models.theoryProgress import TheoryProgress
 from app.crud.xp import add_xp, get_user_xp
 from app.utils.levels import get_user_level
 from app.utils.roles import get_role_from_level
@@ -31,6 +32,7 @@ def get_modules(db: Session, user_id: int):
     for module in modules:
         levels = get_levels_by_module(db, module.id, user_id)
         all_completed = True
+        theory_seen = seen_theory(db, user_id, module.id)
 
         if len(levels) == 0:
             all_completed = False
@@ -41,10 +43,17 @@ def get_modules(db: Session, user_id: int):
                     all_completed = False
                     break
 
-        module_info = {"id": module.id, "title": module.title, "all_completed": all_completed}
+        module_info = {"id": module.id, "title": module.title, "all_completed": all_completed, "theory": module.theory, "theory_seen": theory_seen,}
         result.append(module_info)
 
     return result
+
+def get_module_theory(db: Session, module_id: int):
+    module = db.query(Module).filter(Module.id == module_id).first()
+    if not module:
+        return None
+    
+    return {"module_id": module.id, "title": module.title, "theory": module.theory or []}
 
 def get_level(db: Session, level_id: int): #expose the answers
     return db.query(Level).filter(Level.id == level_id).first()
@@ -81,9 +90,10 @@ def get_levels_by_module(db: Session, module_id: int, user_id: int):
         level_ids.append(level.id)
 
     completed_ids = get_completed_levels(db, user_id, level_ids)
+    theory_seen = seen_theory(db, user_id, module_id)
 
     result = []
-    unlocked = True #first level always unlocked
+    unlocked = theory_seen #levels unlocked if theory not seen yet
 
     for level in levels:
         completed = level.id in completed_ids
@@ -97,6 +107,9 @@ def get_levels_by_module(db: Session, module_id: int, user_id: int):
 def get_next_level(db: Session, user_id: int, module_id: int): #return the first level not completed yet
     levels = db.query(Level).filter(Level.module_id == module_id).order_by(Level.difficulty.asc()).all()
     if not levels:
+        return None
+    
+    if not seen_theory(db, user_id, module_id): #theory not seen yet
         return None
     
     level_ids = []
@@ -217,6 +230,27 @@ def complete_level(db: Session, user_id: int, level_id: int, answers: list):
             "role_changed": role_after != role_before,
             "new_role": role_after}
 
+def get_theory(db: Session, user_id: int, module_id: int):
+    return db.query(TheoryProgress).filter(TheoryProgress.user_id == user_id, TheoryProgress.module_id == module_id).first()
+
+def seen_theory(db: Session, user_id: int, module_id: int) -> bool:
+    row = get_theory(db, user_id, module_id)
+
+    return bool(row and row.seen)
+
+def mark_theory_seen(db: Session, user_id: int, module_id: int):
+    row = get_theory(db, user_id, module_id)
+    if not row:
+        row = TheoryProgress(user_id=user_id, module_id=module_id, seen=True)
+        db.add(row)
+
+    else:
+        row.seen = True
+
+    db.commit()
+
+    return row
+
 def get_completed_levels(db: Session, user_id: int, level_ids: list[int]) -> set[int]:
     rows = (db.query(LevelProgress.level_id).filter(LevelProgress.user_id == user_id, LevelProgress.level_id.in_(level_ids), LevelProgress.completed == True,).all())
 
@@ -226,4 +260,26 @@ def get_completed_levels(db: Session, user_id: int, level_ids: list[int]) -> set
 
     return completed_ids
 
+def is_level_unlocked(db: Session, user_id: int, level_id: int) -> bool:
+    level = db.query(Level).filter(Level.id == level_id).first()
+    if not level:
+        return False
+    
+    if not seen_theory(db, user_id, level.module_id): #theory always seen first
+        return False
+    
+    previous_levels = (db.query(Level).filter(Level.module_id == level.module_id, Level.difficulty < level.difficulty)).all() #level unlocked if all previous completed
+    if not previous_levels:
+        return True
+    
+    prev_ids = []
+    for level in previous_levels:
+        prev_ids.append(level.id)
 
+    completed_ids = get_completed_levels(db, user_id, prev_ids)
+
+    for lid in prev_ids:
+        if lid not in completed_ids:
+            return False
+        
+    return True

@@ -7,8 +7,35 @@ class ModuleBase(BaseModel):
 
 class ModuleResponse(ModuleBase):
     id: int
+    theory_seen: bool = False
 
     model_config = {'from_attributes': True}
+
+class TheoryItem(BaseModel):
+    concept: str
+    definition: str
+
+class TheorySection(BaseModel):
+    id: int
+    title: str
+    description: str
+    items: list[TheoryItem]
+
+class ModuleTheoryResponse(BaseModel):
+    module_id: int
+    title: str
+    theory: list[TheorySection]
+
+    model_config = {"from_attributes": True}
+
+class ModuleListItem(BaseModel):
+    id: int
+    title: str
+    all_completed: bool
+    theory: list[TheorySection]
+    theory_seen: bool
+
+    model_config = {"from_attributes": True}
 
 class LevelBase(BaseModel):
     module_id: int

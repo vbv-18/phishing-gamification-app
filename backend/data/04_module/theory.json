@@ -2,6 +2,33 @@
     "module_id": 4,
     "title": "¿Y Ahora Qué?",
     "theory": [
-        {"id": 1, "text": "El atacante busca que actúes sin pensar"}
+        {
+            "id": 1,
+            "title": "Cuándo caes en el fraude",
+            "description": "A veces los incidentes son inevitables, por lo que siempre hay que estar preparadas/os para responder ante ellos",
+            "items": [
+                {"concept": "Priorizar", "definition": "Entender qué acciones son las más urgentes: cambiar contraseñas, cerrar sesiones, eliminar el malware..."},
+                {"concept": "Hábito mental", "definition": "Contener -> Asegurar -> Verificar -> Reportar"}
+            ]
+        },
+        {
+            "id": 2,
+            "title": "Autoridades competentes",
+            "description": "Importante reportar no solo cuando se es víctima, sino también si se encuentra el fraude",
+            "items": [
+                {"concept": "INCIBE-CERT", "definition": "Has detectado un intento de fraude pero no has sido víctima de ello"},
+                {"concept": "Policía/Guardia Civil", "definition": "Has caído en el fraude y has perdido dinero o datos"}
+            ]
+        },
+        {
+            "id": 3,
+            "title": "Protección",
+            "description": "Algunas medidas con las que se podrían evitar/reducir el impacto de este tipo de ataques",
+            "items": [
+                {"concept": "Higiene digital", "definition": "No abrir adjuntos sin verificar, no confiar en remitentes desconocidos (o incluso conocidos), no pulsar enlaces sin comprobar, no responder a correos sospechosos"},
+                {"concept": "Importancia de las actualizaciones", "definition": "Mantener los sistemas y programas actualizados es de las medidas más efectivas que hay"},
+                {"concept": "Reducir daños", "definition": "No siempre se puede evitar el ataque, pero sí minimizar el impacto, como al usar autenticación multifactor (MFA)"}
+            ]
+        }
     ]
 }

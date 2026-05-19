@@ -2,6 +2,25 @@
     "module_id": 2,
     "title": "Las Huellas",
     "theory": [
-        {"id": 1, "text": "El atacante busca que actúes sin pensar"}
+        {
+            "id": 1,
+            "title": "Dominios",
+            "description": "Los atacantes buscan engañarte con diferentes técnicas para que hagas click en los enlaces",
+            "items": [
+                {"concept": "Homógrafos", "definition": "Se usan caracteres que se parecen para que no se note la diferencia: letra 'o' vs número '0', letra cirílica vs letra latina"},
+                {"concept": "HTTP vs HTTPS", "definition": "El protocolo HTTP carece de la 'S' de Seguridad"},
+                {"concept": "Subdominios falsos", "definition": "Poner una marca conocida antes del dominio real: appleid.apple.com.seguridad-login.com, el dominio real es seguridad-login.com"},
+                {"concept": "TLDs sospechosos", "definition": "Se utilizan TLDs (segmento final de la dirección web) baratos como .top o .xyz como si fueras oficiales"}
+            ]
+        },
+        {
+            "id": 2,
+            "title": "Archivos",
+            "description": "Archivos adjuntos que realmente no son lo que parecen",
+            "items": [
+                {"concept": "Doble Extensión", "definition": "Se hace creer al usuario que es un documento cuando la extensión válida es la última: doc.pdf.exe"},
+                {"concept": "Macros", "definition": "Parecen documentos de Office usuales, pero la 'm' indica que contiene macros (pueden ejercutar código automáticamente)"}
+            ]
+        }
     ]
 }

@@ -1,9 +1,9 @@
 import { View, Text, StyleSheet, ScrollView, Pressable, ActivityIndicator } from "react-native";
 import { useLocalSearchParams, useRouter, useFocusEffect } from "expo-router";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Colors } from "@/constants/Colors";
 import { Spacing } from "@/constants/Spacing";
-import { getLevelsbyModule } from "@/services/api";
+import { getLevelsbyModule, getModules, getModuleTheory } from "@/services/api";
 import AppHeader from "@/components/ui/AppHeader";
 import { LevelSummary } from "@/types/level";
 
@@ -11,6 +11,7 @@ export default function ModuleHome(){
     const {moduleId} = useLocalSearchParams();
     const router = useRouter();
     const [levels, setLevels] = useState<LevelSummary[]>([]);
+    const [theorySeen, setTheorySeen] = useState<boolean | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
@@ -27,13 +28,31 @@ export default function ModuleHome(){
     }
   }
 
+  const checkTheory = async() => {
+    try{
+      const modules = await getModules();
+      const current = modules.find((m: any) => m.id === Number(moduleId));
+      setTheorySeen(current?.theory_seen ?? false);
+    }
+    catch{
+      setTheorySeen(false);
+    }
+  };
+
   useFocusEffect(
     useCallback(() => {
+      checkTheory();
       loadLevels();
     }, [moduleId])
   );
 
-  if(loading){ //loader while it is loading
+  useEffect(() => {
+    if(theorySeen === false){
+      router.replace({pathname: './theoryView', params: {moduleId},})
+    }
+  }, [theorySeen]);
+
+  if(loading || theorySeen === null){ //loader while it is loading
       return(
           <View style={styles.center}>
               <ActivityIndicator size="large" color={Colors.primary} />
@@ -47,8 +66,15 @@ export default function ModuleHome(){
       <ScrollView style={styles.container}>
           <Text style={styles.title}>Niveles</Text>
 
+          {theorySeen && (
+            <Pressable style={styles.theoryCard} onPress={() => router.push({pathname: './theoryView', params: {moduleId},})}>
+              <Text style={styles.theoryTitle}>Teoría</Text>
+            </Pressable>
+          )}
+
           {levels.map((level) => (
-              <Pressable key={level.id} style={[styles.levelCard, !level.unlocked && styles.levelLocked,]} disabled={!level.unlocked} onPress={() => router.replace({pathname: './levelPlay', params: {levelId: level.id, moduleId},})}>
+              <Pressable key={level.id} style={[styles.levelCard, !level.unlocked && styles.levelLocked,]} disabled={!level.unlocked} 
+              onPress={() => router.push({pathname: './levelPlay', params: {levelId: level.id, moduleId},})}>
                   <Text style={styles.levelTitle}>Nivel {level.difficulty}: {level.title}</Text>
                   <Text style={styles.status}>{level.completed ? "Completado" : level.unlocked ? "Disponible" : "Bloqueado"}</Text>
               </Pressable>
@@ -75,6 +101,25 @@ const styles = StyleSheet.create({
     fontWeight: '800',
     marginBottom: Spacing.lg,
     color: Colors.text,
+    textAlign: 'center',
+  },
+  theoryCard: {
+    backgroundColor: Colors.shadowLegitimate,
+    padding: 20,
+    borderRadius: 16,
+    marginBottom: Spacing.md,
+    shadowColor: Colors.shadow,
+    shadowOffset: {width: 0, height: 4},
+    shadowOpacity: 1,
+    shadowRadius: 0,
+    elevation: 6,
+    alignItems: 'center',
+
+  },
+  theoryTitle: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: Colors.card,
     textAlign: 'center',
   },
   levelCard: {
