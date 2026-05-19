@@ -1,10 +1,19 @@
-export interface Theory{
+export interface TheoryItem{
+    concept: string;
+    definition: string
+}
+
+export interface TheorySection{
     id: number;
-    text: string
+    title: string;
+    description: string;
+    items: TheoryItem[];
 }
 
 export interface Module{
     id: number;
     title: string;
-    theory: Theory[];
+    all_completed: boolean;
+    theory: TheorySection[];
+    theory_seen: boolean;
 }

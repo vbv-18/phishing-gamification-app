@@ -44,7 +44,7 @@ export default function Home(){
               <Text style={styles.title}>Selecciona un módulo</Text>
 
               {modules.map((m) => (
-                  <View key={m.id} style={styles.moduleCard}>
+                  <View key={m.id} style={[styles.moduleCard, m.all_completed && styles.moduleCompleted]}>
                       <View style={styles.cardTop}>
                           <Text style={styles.levelText}>{m.title.charAt(0).toUpperCase() + m.title.slice(1)}</Text>
                       </View>
@@ -99,37 +99,36 @@ const styles = StyleSheet.create({
     shadowRadius: 0,
     elevation: 8,
 },
-
-modulePressed: {
-  transform: [{ translateY: 4 }],
-  shadowOffset: { width: 0, height: 2 },
-  elevation: 3,
-},
-
-cardTop: {
-  marginBottom: 20,
-},
-
-levelText: {
-  fontSize: 22,
-  fontWeight: "800",
-  color: Colors.card,
-},
-
-startButton: {
-  backgroundColor: Colors.card,
-  paddingVertical: 12,
-  borderRadius: 12,
-  alignItems: "center",
-},
-
-startText: {
-  fontWeight: "700",
-  color: Colors.startButton,
-  letterSpacing: 1,
-},
-startPressed: {
-  transform: [{ translateY: 2 }],
-  elevation: 2,
-},
+  modulePressed: {
+    transform: [{ translateY: 4 }],
+    shadowOffset: { width: 0, height: 2 },
+    elevation: 3,
+  },
+  moduleCompleted: {
+    backgroundColor: Colors.moduleCompleted,
+    shadowColor: Colors.shadowModuleCompleted,
+  },
+  cardTop: {
+    marginBottom: 20,
+  },
+  levelText: {
+    fontSize: 22,
+    fontWeight: "800",
+    color: Colors.card,
+  },
+  startButton: {
+    backgroundColor: Colors.card,
+    paddingVertical: 12,
+    borderRadius: 12,
+    alignItems: "center",
+  },
+  startText: {
+    fontWeight: "700",
+    color: Colors.startButton,
+    letterSpacing: 1,
+  },
+  startPressed: {
+    transform: [{ translateY: 2 }],
+    elevation: 2,
+  },
 });

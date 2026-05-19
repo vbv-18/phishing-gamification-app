@@ -35,6 +35,16 @@ export async function getModules(){
   return res.data; 
 }
 
+export async function getModuleTheory(moduleId: number){
+  const res = await apiClient.get(`/levels/module/${moduleId}/theory`);
+  return res.data; //{module_id, titile, theory: TheorySection[]}
+}
+
+export async function completeTheory(moduleId: number){
+  const res = await apiClient.post(`/levels/module/${moduleId}/theory/complete`);
+  return res.data;
+}
+
 export async function getNextLevel(moduleId: number){
   const res = await apiClient.get(`/levels/module/${moduleId}/next`);
   return res.data;

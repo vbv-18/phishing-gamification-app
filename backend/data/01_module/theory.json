@@ -2,6 +2,41 @@
     "module_id": 1,
     "title": "Psicología del Engaño",
     "theory": [
-        {"id": 1, "text": "El atacante busca que actúes sin pensar"}
+        {
+            "id": 1,
+            "title": "Las 6 + 1 Palancas de Cialdini",
+            "description": "Principios psicológicos que nuestro cerebro utiliza para tomar decisiones rápido, algo que los atacantes aprovechan",
+            "items": [
+                {"concept": "Reciprocidad", "definition": "Si alguien nos da algo primero (un regalo, favor), sentimos la obligación social de devolverle el gesto"},
+                {"concept": "Escasez", "definition": "Cuando algo es limitado o hay poco tiempo, el miedo a perder la oportunidad nos hace actuar impulsivamente"},
+                {"concept": "Prueba Social", "definition": "Si vemos que 'todo el mundo lo hace' o que nuestras/os compañeras/os ya han aceptado, bajamos la guardia"},
+                {"concept": "Autoridad", "definition": "Tendemos a obedecer a quienes percibimos como expertas/os o superiores (Soporte IT, CEO, Policía, ...)"},
+                {"concept": "Compromiso y Coherencia", "definition": "Si ya hemos dicho 'sí' a algo antes, es más probable que digamos 'sí' a algo similar para ser coherentes"},
+                {"concept": "Simpatía", "definition": "Es mucho más difícil decirle que no a alguien que nos cae bien o que comparte nuestros mismos gustos"},
+                {"concept": "Unidad", "definition": "Confiamos ciegamente en personas que forman parte de nuestro grupo cercano o familia"}
+            ]
+        },
+        {
+            "id": 2,
+            "title": "El Gancho Emocional",
+            "description": "Buscan anular tu pensamiento lógico mediante una fuerte emoción",
+            "items": [
+                {"concept": "Miedo/Pánico", "definition": "Hacen que actúes sin pensar movida/o por una amenaza inminente"},
+                {"concept": "Codicia", "definition": "Que te prometan premios nubla el juicio sobre el riesgo"},
+                {"concept": "Curiosidad", "definition": "El deseo de saber algo empuja a mirar"},
+                {"concept": "Empatía", "definition": "La voluntad de ayudar a otras/os también se utiliza mediante historias tristes"},
+                {"concept": "Culpa/Responsabilidad", "definition": "Hacerte responsable de un error para que intentes arreglarlo rápido"}
+            ]
+        },
+        {
+            "id": 3,
+            "title": "El Pretexto",
+            "description": "Es la historia creada por el atacante, para que tengan sentido suelen incluir:",
+            "items": [
+                {"concept": "Tragedia", "definition": "Aprovechando a su vez el principio de Empatía"},
+                {"concept": "Suplantación", "definition": "Muchas veces se hacen pasar por entidades para que sea más creíble"},
+                {"concept": "Comodidad", "definition": "Aprovechando el principio de Empatía y Unidad"}
+            ]
+        }
     ]
 }

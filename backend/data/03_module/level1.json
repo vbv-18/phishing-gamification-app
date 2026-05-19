@@ -1,7 +1,7 @@
 {
   "module": 3,
   "difficulty": 1,
-  "title": "Phishing",
+  "title": "Phishing + Smishing",
   "content": {
     "exercise_type": "simulation",
     "mechanic": "social_simulation",

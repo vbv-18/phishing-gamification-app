@@ -2,13 +2,13 @@ import { View, Text, StyleSheet, Pressable, Animated, ActivityIndicator, Image }
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Colors } from "@/constants/Colors";
 import { Spacing } from "@/constants/Spacing";
-import { completeLevel, UserAnswer } from "@/services/api";
+import { completeLevel, completeTheory, UserAnswer } from "@/services/api";
 import { useEffect, useRef, useState } from "react";
 import LevelUp from "../../components/ui/LevelUp";
 import ContinueButton from "../../components/ui/ContinueButton";
 
 export default function LevelCompleted(){
-    const {levelId, answersJSON, totalQuestions, moduleId} = useLocalSearchParams();
+    const {levelId, answersJSON, totalQuestions, moduleId, type} = useLocalSearchParams();
     const [xpGained, setXpGained] = useState<number | null>(null);
     const [correctAnswers, setCorrectAnswers] = useState<number | null>(null);
     const [levelUserUp, setLevelUserUp] = useState<{show: boolean, val: number}>({show: false, val: 0});
@@ -19,6 +19,8 @@ export default function LevelCompleted(){
     const scaleAnimation = useRef(new Animated.Value(0.6)).current;
     const opacityAnimation = useRef(new Animated.Value(0)).current;
 
+    const isTheory = type === 'theory';
+
     useEffect(() => {
         Animated.parallel([
             Animated.spring(scaleAnimation, {toValue: 1, useNativeDriver: true, friction: 5,}),
@@ -28,11 +30,17 @@ export default function LevelCompleted(){
     useEffect(() => {
         const markCompleted = async () => {
             try{
-                const answers: UserAnswer[] = JSON.parse(Array.isArray(answersJSON) ? answersJSON[0] : answersJSON ?? "[]");
-                const result = await completeLevel(Number(levelId), answers);
+                let result;
+                if(isTheory){
+                    result = await completeTheory(Number(moduleId));
+                }
+                else{
+                    const answers: UserAnswer[] = JSON.parse(Array.isArray(answersJSON) ? answersJSON[0] : answersJSON ?? "[]");
+                    result = await completeLevel(Number(levelId), answers);
+                    setCorrectAnswers(result.correct_answers);
+                }
 
                 setXpGained(result.xp_gained);
-                setCorrectAnswers(result.correct_answers);
 
                 //if there have been new level/role
                 if(result.role_changed){
@@ -49,7 +57,7 @@ export default function LevelCompleted(){
             }
         };
         markCompleted();
-    }, [levelId, answersJSON]);
+    }, [levelId, answersJSON, type, moduleId]);
 
     useEffect(() => {
         if(!isContinuePressed){
@@ -78,7 +86,7 @@ export default function LevelCompleted(){
                 <View style={styles.avatarContainer}>
                     <Image source={require('../../assets/images/pet.png')} style={styles.avatarImage} resizeMode='contain'></Image>
                 </View>
-                <Text style={styles.title}>¡Nivel completado!</Text>
+                <Text style={styles.title}>{isTheory ? '¡Teoría completada!' : '¡Nivel completado!'}</Text>
                 <View style={styles.stats}>
                     {xpGained !== null &&  
                         <View style={styles.correctsContainer}>
@@ -86,13 +94,14 @@ export default function LevelCompleted(){
                             <Text style={styles.score}>{xpGained} XP</Text>
                         </View>
                     }
-                    {correctAnswers !== null ? (
-                        <View style={styles.correctsContainer}>
-                            <Image source={require('../../assets/images/corrects.png')} style={styles.correctIcon}></Image>
-                            <Text style={styles.corrects}>{correctAnswers}/{totalQuestions}</Text>
-                        </View>
-                    ) 
-                        : (<ActivityIndicator size="small" color={Colors.primary}></ActivityIndicator>)}
+                    {!isTheory && (
+                        correctAnswers !== null ? (
+                            <View style={styles.correctsContainer}>
+                                <Image source={require('../../assets/images/corrects.png')} style={styles.correctIcon}></Image>
+                                <Text style={styles.corrects}>{correctAnswers}/{totalQuestions}</Text>
+                            </View>
+                        ) : (<ActivityIndicator size="small" color={Colors.primary}></ActivityIndicator>)
+                    )}
                 </View>
                 <ContinueButton onPress={handleFinish} color={Colors.primary} shadow={Colors.backgroundPrimary} textColor="white"></ContinueButton>
             </Animated.View>

@@ -2,6 +2,15 @@
     "module_id": 3,
     "title": "Laboratorio de Verificación",
     "theory": [
-        {"id": 1, "text": "El atacante busca que actúes sin pensar"}
+        {
+            "id": 1,
+            "title": "Phishing + Smishing",
+            "description": "2 técnicas muy utilizadas en la Ingeniería Social",
+            "items": [
+                {"concept": "Combinación", "definition": "La Ingeniería Social se presenta de muchas formas y suele mezclar las técnicas vistas anteriormente"},
+                {"concept": "Otras técnicas", "definition": "Suelen aparecer faltas de ortografía y en el caso de los SMSs, abuso de acortadores de links (por ejemplo clck.ru)"},
+                {"concept": "A tener en cuenta", "definition": "Además de todas las técnicas, también hay que tener en cuenta quién envía el email/SMS y si realmente lo estás esperando"}
+            ]
+        }
     ]
 }
