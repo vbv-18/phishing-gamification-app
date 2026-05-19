@@ -4,6 +4,7 @@ import { useRouter } from "expo-router";
 
 import { Colors } from "@/constants/Colors";
 import { Spacing } from "@/constants/Spacing";
+import { Badges } from "@/constants/Badges";
 
 import { getProfile, deleteAccount } from "@/services/api";
 import { useAuth } from "context/AuthContext";
@@ -17,7 +18,7 @@ export default function Profile(){ //future -> use imagePicker from Expo
   const [error, setError] = useState('');
   const [deleteVisible, setDeleteVisible] = useState(false);
   const {signOut} = useAuth();
-  const {xp, level, role, xp_for_next_level, is_max_level} = useUserXp();
+  const {xp, level, role, xp_for_next_level, is_max_level, unlocked_badges} = useUserXp();
   const progressAnim = useState(new Animated.Value(0))[0]; //for progress XP bar
 
   useEffect(() => {
@@ -94,10 +95,23 @@ export default function Profile(){ //future -> use imagePicker from Expo
 
         <Text style={styles.progressLabel}>{is_max_level ? "¡Nivel máximo!" : xp_for_next_level !== null ? `${xp}/${xp_for_next_level} XP siguiente nivel` : ""}</Text>
 
-        <View style={styles.badges}>
-          <Text style={styles.badgeTitle}>Badges</Text>
+        <View style={styles.badgesSection}>
+          <Text style={styles.badgesTitle}>Insignias</Text>
           <View style={styles.badgeGrid}>
-            {[...Array(6)].map((_, i) => (<View key={i} style={styles.badge}></View>))}
+            {Badges.map((badge) => {
+              const isUnlocked = unlocked_badges?.includes(badge.id);
+
+              return(
+                <View key={badge.id} style={styles.badgeWrapper}>
+                  <View style={[styles.badgeCircle, isUnlocked ? {backgroundColor: Colors.card} : styles.badgeCircleLocked]}>
+                    {isUnlocked && (
+                    <Image source={badge.image} style={styles.badgeImage} resizeMode="contain"/>)}
+                  </View>
+
+                  <Text style={styles.badgeName}>{ isUnlocked ? badge.name : ''}</Text>
+                </View>
+              );
+            })}
           </View>
         </View>
 
@@ -191,29 +205,60 @@ const styles = StyleSheet.create({
     color: '#888',
     marginTop: 4,
   },
-  badges: {
-    width: '100%',
-    marginBottom: Spacing.xl,
+  badgesSection: {
+    width: "100%",
+    paddingHorizontal: 20,
+    marginTop: 24,
   },
-  badgeTitle: {
+  badgesTitle: {
     fontSize: 18,
-    fontWeight: '700',
+    fontWeight: "700",
     color: Colors.text,
-    marginBottom: Spacing.sm,
+    marginBottom: 12,
   },
   badgeGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    width: "100%",
   },
-  badge: {
-    width: 70,
-    height: 70,
-    borderRadius: 35,
+  badgeWrapper: {
+    width: "30%",
+    alignItems: "center",
+    marginBottom: Spacing.md,
+  },
+  badgeCircle: {
+    width: 74,
+    height: 74,
+    borderRadius: 37,
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 2,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 2,
+  },
+  badgeCircleLocked: {
     backgroundColor: Colors.card,
-    borderWidth: 1,
-    borderColor: Colors.muted,
-    marginBottom: Spacing.sm,
+    borderColor: "#E0E0E0",
+    borderStyle: "dashed",
+    elevation: 0,
+    shadowOpacity: 0,
+  },
+  badgeImage: {
+    width: 44,
+    height: 44,
+  },
+  badgeImageLocked: {
+    opacity: 0.2,
+  },
+  badgeName: {
+    fontSize: 12,
+    fontWeight: "600",
+    marginTop: 6,
+    textAlign: "center",
   },
   signOutButton: {
     alignSelf: 'stretch',

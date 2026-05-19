@@ -9,6 +9,7 @@ interface UserXpData{
     xp_for_next_level: number | null;
     role: string;
     is_max_level: boolean;
+    unlocked_badges: string[];
 }
 
 export function useUserXp(){
@@ -28,5 +29,12 @@ export function useUserXp(){
             loadXp();
         }, [])
     );
-    return {xp: xpData?.xp ?? null, level: xpData?.level ?? null, xp_for_next_level: xpData?.xp_for_next_level ?? null, role: xpData?.role ?? null, is_max_level: xpData?.is_max_level ?? false,};
+    return {
+        xp: xpData?.xp ?? null,
+        level: xpData?.level ?? null,
+        xp_for_next_level: xpData?.xp_for_next_level ?? null,
+        role: xpData?.role ?? null,
+        is_max_level: xpData?.is_max_level ?? false,
+        unlocked_badges: xpData?.unlocked_badges ?? [],
+    };
 }
