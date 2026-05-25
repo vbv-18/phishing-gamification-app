@@ -7,7 +7,7 @@ import { useLoadLevel } from "@/hooks/useLoadLevel";
 import { useLevelState } from "@/hooks/useLevelState";
 import { useAuth } from "context/AuthContext";
 import LevelHeader from "../../components/ui/LevelHeader";
-import { TYPES } from "@/renderers/mechanicsMap";
+import { TYPES } from "renders/mechanicsMap";
 
 export default function LevelPlay(){
     const {levelId, moduleId} = useLocalSearchParams();

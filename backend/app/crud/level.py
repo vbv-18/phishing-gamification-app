@@ -6,6 +6,7 @@ from app.models.theoryProgress import TheoryProgress
 from app.crud.xp import add_xp, get_user_xp
 from app.utils.levels import get_user_level
 from app.utils.roles import get_role_from_level
+from app.utils.badges import get_badge5
 import copy
 from typing import Any
 
@@ -185,6 +186,7 @@ def complete_level(db: Session, user_id: int, level_id: int, answers: list):
     xp_before = get_user_xp(db, user_id).xp
     level_xp_before = get_user_level(xp_before)
     role_before = get_role_from_level(level_xp_before)
+    completed_count_before = db.query(LevelProgress).filter(LevelProgress.user_id == user_id, LevelProgress.completed == True).count() #for new badges
         
     total_questions = len(level.content.get("questions", []))
     correct_answers = evaluate_answers(level, answers)
@@ -219,6 +221,8 @@ def complete_level(db: Session, user_id: int, level_id: int, answers: list):
     xp_after = xp_before + xp_award
     level_xp_after = get_user_level(xp_after)
     role_after = get_role_from_level(level_xp_after)
+    completed_count_after = db.query(LevelProgress).filter(LevelProgress.user_id == user_id, LevelProgress.completed == True).count()
+    new_badge5 = get_badge5(completed_count_before, completed_count_after)
 
     return {"progress": db_progress,
             "xp_gained": xp_award,
@@ -228,7 +232,9 @@ def complete_level(db: Session, user_id: int, level_id: int, answers: list):
             "level_up": level_xp_after > level_xp_before,
             "new_level": level_xp_after,
             "role_changed": role_after != role_before,
-            "new_role": role_after}
+            "new_role": role_after,
+            "new_badge": new_badge5,
+            }
 
 def get_theory(db: Session, user_id: int, module_id: int):
     return db.query(TheoryProgress).filter(TheoryProgress.user_id == user_id, TheoryProgress.module_id == module_id).first()

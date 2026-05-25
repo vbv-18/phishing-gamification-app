@@ -9,6 +9,8 @@ from app.database.connection import get_db
 from app.schemas.users import DeleteUserRequest
 from app.utils.levels import get_user_level, get_xp_for_next_level
 from app.utils.roles import get_role_from_xp
+from app.utils.badges import get_unlocked_badges
+from app.models.levelProgress import LevelProgress
 
 router = APIRouter(prefix="/users", tags=["Users"])
 
@@ -24,7 +26,10 @@ def read_user_xp(db: Session = Depends(get_db), current_user: User = Depends(get
     xp_next = get_xp_for_next_level(xp)
     role = get_role_from_xp(xp)
 
-    return {"xp": xp, "level": level, "xp_for_next_level": xp_next, "role": role, "is_max_level": xp_next is None,}
+    completed_levels_count = db.query(LevelProgress).filter(LevelProgress.user_id == current_user.id, LevelProgress.completed == True).count()
+    unlocked_badges = get_unlocked_badges(xp, completed_levels_count)
+
+    return {"xp": xp, "level": level, "xp_for_next_level": xp_next, "role": role, "is_max_level": xp_next is None, "unlocked_badges": unlocked_badges}
 
 @router.delete("/me", status_code=status.HTTP_204_NO_CONTENT) #future: ask for password to delete user
 def delete_current_user(request: DeleteUserRequest, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):

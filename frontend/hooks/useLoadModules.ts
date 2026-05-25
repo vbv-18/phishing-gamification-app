@@ -1,4 +1,4 @@
-import { getLevel, getModules } from "@/services/api";
+import { getModules } from "@/services/api";
 import { useEffect, useState } from "react";
 import { Module } from "@/types/module";
 
