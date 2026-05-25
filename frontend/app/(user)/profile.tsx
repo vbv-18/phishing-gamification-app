@@ -9,6 +9,7 @@ import { useAuth } from "context/AuthContext";
 import ConfirmPasswordDelete from "../../components/user/ConfirmPasswordDelete";
 import { useUserXp } from "@/hooks/useUserXp";
 import ProfileHeader from "../../components/user/ProfileHeader";
+import { removeToken } from "@/services/auth";
 
 export default function Profile(){ //future -> use imagePicker from Expo
   const router = useRouter();
@@ -55,7 +56,7 @@ export default function Profile(){ //future -> use imagePicker from Expo
   const confirmDeleteAccount = async (password: string) => {
     try{
       await deleteAccount(password);
-      await signOut();
+      await removeToken(); //there is no need calling the backend because CASCADE in db
       setDeleteVisible(false);
 
       router.replace('/');
