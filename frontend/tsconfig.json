@@ -12,7 +12,7 @@
       "@/hooks/*": ["./hooks/*"],
       "@/assets/*": ["./assets/*"],
       "@/types/*": ["./types/*"],
-      "@/renderers/*": ["./renderers/*"]
+      "@/renderers/*": ["renders/*"]
     }
   },
   "include": [

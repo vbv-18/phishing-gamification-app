@@ -1,4 +1,4 @@
-import { getLevel, getLevelsbyModule } from "@/services/api";
+import { getLevelsbyModule } from "@/services/api";
 import { Level } from "@/types/level";
 import { useEffect, useState } from "react";
 
