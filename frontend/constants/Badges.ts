@@ -5,3 +5,9 @@ export const Badges = [
   { id: "badge4", name: "Predator", image: require('@/assets/images/badge4.png')},
   { id: "badge5", name: "Star", image: require('@/assets/images/badge5.png')},
 ];
+
+export const ROLE_BADGE: Record<string, string> = {
+  'Decoy Hunter': 'badge2',
+  'Digital Shark': 'badge3',
+  'Network Predator': 'badge4',
+};

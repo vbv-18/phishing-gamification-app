@@ -6,13 +6,14 @@ import { completeLevel, completeTheory, UserAnswer } from "@/services/api";
 import { useEffect, useRef, useState } from "react";
 import LevelUp from "../../components/ui/LevelUp";
 import ContinueButton from "../../components/ui/ContinueButton";
+import { ROLE_BADGE } from "@/constants/Badges";
 
 export default function LevelCompleted(){
     const {levelId, answersJSON, totalQuestions, moduleId, type} = useLocalSearchParams();
     const [xpGained, setXpGained] = useState<number | null>(null);
     const [correctAnswers, setCorrectAnswers] = useState<number | null>(null);
     const [levelUserUp, setLevelUserUp] = useState<{show: boolean, val: number}>({show: false, val: 0});
-    const [roleUp, setRoleUp] = useState<{show: boolean, val: string}>({show: false, val: ''});
+    const [badgeUp, setBadgeUp] = useState<{show: boolean, val: string, role?: string}>({show: false, val: '', role: undefined});
     const [isContinuePressed, setIsContinuePressed] = useState(false);
 
     const router = useRouter();
@@ -42,12 +43,15 @@ export default function LevelCompleted(){
 
                 setXpGained(result.xp_gained);
 
-                //if there have been new level/role
-                if(result.role_changed){
-                    setRoleUp({show: false, val: result.new_role});
-                }
                 if(result.level_up){
                     setLevelUserUp({show: false, val: result.new_level});
+                }
+
+                //badge for new role or for 3 levels completed
+                const badgeFromRole = result.role_changed ? ROLE_BADGE[result.new_role] : null;
+                const badge = badgeFromRole ?? result.new_badge ?? null;
+                if(badge){
+                    setBadgeUp({show: false, val: badge, role: badgeFromRole ? result.new_role: undefined});
                 }
             }
 
@@ -64,17 +68,17 @@ export default function LevelCompleted(){
             return;
         }
 
-        if(levelUserUp.val > 0 && !roleUp.show){ //level up and no role up
+        if(levelUserUp.val > 0 && !levelUserUp.show){
             setLevelUserUp(prev => ({...prev, show: true}));
         }
-        else if(levelUserUp.val === 0 && roleUp.val !== ''){ //level up already processed
-                setRoleUp(prev => ({...prev, show: true}));
+        else if(levelUserUp.val === 0 && badgeUp.val !== '' && !badgeUp.show){ 
+                setBadgeUp(prev => ({...prev, show: true}));
         }
-        else if(levelUserUp.val === 0 && roleUp.val === ''){ //all already processed
+        else if(levelUserUp.val === 0 && badgeUp.val === ''){
              router.replace({pathname: './moduleHome', params: {moduleId}});
         }
 
-    }, [isContinuePressed, levelUserUp.show, roleUp.show, levelUserUp.val, roleUp.val]);
+    }, [isContinuePressed, levelUserUp.show, badgeUp.show, levelUserUp.val, badgeUp.val]);
 
     const handleFinish = async() => {
         setIsContinuePressed(true);
@@ -107,7 +111,7 @@ export default function LevelCompleted(){
             </Animated.View>
 
             {levelUserUp.show && (<LevelUp type="level" value={levelUserUp.val} onClose={() => {setLevelUserUp({show: false, val: 0})}}></LevelUp>)}
-            {roleUp.show && (<LevelUp type="role" value={roleUp.val} onClose={() => {setRoleUp({show: false, val: ''})}}></LevelUp>)}
+            {badgeUp.show && (<LevelUp type="badge" value={badgeUp.val} role={badgeUp.role} onClose={() => {setBadgeUp({show: false, val: '', role: undefined})}}></LevelUp>)}
         </View>
     )
 }
@@ -182,28 +186,28 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: '600',
     },
-continueWrapper: {
-    backgroundColor: Colors.shadowContinue, 
-    borderRadius: 15,
-    paddingBottom: 5,
-    marginBottom: 12,
-    alignSelf: 'stretch',
-  },
-  continue: {
-    backgroundColor: Colors.continueButton,
-    height: 50,
-    width: '100%',
-    borderRadius: 15,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  continueWrappedPressed: {
-    paddingBottom: 0,
-    transform: [{translateY: 5}],
-  },
-  continueText: {
-    color: Colors.primary,
-    fontWeight: '700',
-    fontSize: 16
-  },
+    continueWrapper: {
+        backgroundColor: Colors.shadowContinue, 
+        borderRadius: 15,
+        paddingBottom: 5,
+        marginBottom: 12,
+        alignSelf: 'stretch',
+    },
+    continue: {
+        backgroundColor: Colors.continueButton,
+        height: 50,
+        width: '100%',
+        borderRadius: 15,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    continueWrappedPressed: {
+        paddingBottom: 0,
+        transform: [{translateY: 5}],
+    },
+    continueText: {
+        color: Colors.primary,
+        fontWeight: '700',
+        fontSize: 16
+    },
 });

@@ -19,3 +19,9 @@ def get_unlocked_badges(xp: int, completed_levels_count: int) -> list[str]: #cal
         unlocked.append('badge5')
 
     return unlocked
+
+def get_badge5(completed_before: int, completed_after: int) -> str | None:
+    if completed_before < 3 <= completed_after:
+        return 'badge5'
+    
+    return None

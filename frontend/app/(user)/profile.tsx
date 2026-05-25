@@ -1,11 +1,9 @@
 import { View, Text, StyleSheet, Pressable, Image, Alert, Animated, ScrollView } from "react-native";
 import { useEffect, useState } from "react";
 import { useRouter } from "expo-router";
-
 import { Colors } from "@/constants/Colors";
 import { Spacing } from "@/constants/Spacing";
 import { Badges } from "@/constants/Badges";
-
 import { getProfile, deleteAccount } from "@/services/api";
 import { useAuth } from "context/AuthContext";
 import ConfirmPasswordDelete from "../../components/user/ConfirmPasswordDelete";

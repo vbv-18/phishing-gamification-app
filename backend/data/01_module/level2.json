@@ -23,7 +23,7 @@
       {
         "id": 2,
         "context": "¡Eres la ganadora!",
-        "text": "¡Felicidades! Has sido seleccionada para ganar un Iphone 15 Pro por el sorteo del viernes. ¡Reclámalo ya!",
+        "text": "¡Felicidades! Has sido seleccionada para ganar un iPhone 15 Pro por el sorteo del viernes. ¡Reclámalo ya!",
         "options": [
               {"id": "a", "text": "Codicia"},
               {"id": "b", "text": "Miedo/Pánico"},

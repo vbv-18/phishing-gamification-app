@@ -2,20 +2,24 @@ import { useEffect, useRef } from "react";
 import { View, Text, StyleSheet, Animated, Pressable, Image } from "react-native";
 import { Colors } from "@/constants/Colors";
 import { Spacing } from "@/constants/Spacing";
+import { Badges } from "@/constants/Badges";
 import {Hexagon} from "lucide-react-native"
 import { useUserXp } from "@/hooks/useUserXp";
 
 interface Props{
-    type: 'level' | 'role';
+    type: 'level' | 'badge';
+    role?: string; //for badges with the name of the role
     value: string | number;
     onClose: () => void;
 }
 
-export default function LevelUp({type, value, onClose}: Props){
+export default function LevelUp({type, value, role, onClose}: Props){
     const scaleAnim = useRef(new Animated.Value(0)).current;
     const progressAnim = useRef(new Animated.Value(0)).current;
 
     const {xp, xp_for_next_level, is_max_level, level} = useUserXp();
+
+    const badgeData = type === 'badge' ? Badges.find(b => b.id === value) : null;
 
     useEffect(() => {
         Animated.spring(scaleAnim, {toValue: 1, tension: 50, friction: 7, useNativeDriver: true,}).start();
@@ -33,17 +37,25 @@ export default function LevelUp({type, value, onClose}: Props){
 
     return(
             <Animated.View style={[styles.container, {transform: [{scale: scaleAnim}]}]}>
-                <View style={type === 'level' ? styles.hexagonWrapper : styles.roleImageWrapper}>
-                    {type === 'level' ? (
+                <View style={type === 'level' ? styles.hexagonWrapper : styles.badgeImageWrapper}>
+                    {type === 'level' && (
                         <>
                         <Hexagon size={160} color={Colors.primary} fill={Colors.primary} strokeLinejoin="miter" strokeWidth={1}></Hexagon>
                         <Text style={styles.hexagonNumber}>{value}</Text>
                         </>
-                    ) : (<Image source={require('../../assets/images/roleUp.png')} style={styles.roleImage} resizeMode="contain"></Image>)}
+                    )}
+
+                    {type === 'badge' && badgeData && (<Image source={badgeData.image} style={styles.badgeImage} resizeMode="contain"></Image>)}
                 </View>
 
-                <Text style={styles.title}>{type === 'level' ? '¡NUEVO NIVEL!' : '¡NUEVO ROL!'}</Text>
-                {type === 'role' && (<Text style={styles.roleUp}>{value}</Text>)}
+                <Text style={styles.title}>{type === 'level' ? '¡NUEVO NIVEL!' : '¡NUEVA INSIGNIA!'}</Text>
+
+                {type === 'badge' && badgeData && (
+                    <>
+                    {role ? <Text style={styles.roleUp}>{role}</Text>
+                    : <Text style={styles.roleUp}>¡3 niveles completados!</Text>}
+                    </>
+                )}
 
                 {type === 'level' && (
                     <View style={styles.progressSection}>
@@ -83,14 +95,14 @@ const styles = StyleSheet.create({
         padding: Spacing.xl,
         zIndex: 1000,
     },
-    roleImageWrapper: {
+    badgeImageWrapper: {
         width: 160,
         height: 160,
         justifyContent: 'center',
         alignItems: 'center',
-        marginBottom: 20,
+        marginBottom: 16,
     },
-    roleImage: {
+    badgeImage: {
         width: '90%',
         height: '90%',
     },

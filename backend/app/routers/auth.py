@@ -39,7 +39,7 @@ def login_user(login_req: OAuth2PasswordRequestForm = Depends(), db: Session = D
     access_token = create_access_token({"sub": user.username})
     refresh_token = create_refresh_token(user.id, db)
 
-    return {"access_token": access_token, "refresh_token": refresh_token, "token_type": "bearer"}
+    return {"access_token": access_token, "refresh_token": refresh_token, "token_type": "bearer", "new_badge": "badge1"} #badge for register
 
 @router.post("/refresh", response_model=Token)
 def refresh_token(body: RefreshRequest, db: Session = Depends(get_db)): #rotation tokens
