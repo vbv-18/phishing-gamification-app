@@ -12,9 +12,5 @@ class UserResponse(BaseModel):
 
     model_config = {"from_attributes": True}
 
-class LoginRequest(BaseModel):
-    username: str
-    password: str
-
 class DeleteUserRequest(BaseModel):
     password: str

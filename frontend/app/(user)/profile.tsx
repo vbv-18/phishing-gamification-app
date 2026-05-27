@@ -10,10 +10,11 @@ import ConfirmPasswordDelete from "../../components/user/ConfirmPasswordDelete";
 import { useUserXp } from "@/hooks/useUserXp";
 import ProfileHeader from "../../components/user/ProfileHeader";
 import { removeToken } from "@/services/auth";
+import { ProfileData } from "@/types/user";
 
 export default function Profile(){ //future -> use imagePicker from Expo
   const router = useRouter();
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<ProfileData | null>(null);
   const [error, setError] = useState('');
   const [deleteVisible, setDeleteVisible] = useState(false);
   const {signOut} = useAuth();
@@ -133,12 +134,6 @@ export default function Profile(){ //future -> use imagePicker from Expo
 }
   
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.background,
-    alignItems: 'center',
-    padding: Spacing.lg,
-  },
   scrollContent: {
     alignItems: 'center',
     padding: Spacing.lg,
@@ -178,11 +173,6 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     overflow: 'hidden',
     letterSpacing: 1,
-  },
-  xpText: {
-    fontSize: 16,
-    fontWeight: '700',
-    color: Colors.text,
   },
   progressContainer:{
     width: '85%',
@@ -249,9 +239,6 @@ const styles = StyleSheet.create({
   badgeImage: {
     width: 44,
     height: 44,
-  },
-  badgeImageLocked: {
-    opacity: 0.2,
   },
   badgeName: {
     fontSize: 12,

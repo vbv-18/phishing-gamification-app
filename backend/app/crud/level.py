@@ -31,14 +31,15 @@ def get_modules(db: Session, user_id: int):
 
     result = []
     for module in modules:
-        levels = get_levels_by_module(db, module.id, user_id)
-        all_completed = True
-        theory_seen = seen_theory(db, user_id, module.id)
-
-        if len(levels) == 0:
+        levels_data = get_levels_by_module(db, module.id, user_id)
+        if not levels_data:
             all_completed = False
-
+            theory_seen = seen_theory(db, user_id, module.id)
         else:
+            levels = levels_data['levels']
+            all_completed = True
+            theory_seen = levels_data['theory_seen']
+
             for l in levels:
                 if not l["completed"]:
                     all_completed = False
@@ -84,7 +85,7 @@ def get_levels_by_module(db: Session, module_id: int, user_id: int):
     levels = db.query(Level).filter(Level.module_id == module_id).order_by(Level.difficulty.asc()).all() #get all the levels from a module
 
     if not levels:
-        return []
+        return None #module not found != module without levels
     
     level_ids = []
     for level in levels:
@@ -103,7 +104,7 @@ def get_levels_by_module(db: Session, module_id: int, user_id: int):
         if not completed: #next level locked
             unlocked = False
 
-    return result
+    return {"theory_seen": theory_seen, "levels": result}
 
 def get_next_level(db: Session, user_id: int, module_id: int): #return the first level not completed yet
     levels = db.query(Level).filter(Level.module_id == module_id).order_by(Level.difficulty.asc()).all()

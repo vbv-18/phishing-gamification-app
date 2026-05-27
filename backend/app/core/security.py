@@ -11,8 +11,12 @@ from sqlalchemy.orm import Session
 from app.database.connection import get_db
 from app.models.user import User
 from app.models.refreshToken import RefreshToken
+from app.models.access_registry import AccessRegistry
 from app.schemas.token import TokenData
 from app.core.config import SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES, REFRESH_TOKEN_EXPIRE_DAYS
+
+MAX_ATTEMPTS = 5
+BLOCK_MINUTES = 15
 
 passwd_context = CryptContext(schemes=["bcrypt"])
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/signIn")
@@ -48,7 +52,7 @@ def create_refresh_token(user_id: int, db: Session) -> str: #generates a random 
 
     return token
 
-def validate_refresh_token(token: str, db: Session): #validates the token and return the associated user
+def validate_refresh_token(token: str, db: Session) -> User: #validates the token and return the associated user
     credentials_exception = HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid refresh token")
 
     token_hash = hash_refresh_token(token)
@@ -63,7 +67,7 @@ def validate_refresh_token(token: str, db: Session): #validates the token and re
     
     return db_token.user
 
-def revoke_refresh_token(token: str, db: Session):
+def revoke_refresh_token(token: str, db: Session) -> bool:
     token_hash = hash_refresh_token(token)
     db_token = db.query(RefreshToken).filter(RefreshToken.token == token_hash).first()
     if db_token:
@@ -73,17 +77,17 @@ def revoke_refresh_token(token: str, db: Session):
     
     return False
 
-def revoke_all_refresh_tokens(user_id: int, db: Session): #when user sign out
+def revoke_all_refresh_tokens(user_id: int, db: Session) -> None: #when user sign out
     db.query(RefreshToken).filter(RefreshToken.user_id == user_id, RefreshToken.revoked == False).update({"revoked": True})
     db.commit()
 
-def clean_refresh_tokens(user_id: int, db: Session): #remove expired tokens to avoid indefinite saving, done in every user sign in
+def clean_refresh_tokens(user_id: int, db: Session) -> None: #remove expired tokens to avoid indefinite saving, done in every user sign in
     now = datetime.now(timezone.utc)
     db.query(RefreshToken).filter(RefreshToken.user_id == user_id, (RefreshToken.revoked == True) | (RefreshToken.expires < now)).delete(synchronize_session=False)
 
     db.commit()
 
-def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
+def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)) -> User:
     credentials_exception = HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Could not validate credentials", headers={"WWW-Authenticate": "Bearer"})
 
     try:
@@ -91,9 +95,8 @@ def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(
         username = payload.get("sub")
         if username is None:
             raise credentials_exception
-        token_data = TokenData(username=username)
 
-    except InvalidTokenError:
+    except Exception:
         raise credentials_exception
     
     user = db.query(User).filter(User.username == username).first()
@@ -101,3 +104,33 @@ def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(
         raise credentials_exception
     
     return user
+
+def is_blocked(username: str, db: Session) -> bool:
+    record = db.query(AccessRegistry).filter(AccessRegistry.username == username).first()
+    if not record:
+        return False
+    
+    if record.blocked_until and record.blocked_until > datetime.now(timezone.utc):
+        return True
+
+    if record.blocked_until: #expired block
+        db.delete(record)
+        db.commit()
+
+    return False
+
+def register_failed(username: str, db: Session) -> None:
+    record = db.query(AccessRegistry).filter(AccessRegistry.username == username).first()
+    if not record:
+        record = AccessRegistry(username=username, count=0, blocked_until=None)
+        db.add(record)
+    
+    record.count += 1
+    if record.count >= MAX_ATTEMPTS:
+        record.blocked_until = datetime.now(timezone.utc) + timedelta(minutes=BLOCK_MINUTES)
+
+    db.commit()
+
+def clear_attempts(username: str, db: Session) -> None:
+    db.query(AccessRegistry).filter(AccessRegistry.username == username).delete()
+    db.commit()

@@ -31,10 +31,10 @@ def read_user_xp(db: Session = Depends(get_db), current_user: User = Depends(get
 
     return {"xp": xp, "level": level, "xp_for_next_level": xp_next, "role": role, "is_max_level": xp_next is None, "unlocked_badges": unlocked_badges}
 
-@router.delete("/me", status_code=status.HTTP_204_NO_CONTENT) #future: ask for password to delete user
+@router.delete("/me", status_code=status.HTTP_204_NO_CONTENT)
 def delete_current_user(request: DeleteUserRequest, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
     if not verify_password(request.password, current_user.hashed_passwd):
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Incorrect password")
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Incorrect password")
     
     delete_user(db, current_user)
 

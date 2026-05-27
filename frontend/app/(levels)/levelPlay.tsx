@@ -23,7 +23,7 @@ export default function LevelPlay(){
       }
     }, [levelState.finished]);
 
-    useEffect(() => {
+    useEffect(() => { //defensa en profundidad?
       if(!isAuthenticated){
         router.replace("/");
       }

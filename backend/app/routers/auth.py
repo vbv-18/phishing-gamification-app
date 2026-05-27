@@ -5,9 +5,10 @@ from sqlalchemy.orm import Session
 from app.schemas.users import UserCreate, UserResponse
 from app.database.connection import get_db
 from app.models.user import User
+from app.models.access_registry import AccessRegistry
 from app.schemas.token import Token, RefreshRequest
 from app.crud.users import create_user
-from app.core.security import verify_password, create_access_token, create_refresh_token, validate_refresh_token, revoke_refresh_token, revoke_all_refresh_tokens, get_current_user, clean_refresh_tokens
+from app.core.security import verify_password, create_access_token, create_refresh_token, validate_refresh_token, revoke_refresh_token, revoke_all_refresh_tokens, get_current_user, clean_refresh_tokens, is_blocked, register_failed, clear_attempts
 
 router = APIRouter(prefix="/auth", tags=["Auth"])
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/signIn")
@@ -17,11 +18,8 @@ def register_user(user: UserCreate, db: Session = Depends(get_db)):
     existing_email = db.query(User).filter(User.email == user.email).first()
     existing_username = db.query(User).filter(User.username == user.username).first()
 
-    if existing_email:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="The email already exists")
-    
-    elif existing_username:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="The username already exists")
+    if existing_email or existing_username:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="User already exists")
     
     new_user = create_user(db, user)
 
@@ -29,17 +27,24 @@ def register_user(user: UserCreate, db: Session = Depends(get_db)):
 
 @router.post("/signIn", response_model=Token)
 def login_user(login_req: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
-    user = db.query(User).filter(User.username == login_req.username).first()
+    username = login_req.username
+
+    if is_blocked(username, db):
+        raise HTTPException(status_code=status.HTTP_429_TOO_MANY_REQUESTS, detail='Too many failed attempts. Try again later')
+        
+    user = db.query(User).filter(User.username == username).first()
 
     if not user or not verify_password(login_req.password, user.hashed_passwd):
+        register_failed(username, db)
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials")
     
+    clear_attempts(username, db)
     clean_refresh_tokens(user.id, db) #clean obsolete tokens before create news
     
     access_token = create_access_token({"sub": user.username})
     refresh_token = create_refresh_token(user.id, db)
 
-    return {"access_token": access_token, "refresh_token": refresh_token, "token_type": "bearer", "new_badge": "badge1"} #badge for register
+    return {"access_token": access_token, "refresh_token": refresh_token, "token_type": "bearer"}
 
 @router.post("/refresh", response_model=Token)
 def refresh_token(body: RefreshRequest, db: Session = Depends(get_db)): #rotation tokens

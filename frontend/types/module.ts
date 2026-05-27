@@ -10,6 +10,12 @@ export interface TheorySection{
     items: TheoryItem[];
 }
 
+export interface TheoryData{
+    module_id: number;
+    title: string;
+    theory: TheorySection[];
+}
+
 export interface Module{
     id: number;
     title: string;

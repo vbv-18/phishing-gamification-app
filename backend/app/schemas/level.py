@@ -1,16 +1,6 @@
 from pydantic import BaseModel
 from typing import Any
 
-class ModuleBase(BaseModel):
-    title: str
-    theory: list[dict]
-
-class ModuleResponse(ModuleBase):
-    id: int
-    theory_seen: bool = False
-
-    model_config = {'from_attributes': True}
-
 class TheoryItem(BaseModel):
     concept: str
     definition: str
@@ -57,6 +47,10 @@ class LevelList(BaseModel):
 
     model_config = {"from_attributes": True}
 
+class ModuleLevelsResponse(BaseModel):
+    theory_seen: bool
+    levels: list[LevelList]
+
 class UserAnswer(BaseModel):
     question_id: int
     answer: Any
@@ -68,10 +62,6 @@ class CheckUserAnswerRequest(BaseModel):
 class CheckAUserAnswerResponse(BaseModel):
     correct: bool
     feedback: str
-
-# signal_classification -> bool
-# domain_analysis selection -> domain string chosen
-# domain_analysis highlight -> segment list marked as suspicious
 
 class CompleteLevelRequest(BaseModel):
     answers: list[UserAnswer]

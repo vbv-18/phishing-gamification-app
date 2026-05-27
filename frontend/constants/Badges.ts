@@ -6,7 +6,9 @@ export const Badges = [
   { id: "badge5", name: "Star", image: require('@/assets/images/badge5.png')},
 ];
 
-export const ROLE_BADGE: Record<string, string> = {
+export type BadgeId = typeof Badges[number]['id'];
+
+export const ROLE_BADGE: Record<string, BadgeId> = {
   'Decoy Hunter': 'badge2',
   'Digital Shark': 'badge3',
   'Network Predator': 'badge4',

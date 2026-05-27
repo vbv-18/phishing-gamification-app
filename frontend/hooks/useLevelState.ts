@@ -1,7 +1,6 @@
 import { Animated } from "react-native";
 import { useEffect, useState } from "react";
-import { UserAnswer } from "@/services/api";
-import { checkAnswer } from "@/services/api";
+import { UserAnswer, checkAnswer, AnswerValue } from "@/services/api";
 import { Level } from "@/types/level";
 
 export interface LevelState{
@@ -14,7 +13,7 @@ export interface LevelState{
   progressAnimation: Animated.Value;
   isChecking: boolean;
 
-  submitAnswer: (questionId: number, answer: boolean | string |string [] | Record<string, string>) => Promise<void>;
+  submitAnswer: (questionId: number, answer: AnswerValue) => Promise<void>;
   handleContinue: () => void;  
 }
 
@@ -42,7 +41,7 @@ export function useLevelState(level: Level | null): LevelState{
       Animated.timing(progressAnimation, {toValue: progress, duration: 500, useNativeDriver: false,}).start();
     }, [progressCount, level]);
 
-    const submitAnswer = async (questionId: number, answer: boolean | string | string[] | Record<string, string>) => {
+    const submitAnswer = async (questionId: number, answer: AnswerValue) => {
       if(isChecking || !level){
         return;
       }

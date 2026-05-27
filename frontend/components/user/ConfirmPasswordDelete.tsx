@@ -1,5 +1,5 @@
-import { Modal, View, Text, TextInput, Pressable, StyleSheet } from "react-native";
-import { useState } from "react";
+import { Modal, View, Text, TextInput, Pressable, StyleSheet, Keyboard } from "react-native";
+import { useEffect, useState } from "react";
 import { Colors } from "@/constants/Colors";
 import { Spacing } from "@/constants/Spacing";
 
@@ -15,6 +15,12 @@ type Props = {
 
 export default function ConfirmPasswordDelete({visible, title, subtitle, confirmLabel, onConfirm, onCancel, destructive = false} : Props){
     const [password, setPassword] = useState('');
+
+    useEffect(() => {
+        if(visible){
+            setPassword('');
+        }
+    }, [visible]);
 
     const handleConfirm = () => {
         if(!password){
@@ -37,14 +43,16 @@ export default function ConfirmPasswordDelete({visible, title, subtitle, confirm
                     <Text style={styles.title}>{title}</Text>
                     <Text style={styles.subtitle}>{subtitle}</Text>
 
-                    <TextInput style={styles.input} placeholder="Contraseña" secureTextEntry value={password} onChangeText={setPassword} autoFocus></TextInput>
+                    <TextInput style={styles.input} placeholder="Contraseña" secureTextEntry value={password} onChangeText={setPassword} autoFocus returnKeyType="done" 
+                    onSubmitEditing={handleConfirm}></TextInput>
 
                     <View style={styles.actions}>
                         <Pressable onPress={handleCancel} style={styles.cancelButton}>
                             <Text style={styles.cancelText}>Cancelar</Text>
                         </Pressable>
 
-                        <Pressable onPress={handleConfirm} style={[styles.confirmButton, destructive && styles.confirmButtonDestructive,]}>
+                        <Pressable onPress={() => {Keyboard.dismiss(); handleConfirm();}} style={[styles.confirmButton, destructive && styles.confirmButtonDestructive, 
+                            !password && {opacity: 0.5}]}>
                             <Text style={styles.confirmText}>{confirmLabel}</Text>
                         </Pressable>
                     </View>

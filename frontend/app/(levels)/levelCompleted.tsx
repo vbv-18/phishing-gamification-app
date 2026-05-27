@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import LevelUp from "../../components/ui/LevelUp";
 import ContinueButton from "../../components/ui/ContinueButton";
 import { ROLE_BADGE } from "@/constants/Badges";
+import { CompleteLevelResponse, CompleteTheoryResponse } from "@/types/level";
 
 export default function LevelCompleted(){
     const {levelId, answersJSON, totalQuestions, moduleId, type} = useLocalSearchParams();
@@ -31,7 +32,7 @@ export default function LevelCompleted(){
     useEffect(() => {
         const markCompleted = async () => {
             try{
-                let result;
+                let result: CompleteLevelResponse | CompleteTheoryResponse;
                 if(isTheory){
                     result = await completeTheory(Number(moduleId));
                 }
@@ -49,7 +50,7 @@ export default function LevelCompleted(){
 
                 //badge for new role or for 3 levels completed
                 const badgeFromRole = result.role_changed ? ROLE_BADGE[result.new_role] : null;
-                const badge = badgeFromRole ?? result.new_badge ?? null;
+                const badge = badgeFromRole ?? ('new_badge' in result ? result.new_badge : null);
                 if(badge){
                     setBadgeUp({show: false, val: badge, role: badgeFromRole ? result.new_role: undefined});
                 }
@@ -80,7 +81,7 @@ export default function LevelCompleted(){
 
     }, [isContinuePressed, levelUserUp.show, badgeUp.show, levelUserUp.val, badgeUp.val]);
 
-    const handleFinish = async() => {
+    const handleFinish = () => {
         setIsContinuePressed(true);
     };
 
@@ -180,19 +181,6 @@ const styles = StyleSheet.create({
         color: Colors.primary,
         marginBottom: 15,
     },
-    repeatText: {
-        marginTop: Spacing.md,
-        color: Colors.primary,
-        fontSize: 16,
-        fontWeight: '600',
-    },
-    continueWrapper: {
-        backgroundColor: Colors.shadowContinue, 
-        borderRadius: 15,
-        paddingBottom: 5,
-        marginBottom: 12,
-        alignSelf: 'stretch',
-    },
     continue: {
         backgroundColor: Colors.continueButton,
         height: 50,
@@ -200,14 +188,5 @@ const styles = StyleSheet.create({
         borderRadius: 15,
         justifyContent: 'center',
         alignItems: 'center',
-    },
-    continueWrappedPressed: {
-        paddingBottom: 0,
-        transform: [{translateY: 5}],
-    },
-    continueText: {
-        color: Colors.primary,
-        fontWeight: '700',
-        fontSize: 16
     },
 });

@@ -6,7 +6,6 @@ import json
 import os
 
 #ref: https://www.incibe.es/ciudadania/tematicas/ingenieria-social-fraudes-online/phishing
-#a lo mejor poner solo una pildora de teoria por modulo?
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_PATH = os.path.join(BASE_DIR, "data")

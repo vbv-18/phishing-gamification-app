@@ -82,12 +82,6 @@ const styles = StyleSheet.create({
     color: Colors.text,
     textAlign: 'center',
   },
-  subtitle: {
-    fontSize: 16,
-    color: Colors.muted,
-    marginBottom: Spacing.lg,
-    textAlign: 'center',
-  },
   moduleCard: {
     backgroundColor: Colors.primary,
     borderRadius: 20,
@@ -98,11 +92,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
     shadowRadius: 0,
     elevation: 8,
-},
-  modulePressed: {
-    transform: [{ translateY: 4 }],
-    shadowOffset: { width: 0, height: 2 },
-    elevation: 3,
   },
   moduleCompleted: {
     backgroundColor: Colors.moduleCompleted,

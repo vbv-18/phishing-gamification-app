@@ -6,11 +6,11 @@ import { Spacing } from '@/constants/Spacing';
 export default function Home() {
   const router = useRouter();
 
-  const handleSignIn = async () => {
+  const handleSignIn = () => {
     router.push('./signIn');
   }
 
-  const handleSignUp = async () => {
+  const handleSignUp = () => {
     router.push('./signUp');
   }
 

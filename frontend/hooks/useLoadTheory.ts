@@ -1,12 +1,6 @@
 import { useEffect, useState } from "react";
 import { getModuleTheory } from "@/services/api";
-import { TheorySection } from "@/types/module";
-
-interface TheoryData{
-    module_id: number;
-    title: string;
-    theory: TheorySection[];
-}
+import { TheoryData } from "@/types/module";
 
 export function useLoadTheory(moduleId: number | string){
     const [theoryData, setTheoryData] = useState<TheoryData | null>(null);

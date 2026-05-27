@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 
 from app.database.connection import get_db
 from app.core.security import get_current_user
-from app.schemas.level import LevelResponse, LevelList, CompleteLevelRequest, CheckUserAnswerRequest, CheckAUserAnswerResponse, ModuleTheoryResponse
+from app.schemas.level import LevelResponse, LevelList, CompleteLevelRequest, CheckUserAnswerRequest, CheckAUserAnswerResponse, ModuleLevelsResponse, ModuleTheoryResponse
 from app.crud.level import get_modules, get_module_theory, get_level, get_level_secure, get_next_level, complete_level, get_levels_by_module, validate_question, mark_theory_seen, is_level_unlocked
 
 router = APIRouter(prefix="/levels", tags=["Levels"])
@@ -33,14 +33,14 @@ def read_next_level(module_id: int, db: Session = Depends(get_db), user = Depend
     return get_level_secure(db, next_level.id)
 
 
-@router.get("/module/{module_id}", response_model=list[LevelList])
+@router.get("/module/{module_id}", response_model=ModuleLevelsResponse)
 def read_levels_by_module(module_id: int, db: Session = Depends(get_db), user = Depends(get_current_user)):
-    levels = get_levels_by_module(db, module_id, user.id)
+    data = get_levels_by_module(db, module_id, user.id)
 
-    if not levels:
+    if data is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Module not found")
     
-    return levels
+    return data
 
 @router.post("/module/{module_id}/theory/complete")
 def complete_theory(module_id: int, db: Session = Depends(get_db), user=Depends(get_current_user)):
