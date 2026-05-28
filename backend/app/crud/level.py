@@ -19,35 +19,39 @@ def create_module(db: Session, module_data: dict):
     return module
 
 def create_level(db: Session, level_data: dict):
-    level = Level(module_id=int(level_data['module_id']), difficulty=int(level_data['difficulty']), title=str(level_data['title']), content=level_data['content'])
+    level = Level(module_id=int(level_data['module_id']), module_level=level_data['module_level'], difficulty=int(level_data['difficulty']), title=str(level_data['title']), content=level_data['content'])
     db.add(level)
     db.commit()
     db.refresh(level)
 
     return level
 
+def get_module(db: Session, module_id: int, user_id: int):
+    module = db.query(Module).filter(Module.id == module_id).first()
+    if not module:
+        return None
+    
+    levels_data = get_levels_by_module(db, module_id, user_id)
+    if not levels_data:
+        all_completed = False
+        theory_seen = seen_theory(db, user_id, module_id)
+
+    else:
+        theory_seen = levels_data["theory_seen"]
+        all_completed = all(level["completed"] for level in levels_data["levels"])
+
+    return {
+        "id": module.id,
+        "title": module.title,
+        "all_completed": all_completed,
+        "theory": module.theory or [],
+        "theory_seen": theory_seen,
+    }
+
 def get_modules(db: Session, user_id: int):
-    modules =  db.query(Module).order_by(Module.id.asc()).all() #if there are 10 modules, 10 will be before 1
+    modules =  db.query(Module).order_by(Module.id.asc()).all()
 
-    result = []
-    for module in modules:
-        levels = get_levels_by_module(db, module.id, user_id)
-        all_completed = True
-        theory_seen = seen_theory(db, user_id, module.id)
-
-        if len(levels) == 0:
-            all_completed = False
-
-        else:
-            for l in levels:
-                if not l["completed"]:
-                    all_completed = False
-                    break
-
-        module_info = {"id": module.id, "title": module.title, "all_completed": all_completed, "theory": module.theory, "theory_seen": theory_seen,}
-        result.append(module_info)
-
-    return result
+    return [get_module(db, module.id, user_id) for module in modules]
 
 def get_module_theory(db: Session, module_id: int):
     module = db.query(Module).filter(Module.id == module_id).first()
@@ -56,11 +60,11 @@ def get_module_theory(db: Session, module_id: int):
     
     return {"module_id": module.id, "title": module.title, "theory": module.theory or []}
 
-def get_level(db: Session, level_id: int): #expose the answers
-    return db.query(Level).filter(Level.id == level_id).first()
+def get_level(db: Session, module_id: int, module_level: int): #expose the answers
+    return db.query(Level).filter(Level.module_id == module_id, Level.module_level == module_level).first()
 
-def get_level_secure(db: Session, level_id: int):
-    level = db.query(Level).filter(Level.id == level_id).first()
+def get_level_secure(db: Session, module_id: int, module_level: int):
+    level = get_level(db, module_id, module_level)
     if not level:
         return None
 
@@ -73,7 +77,7 @@ def get_level_secure(db: Session, level_id: int):
             q.pop("feedback_wrong", None)
 
     return {
-        "id": level.id,
+        "id": level.module_level,
         "module_id": level.module_id,
         "difficulty": level.difficulty,
         "title": level.title,
@@ -81,10 +85,10 @@ def get_level_secure(db: Session, level_id: int):
     }
 
 def get_levels_by_module(db: Session, module_id: int, user_id: int):
-    levels = db.query(Level).filter(Level.module_id == module_id).order_by(Level.difficulty.asc()).all() #get all the levels from a module
+    levels = db.query(Level).filter(Level.module_id == module_id).order_by(Level.module_level.asc()).all() #get all the levels from a module
 
     if not levels:
-        return []
+        return None #module not found != module without levels
     
     level_ids = []
     for level in levels:
@@ -98,32 +102,12 @@ def get_levels_by_module(db: Session, module_id: int, user_id: int):
 
     for level in levels:
         completed = level.id in completed_ids
-        result.append({"id": level.id, "title": level.title, "difficulty": level.difficulty, "completed": completed, "unlocked": unlocked})
+        result.append({"id": level.module_level, "title": level.title, "difficulty": level.difficulty, "completed": completed, "unlocked": unlocked})
 
         if not completed: #next level locked
             unlocked = False
 
-    return result
-
-def get_next_level(db: Session, user_id: int, module_id: int): #return the first level not completed yet
-    levels = db.query(Level).filter(Level.module_id == module_id).order_by(Level.difficulty.asc()).all()
-    if not levels:
-        return None
-    
-    if not seen_theory(db, user_id, module_id): #theory not seen yet
-        return None
-    
-    level_ids = []
-    for level in levels:
-        level_ids.append(level.id)
-
-    completed_ids = get_completed_levels(db, user_id, level_ids)
-
-    for level in levels:
-        if level.id not in completed_ids:
-            return level
-    
-    return None
+    return {"theory_seen": theory_seen, "levels": result}
 
 def validate_question(level: Level, question_id: int, user_answer: Any): #validate one question by the exercise type
     content = level.content
@@ -177,10 +161,12 @@ def evaluate_answers(level: Level, answers: list) -> int: #chose evaluator based
 
     return correct_count
 
-def complete_level(db: Session, user_id: int, level_id: int, answers: list):
-    level = get_level(db, level_id)
+def complete_level(db: Session, user_id: int, module_id: int, module_level: int, answers: list):
+    level = get_level(db, module_id, module_level)
     if not level:
         return None
+    
+    real_id = level.id
     
     #previous state
     xp_before = get_user_xp(db, user_id).xp
@@ -192,7 +178,7 @@ def complete_level(db: Session, user_id: int, level_id: int, answers: list):
     correct_answers = evaluate_answers(level, answers)
     is_perfect = total_questions > 0 and correct_answers == total_questions # to know if the level is completed 100%
 
-    db_progress = db.query(LevelProgress).filter(LevelProgress.user_id == user_id, LevelProgress.level_id == level_id).first()
+    db_progress = db.query(LevelProgress).filter(LevelProgress.user_id == user_id, LevelProgress.level_id == real_id).first()
 
     already_perfect = db_progress is not None and db_progress.completed #user already completed 100% the level
     is_first_attempt = db_progress is None #to give a bonus to the user for completing the level 100% at first attempt
@@ -207,7 +193,7 @@ def complete_level(db: Session, user_id: int, level_id: int, answers: list):
         xp_award = correct_answers * 2 #user complete the level but not 100% (has mistakes)
 
     if not db_progress:
-        db_progress = LevelProgress(user_id=user_id, level_id=level_id, completed=is_perfect)
+        db_progress = LevelProgress(user_id=user_id, level_id=real_id, completed=is_perfect)
         db.add(db_progress)
     elif is_perfect and not already_perfect: #user complete a level 100% when it was not 100%
         db_progress.completed = True
@@ -224,11 +210,12 @@ def complete_level(db: Session, user_id: int, level_id: int, answers: list):
     completed_count_after = db.query(LevelProgress).filter(LevelProgress.user_id == user_id, LevelProgress.completed == True).count()
     new_badge5 = get_badge5(completed_count_before, completed_count_after)
 
-    return {"progress": db_progress,
+    return {
             "xp_gained": xp_award,
             "correct_answers": correct_answers,
             "total_questions": total_questions,
             "is_perfect": is_perfect,
+            "completed": db_progress.completed,
             "level_up": level_xp_after > level_xp_before,
             "new_level": level_xp_after,
             "role_changed": role_after != role_before,
@@ -291,15 +278,15 @@ def get_completed_levels(db: Session, user_id: int, level_ids: list[int]) -> set
 
     return completed_ids
 
-def is_level_unlocked(db: Session, user_id: int, level_id: int) -> bool:
-    level = db.query(Level).filter(Level.id == level_id).first()
-    if not level:
+def is_level_unlocked(db: Session, user_id: int, module_id: int, module_level: int) -> bool:
+    target_level = get_level(db, module_id, module_level)
+    if not target_level:
         return False
     
-    if not seen_theory(db, user_id, level.module_id): #theory always seen first
+    if not seen_theory(db, user_id, target_level.module_id): #theory always seen first
         return False
     
-    previous_levels = (db.query(Level).filter(Level.module_id == level.module_id, Level.difficulty < level.difficulty)).all() #level unlocked if all previous completed
+    previous_levels = (db.query(Level).filter(Level.module_id == target_level.module_id, Level.module_level < target_level.module_level)).all() #level unlocked if all previous completed
     if not previous_levels:
         return True
     

@@ -11,13 +11,26 @@ export default function Register() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleSignUp = async () => {
+    if(!username || !password || !email){ //avoid innecessary backend calls
+      setError('Missing fields');
+      return;
+    }
+
+    setLoading(true);
+    setError("");
+
     try {
       await registerUser({ username, email, password });
       router.push('./signIn');
+
     } catch (err: any) {
-      setError(err.message || 'Error al registrarse');
+      setError(err.message || 'Error sgining up');
+
+    } finally{
+      setLoading(false);
     }
   };
 
@@ -28,19 +41,19 @@ export default function Register() {
       <TextInput
         placeholder="Usuario"
         value={username}
-        onChangeText={setUsername}
+        onChangeText={(u) => {setUsername(u); setError('');}}
         style={styles.input}
       />
       <TextInput
         placeholder="Email"
         value={email}
-        onChangeText={setEmail}
+        onChangeText={(e) => {setEmail(e); setError('');}}
         style={styles.input}
       />
       <TextInput
         placeholder="Contraseña"
         value={password}
-        onChangeText={setPassword}
+        onChangeText={(p) => {setPassword(p); setError('');}}
         secureTextEntry
         style={styles.input}
       />
@@ -49,7 +62,7 @@ export default function Register() {
 
       <Pressable onPress={handleSignUp} style={({ pressed }) => [styles.buttonWrapper, pressed && styles.buttonWrappedPressed]}>{({ pressed }) => (
               <View style={[styles.button, pressed && styles.buttonPressed]}>
-                <Text style={styles.buttonText}>Crear cuenta</Text>
+                <Text style={styles.buttonText}>{loading ? "Cargando..." : "Crear cuenta"}</Text>
               </View>
              )}
             </Pressable>

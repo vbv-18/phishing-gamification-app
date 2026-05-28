@@ -6,7 +6,6 @@ import json
 import os
 
 #ref: https://www.incibe.es/ciudadania/tematicas/ingenieria-social-fraudes-online/phishing
-#a lo mejor poner solo una pildora de teoria por modulo?
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_PATH = os.path.join(BASE_DIR, "data")
@@ -73,16 +72,17 @@ def seed():
             else:
                 print(f"Module {m_id} already exists")
 
-            for level in item['levels']:
+            for index, level in enumerate(item['levels'], start=1):
                 difficulty = level['difficulty']
 
-                l_exists = (db.query(Level).filter(Level.module_id == m_id, Level.difficulty == difficulty).first())
+                l_exists = (db.query(Level).filter(Level.module_id == m_id, Level.module_level == index).first())
                 if not l_exists:
                     level['module_id'] = m_id
+                    level['module_level'] = index
                     create_level(db, level)
-                    print(f"Level {difficulty} inserted in module {m_id}")
+                    print(f"Level {index} inserted in module {m_id}")
                 else:
-                    print(f"Level {difficulty} already exists")
+                    print(f"Level {index} already exists")
 
         except Exception as e:
             db.rollback()

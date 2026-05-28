@@ -1,29 +1,44 @@
 import { getLevelsbyModule } from "@/services/api";
-import { Level } from "@/types/level";
+import { LevelSummary } from "@/types/level";
 import { useEffect, useState } from "react";
 
+interface ModuleLevelsData{
+  theory_seen: boolean;
+  levels: LevelSummary[];
+}
+
 export function useLoadLevelByModules(moduleId: number){ //useLocalSearchParams return strings
-    const [levels, setLevels] = useState<Level[] | null>(null); //replace any for defining types
+    const [data, setData] = useState<ModuleLevelsData | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
     useEffect(() => {
+      let cancelled = false;
+
       async function loadLevels(){
         try{
-          const data = await getLevelsbyModule(Number(moduleId));
-            setLevels(data);
+          const data: ModuleLevelsData =  await getLevelsbyModule(Number(moduleId));
+          if(!cancelled){
+            setData(data);
+          }
         }
         catch(err: any){
+          if(!cancelled){
             setError(err.message || 'Error loading level');
+          }
         }
         finally{
+          if(!cancelled){
           setLoading(false);
+          }
         }
       }
       if(moduleId){
         loadLevels();
       }
-    }, [moduleId]);
 
-    return {levels, loading, error};
+      return () => {cancelled = true;}
+    }, [moduleId]);
+    
+    return {data, loading, error};
 }

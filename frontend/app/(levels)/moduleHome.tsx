@@ -15,10 +15,11 @@ export default function ModuleHome(){
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
-   const loadLevels = async () => {
+   const loadData = async () => {
     try{
       const data = await getLevelsbyModule(Number(moduleId));
-        setLevels(data);
+        setLevels(data.levels);
+        setTheorySeen(data.theory_seen);
     }
     catch(err: any){
       setError(err.message || 'Error loading levels');
@@ -28,21 +29,9 @@ export default function ModuleHome(){
     }
   }
 
-  const checkTheory = async() => {
-    try{
-      const modules = await getModules();
-      const current = modules.find((m: any) => m.id === Number(moduleId));
-      setTheorySeen(current?.theory_seen ?? false);
-    }
-    catch{
-      setTheorySeen(false);
-    }
-  };
-
   useFocusEffect(
     useCallback(() => {
-      checkTheory();
-      loadLevels();
+      loadData();
     }, [moduleId])
   );
 

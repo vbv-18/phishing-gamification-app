@@ -4,9 +4,12 @@ WORKDIR /app
 
 COPY requirements.txt .
 
-RUN pip install --no-cache-dir --upgrade -r /app/requirements.txt
+RUN pip install --no-cache-dir --upgrade -r requirements.txt
 
 COPY . .
+
+RUN adduser --disabled-password appuser
+USER appuser
 
 EXPOSE 8000
 

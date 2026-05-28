@@ -1,6 +1,7 @@
 import { Question } from "./exercise";
 
 export interface LevelContent{
+    exercise_type: string;
     instructions: string;
     mechanic: string;
     questions: Question[];
@@ -20,4 +21,28 @@ export interface Level{
     module_id: number;
     difficulty: number;
     content: LevelContent;
+}
+
+export interface CompleteLevelResponse{
+    message: string;
+    xp_gained: number;
+    correct_answers: number;
+    total_questions: number;
+    is_perfect: boolean;
+    completed: boolean;
+    level_up: boolean;
+    new_level: number;
+    role_changed: boolean;
+    new_role: string;
+    new_badge: string | null; // badge5 or null
+}
+
+export interface CompleteTheoryResponse{
+    message: string;
+    theory_seen: boolean;
+    xp_gained: number;
+    level_up: boolean;
+    new_level: number;
+    role_changed: boolean;
+    new_role: string; 
 }

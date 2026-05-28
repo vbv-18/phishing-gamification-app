@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Pressable, Image, Alert, Animated, ScrollView } from "react-native";
+import { View, Text, StyleSheet, Pressable, Image, Alert, Animated, ScrollView, ActivityIndicator } from "react-native";
 import { useEffect, useState } from "react";
 import { useRouter } from "expo-router";
 import { Colors } from "@/constants/Colors";
@@ -10,11 +10,13 @@ import ConfirmPasswordDelete from "../../components/user/ConfirmPasswordDelete";
 import { useUserXp } from "@/hooks/useUserXp";
 import ProfileHeader from "../../components/user/ProfileHeader";
 import { removeToken } from "@/services/auth";
+import { ProfileData } from "@/types/user";
 
 export default function Profile(){ //future -> use imagePicker from Expo
   const router = useRouter();
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<ProfileData | null>(null);
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(true);
   const [deleteVisible, setDeleteVisible] = useState(false);
   const {signOut} = useAuth();
   const {xp, level, role, xp_for_next_level, is_max_level, unlocked_badges} = useUserXp();
@@ -24,6 +26,24 @@ export default function Profile(){ //future -> use imagePicker from Expo
     loadProfile();
   }, []);
 
+  const loadProfile = async () => {
+    setLoading(true);
+    setError('');
+
+    try{
+      const data = await getProfile();
+      setUser(data);
+      progressAnim.setValue(0);
+    }
+
+    catch(err: any){
+      setError(err.message || 'Error loading profile');
+    }
+    finally{
+      setLoading(false);
+    }
+
+  }
   useEffect(() => {
     if(xp === null){
       return;
@@ -33,42 +53,38 @@ export default function Profile(){ //future -> use imagePicker from Expo
     Animated.timing(progressAnim, {toValue: fraction, duration: 600, useNativeDriver: false,}).start();
   }, [xp, xp_for_next_level, is_max_level]);
 
-  const loadProfile = async () => {
-    try{
-      const data = await getProfile();
-      setUser(data);
-    }
-
-    catch(err: any){
-      setError(err.message || 'Error loading profile');
-    }
-  };
-
   const handleSignOut = async () => {
     await signOut();
     router.replace('/');
   };
 
-  const handleDeleteAccount = () => {
-    setDeleteVisible(true);
-  };
-
   const confirmDeleteAccount = async (password: string) => {
     try{
+      await removeToken();
       await deleteAccount(password);
-      await removeToken(); //there is no need calling the backend because CASCADE in db
-      setDeleteVisible(false);
+      await signOut();
 
       router.replace('/');
     }
     catch(err: any){
-      setDeleteVisible(false);
       Alert.alert("Error", err.message);
     }
   };
 
+  if(loading){
+    return (
+      <View style={styles.center}>
+        <ActivityIndicator size="large" color={Colors.primary}></ActivityIndicator>
+      </View>
+    );
+  }
+
   if(!user){
-    return null;
+    return (
+      <View style={styles.center}>
+        <Text style={styles.error}>{error || "Could not load profile"}</Text>
+      </View>
+    );
   }
 
   const barWidth = progressAnim.interpolate({inputRange: [0, 1], outputRange: ["0%", "100%"],});
@@ -118,7 +134,7 @@ export default function Profile(){ //future -> use imagePicker from Expo
             <Text style={styles.buttonText}>Cerrar Sesión</Text>
         </Pressable>
 
-        <Pressable onPress={handleDeleteAccount} style={({pressed}) => [styles.deleteButton, pressed && styles.deletePressed]}>
+        <Pressable onPress={() => setDeleteVisible(true)} style={({pressed}) => [styles.deleteButton, pressed && styles.deletePressed]}>
           <Text style={styles.buttonText}>Eliminar Cuenta</Text>
         </Pressable>
 
@@ -133,16 +149,16 @@ export default function Profile(){ //future -> use imagePicker from Expo
 }
   
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.background,
-    alignItems: 'center',
-    padding: Spacing.lg,
-  },
   scrollContent: {
     alignItems: 'center',
     padding: Spacing.lg,
     paddingBottom: 120,
+  },
+  center: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center', 
+    backgroundColor: Colors.background,
   },
   avatar: {
     width: 120,
@@ -178,11 +194,6 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     overflow: 'hidden',
     letterSpacing: 1,
-  },
-  xpText: {
-    fontSize: 16,
-    fontWeight: '700',
-    color: Colors.text,
   },
   progressContainer:{
     width: '85%',
@@ -249,9 +260,6 @@ const styles = StyleSheet.create({
   badgeImage: {
     width: 44,
     height: 44,
-  },
-  badgeImageLocked: {
-    opacity: 0.2,
   },
   badgeName: {
     fontSize: 12,

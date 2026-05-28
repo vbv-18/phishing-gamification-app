@@ -5,7 +5,7 @@ import { triggerSignOut } from "./authHandler";
 // HTTP client centralized
 const BASE_URL = 'http://10.0.2.2:8000';
 
-export const apiClient = axios.create({ baseURL: BASE_URL,}); //my backend
+export const apiClient = axios.create({ baseURL: BASE_URL, timeout: 10000}); //my backend
 
 apiClient.interceptors.request.use(async (config) => { //to add the token to the request
     const token = await getToken();
@@ -18,11 +18,19 @@ apiClient.interceptors.request.use(async (config) => { //to add the token to the
 
 
 
-apiClient.interceptors.response.use( //to manage the token expiration
+apiClient.interceptors.response.use( //to manage errors
     (response) => response,
     async (error) => {
         const originalRequest = error.config;
         let message = "Error inesperado";
+
+        if(!error.response){
+            if(error.code === 'ECONNABORTED'){
+                return Promise.reject(new Error("The server took too long to respond"));
+            }
+
+            return Promise.reject(new Error("No connection"));
+        }
 
         if(error.response){
             const {status, data} = error.response;
@@ -56,7 +64,7 @@ apiClient.interceptors.response.use( //to manage the token expiration
                 return Promise.reject(new Error("Sesión expirada"));
             }
             
-            if(status === 400){
+            if(status === 400 && !message){
                 message = "Datos incorrectos";
             }
 

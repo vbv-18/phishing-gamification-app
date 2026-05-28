@@ -1,12 +1,6 @@
 import { useEffect, useState } from "react";
 import { getModuleTheory } from "@/services/api";
-import { TheorySection } from "@/types/module";
-
-interface TheoryData{
-    module_id: number;
-    title: string;
-    theory: TheorySection[];
-}
+import { TheoryData } from "@/types/module";
 
 export function useLoadTheory(moduleId: number | string){
     const [theoryData, setTheoryData] = useState<TheoryData | null>(null);
@@ -14,6 +8,8 @@ export function useLoadTheory(moduleId: number | string){
     const [error, setError] = useState('');
 
     useEffect(() => {
+        let cancelled = false;
+
         setTheoryData(null);
         setLoading(true);
         setError('');
@@ -21,18 +17,26 @@ export function useLoadTheory(moduleId: number | string){
         async function load(){
             try{
                 const data = await getModuleTheory(Number(moduleId));
-                setTheoryData(data);
+                if(!cancelled){
+                    setTheoryData(data);
+                }
             }
             catch(err: any){
-                setError(err.message || 'Error loading theory');
+                if(!cancelled){
+                    setError(err.message || 'Error loading theory');
+                }
             }
             finally {
-                setLoading(false);
+                if(!cancelled){
+                    setLoading(false);
+                }
             }
         }
         if(moduleId){
             load();
         }
+
+        return () => {cancelled = true;}
     }, [moduleId]);
 
     return {theoryData, loading, error};

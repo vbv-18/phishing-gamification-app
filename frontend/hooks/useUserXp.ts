@@ -2,15 +2,7 @@ import { useState } from "react";
 import { useFocusEffect } from "expo-router";
 import { useCallback } from "react";
 import { getUserXp } from "@/services/api";
-
-interface UserXpData{
-    xp: number;
-    level: number;
-    xp_for_next_level: number | null;
-    role: string;
-    is_max_level: boolean;
-    unlocked_badges: string[];
-}
+import { UserXpData } from "@/types/user";
 
 export function useUserXp(){
     const [xpData, setXpData] = useState<UserXpData | null>(null);
