@@ -18,7 +18,7 @@
 
 4. For local development use the correct Docker network or host IP in the `frontend/services/api.ts` (http://10.0.2.2:8000 for Android emulator).
 
-5. Install fronted dependencies
+5. Install frontend dependencies.
     ````bash
     cd frontend
     npm install
@@ -28,7 +28,7 @@
 6. Start the Expo development server:
 
     ````bash
-    npm expo start
+    npm expo start -c #-c to clean cache
     ````
 
 # Folders structure
@@ -46,6 +46,7 @@
     - **database/** - settings of the PostgreSQL database.
       - `connection.py` - creation and connection of the database.
     - **models/** - tables of the database.
+      - `access_registry.py` - table to audit.
       - `level.py` - table that represents a level.
       - `levelProgress.py` - table that mantains the progress relationship between a level and an user.
       - `module.py` - table that represents the whole module with the id, title, theory and the levels.
@@ -61,7 +62,8 @@
       - `level.py` - level base, level response, level list and an user answer.
       - `token.py`
       - `users.py` - creation of an user, user response, login request and delete an user request.
-    - **utils/** - contains the gamification data
+      - `validators.py` - helpers to filter auth errors.
+    - **utils/** - contains the gamification data.
       - `badges.py`
       - `levels.py`
       - `roles.py`
