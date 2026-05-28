@@ -13,21 +13,29 @@ export default function LevelPlay(){
     const {levelId, moduleId} = useLocalSearchParams();
     const router = useRouter();
     const {isAuthenticated} = useAuth();
-    const {level, loading, error} = useLoadLevel(levelId as string);
-    const levelState = useLevelState(level);
+    const {level, loading, error} = useLoadLevel(moduleId as string, levelId as string);
+    const levelState = useLevelState(Number(moduleId), level);
+
+    useEffect(() => {
+      if(!isAuthenticated){
+        router.replace("/");
+      }
+    }, [isAuthenticated]);
 
     useEffect(() => {
       if(levelState.finished && level){
         const questions = level.content.questions;
         router.replace({pathname: './levelCompleted', params: {levelId, answersJSON: JSON.stringify(levelState.collectedAnswers), totalQuestions: questions.length, moduleId},});
       }
-    }, [levelState.finished]);
+    }, [levelState.finished, level]);
 
-    useEffect(() => { //defensa en profundidad?
-      if(!isAuthenticated){
-        router.replace("/");
-      }
-    }, [isAuthenticated]);
+    if (!isAuthenticated) {
+    return (
+      <View style={styles.center}>
+        <ActivityIndicator size="large" color={Colors.primary} />
+      </View>
+    );
+  }
 
     if(loading){ //loader while it is loading
       return(
@@ -37,7 +45,7 @@ export default function LevelPlay(){
       );
     }
 
-    if(!level){
+    if(error || !level){
         return (
             <View style={styles.center}>
                 <Text style={styles.error}>No se pudo cargar el nivel</Text>
@@ -45,7 +53,14 @@ export default function LevelPlay(){
         );
     }
 
-    const questions = level.content.questions;
+    const questions = level.content.questions || [];
+    if (questions.length === 0) {
+      return (
+        <View style={styles.center}>
+          <Text style={styles.error}>Este nivel no tiene preguntas configuradas.</Text>
+        </View>
+      );
+  }
     const currentQuestion = questions[levelState.currentIndex];
     const Renderer = TYPES[level.content.mechanic];
     return(

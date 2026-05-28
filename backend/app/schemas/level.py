@@ -34,12 +34,12 @@ class LevelBase(BaseModel):
     content: Any
 
 class LevelResponse(LevelBase):
-    id: int
+    id: int #module_level (own id inside module)
 
     model_config = {"from_attributes": True}
 
 class LevelList(BaseModel):
-    id: int
+    id: int #module_level (own id inside module)
     title: str
     difficulty: int
     completed: bool

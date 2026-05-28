@@ -1,6 +1,7 @@
 import { Question } from "./exercise";
 
 export interface LevelContent{
+    exercise_type: string;
     instructions: string;
     mechanic: string;
     questions: Question[];
@@ -22,20 +23,13 @@ export interface Level{
     content: LevelContent;
 }
 
-export interface LevelProgress{
-    id: number;
-    user_id: number;
-    level_id: number;
-    completed: boolean;
-}
-
 export interface CompleteLevelResponse{
     message: string;
-    progress: LevelProgress;
     xp_gained: number;
     correct_answers: number;
     total_questions: number;
     is_perfect: boolean;
+    completed: boolean;
     level_up: boolean;
     new_level: number;
     role_changed: boolean;

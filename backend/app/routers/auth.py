@@ -5,7 +5,6 @@ from sqlalchemy.orm import Session
 from app.schemas.users import UserCreate, UserResponse
 from app.database.connection import get_db
 from app.models.user import User
-from app.models.access_registry import AccessRegistry
 from app.schemas.token import Token, RefreshRequest
 from app.crud.users import create_user
 from app.core.security import verify_password, create_access_token, create_refresh_token, validate_refresh_token, revoke_refresh_token, revoke_all_refresh_tokens, get_current_user, clean_refresh_tokens, is_blocked, register_failed, clear_attempts
@@ -41,7 +40,7 @@ def login_user(login_req: OAuth2PasswordRequestForm = Depends(), db: Session = D
     clear_attempts(username, db)
     clean_refresh_tokens(user.id, db) #clean obsolete tokens before create news
     
-    access_token = create_access_token({"sub": user.username})
+    access_token = create_access_token({"sub": user.id})
     refresh_token = create_refresh_token(user.id, db)
 
     return {"access_token": access_token, "refresh_token": refresh_token, "token_type": "bearer"}
@@ -58,5 +57,5 @@ def refresh_token(body: RefreshRequest, db: Session = Depends(get_db)): #rotatio
 
 @router.post("/signOut")
 def signOut_tokens(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
-    revoke_all_refresh_tokens(current_user.id, db)
+    revoke_all_refresh_tokens(current_user.id, db) #access token not revoked
     return {"detail": "Successfully sign out"}

@@ -2,31 +2,26 @@ import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Colors } from '@/constants/Colors';
 import { Spacing } from '@/constants/Spacing';
+import { useEffect } from 'react';
+import { useAuth } from 'context/AuthContext';
 
 export default function Home() {
   const router = useRouter();
-
-  const handleSignIn = () => {
-    router.push('./signIn');
-  }
-
-  const handleSignUp = () => {
-    router.push('./signUp');
-  }
+  const {isAuthenticated} = useAuth()
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>PhishAware 🐟</Text>
       <Text style={styles.subtitle}>Aprende sobre ingeniería social jugando!</Text>
 
-      <Pressable onPress={handleSignIn} style={({ pressed }) => [styles.buttonWrapper, pressed && styles.buttonWrappedPressed]}>{({ pressed }) => (
+      <Pressable onPress={() => router.push('./signIn')} style={({ pressed }) => [styles.buttonWrapper, pressed && styles.buttonWrappedPressed]}>{({ pressed }) => (
           <View style={[styles.button, pressed && styles.buttonPressed]}>
             <Text style={styles.buttonText}>Iniciar sesión</Text>
           </View>
         )}
       </Pressable>
 
-      <Pressable onPress={handleSignUp} style={({ pressed }) => [styles.buttonWrapper, pressed && styles.buttonWrappedPressed]}>{({ pressed }) => (
+      <Pressable onPress={() => router.push('./signUp')} style={({ pressed }) => [styles.buttonWrapper, pressed && styles.buttonWrappedPressed]}>{({ pressed }) => (
           <View style={[styles.button, pressed && styles.buttonPressed]}>
             <Text style={styles.buttonText}>Crear cuenta</Text>
           </View>

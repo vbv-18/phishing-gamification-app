@@ -8,19 +8,29 @@ export function useLoadModule(){ //useLocalSearchParams return strings
     const [error, setError] = useState('');
 
     useEffect(() => {
+      let cancelled = false;
+
       async function loadModules(){
         try{
           const data = await getModules();
+          if(!cancelled){
             setModules(data);
+          }
         }
         catch(err: any){
+          if(!cancelled){
             setError(err.message || 'Error loading modules');
+          }
         }
         finally{
-          setLoading(false);
+          if(!cancelled){
+            setLoading(false);
+          }
         }
       }
       loadModules();
+
+      return () => {cancelled = true;}
     }, []);
 
     return {modules, loading, error};

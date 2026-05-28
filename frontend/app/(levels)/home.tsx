@@ -14,20 +14,32 @@ export default function Home(){
     const [error, setError] = useState('');
 
     useEffect(() => {
+      let cancelled = false;
+
       const loadModules = async () => {
-      try{
-            const data = await getModules();
+        setLoading(true);
+        setError('');
+        try{
+          const data = await getModules();
+          if(!cancelled){
               setModules(data);
           }
-          catch(err: any){
+        }
+        catch(err: any){
+          if(!cancelled){
             setError(err.message || 'Error loading modules');
           }
-          finally{
+        }
+        finally{
+          if(!cancelled){
             setLoading(false);
           }
+        }
       };
       loadModules();
-    }, []);
+
+      return () => {cancelled = true;};
+      }, []);
 
     if(loading){ //loader while it is loading
           return(
@@ -42,6 +54,10 @@ export default function Home(){
           <AppHeader></AppHeader>
           <ScrollView style={styles.container}>
               <Text style={styles.title}>Selecciona un módulo</Text>
+
+              {error ? <Text style={styles.error}>{error}</Text> : null}
+
+              {modules.length === 0 && !error && (<Text style={styles.subtitle}> No hay módulos disponibles</Text>)}
 
               {modules.map((m) => (
                   <View key={m.id} style={[styles.moduleCard, m.all_completed && styles.moduleCompleted]}>
@@ -69,6 +85,11 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.background,
     padding: Spacing.lg,
   },
+  error: {
+    color: 'red',
+    marginBottom: Spacing.sm,
+    textAlign: 'center',
+  },
   center: {
     flex: 1,
     justifyContent: 'center',
@@ -80,6 +101,12 @@ const styles = StyleSheet.create({
     fontWeight: '800',
     marginBottom: Spacing.lg,
     color: Colors.text,
+    textAlign: 'center',
+  },
+  subtitle: {
+    fontSize: 16,
+    color: Colors.muted,
+    marginBottom: Spacing.lg,
     textAlign: 'center',
   },
   moduleCard: {

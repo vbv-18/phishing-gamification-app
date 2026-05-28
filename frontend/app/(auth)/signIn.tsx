@@ -11,19 +11,31 @@ export default function SignIn() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
   const {signIn} = useAuth();
 
   const handleSignIn = async () => {
-  try {
-    const data = await loginUser({ username, password });
+    if(!username || !password){ //avoid innecessary backend calls
+      setError('Missing fields');
+      return;
+    }
 
-    await signIn(data.access_token, data.refresh_token); //update state
+    setLoading(true);
+    setError("");
 
-    router.replace('/home');
-  } catch (err: any) {
-    setError(err.message || 'Error sign in');
-  }
-};
+    try {
+      const data = await loginUser({ username, password });
+
+      await signIn(data.access_token, data.refresh_token); //update state
+
+      router.replace('/home');
+    } catch (err: any) {
+      setError(err.message || 'Error sign in');
+    } finally{
+      setLoading(false);
+    }
+  };
 
   return (
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
@@ -33,13 +45,13 @@ export default function SignIn() {
       <TextInput
         placeholder="Usuario"
         value={username}
-        onChangeText={setUsername}
+        onChangeText={(u) => {setUsername(u); setError('');}}
         style={styles.input}
       />
       <TextInput
         placeholder="Contraseña"
         value={password}
-        onChangeText={setPassword}
+        onChangeText={(p) => {setPassword(p); setError('');}}
         secureTextEntry
         style={styles.input}
       />
@@ -48,7 +60,7 @@ export default function SignIn() {
 
       <Pressable onPress={handleSignIn} style={({ pressed }) => [styles.buttonWrapper, pressed && styles.buttonWrappedPressed]}>{({ pressed }) => (
         <View style={[styles.button, pressed && styles.buttonPressed]}>
-          <Text style={styles.buttonText}>Iniciar sesión</Text>
+          <Text style={styles.buttonText}>{loading ? "Cargando..." : "Iniciar sesión"}</Text>
         </View>
        )}
       </Pressable>

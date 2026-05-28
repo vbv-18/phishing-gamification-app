@@ -29,20 +29,8 @@ export default function ModuleHome(){
     }
   }
 
-  const checkTheory = async() => {
-    try{
-      const modules = await getModules();
-      const current = modules.find((m: any) => m.id === Number(moduleId));
-      setTheorySeen(current?.theory_seen ?? false);
-    }
-    catch{
-      setTheorySeen(false);
-    }
-  };
-
   useFocusEffect(
     useCallback(() => {
-      checkTheory();
       loadData();
     }, [moduleId])
   );

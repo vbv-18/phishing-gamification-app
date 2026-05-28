@@ -17,7 +17,7 @@ export interface LevelState{
   handleContinue: () => void;  
 }
 
-export function useLevelState(level: Level | null): LevelState{
+export function useLevelState(moduleId: number, level: Level | null): LevelState{
     const [currentIndex, setCurrentIndex] = useState(0);
     const [showFeedback, setShowFeedback] = useState(false);
     const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
@@ -49,7 +49,7 @@ export function useLevelState(level: Level | null): LevelState{
       setIsChecking(true);
 
       try{
-        const result = await checkAnswer(level.id, questionId, answer);
+        const result = await checkAnswer(moduleId, level.id, questionId, answer);
 
         setIsCorrect(result.correct);
         setServerFeedback(result.feedback);
