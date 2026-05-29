@@ -7,7 +7,7 @@ interface ModuleLevelsData{
   levels: LevelSummary[];
 }
 
-export function useLoadLevelByModules(moduleId: number){ //useLocalSearchParams return strings
+export function useLoadLevelsByModules(moduleId: number){ //useLocalSearchParams return strings
     const [data, setData] = useState<ModuleLevelsData | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');

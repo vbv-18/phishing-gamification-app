@@ -43,7 +43,7 @@ def complete_theory(module_id: int, db: Session = Depends(get_db), user=Depends(
     return {"message": "Theory completed", **progress_data}
 
 @router.get("/{module_id}/levels", response_model=ModuleLevelsResponse)
-def read_level(module_id: int, db: Session = Depends(get_db), user = Depends(get_current_user)):
+def read_levels(module_id: int, db: Session = Depends(get_db), user = Depends(get_current_user)):
     data = get_levels_by_module(db, module_id, user.id)
 
     if data is None:

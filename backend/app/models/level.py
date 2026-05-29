@@ -8,7 +8,7 @@ class Level(Base):
 
     id = Column(Integer, primary_key=True)
     module_id = Column(Integer, ForeignKey("modules.id"), nullable=False)
-    module_level = Column(Integer, nullable=False) #own level inside each module
+    module_level = Column(Integer, nullable=False) #own level id inside each module
     difficulty = Column(Integer, nullable=False)
     title = Column(String, nullable=False)
     content = Column(JSON, nullable=False)

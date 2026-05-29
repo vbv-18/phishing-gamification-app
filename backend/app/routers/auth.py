@@ -1,5 +1,8 @@
+from datetime import timedelta
+
 from fastapi import APIRouter, Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from fastapi.security import OAuth2PasswordRequestForm
+from sqlalchemy import or_
 from sqlalchemy.orm import Session
 
 from app.schemas.users import UserCreate, UserResponse
@@ -7,17 +10,16 @@ from app.database.connection import get_db
 from app.models.user import User
 from app.schemas.token import Token, RefreshRequest
 from app.crud.users import create_user
-from app.core.security import verify_password, create_access_token, create_refresh_token, validate_refresh_token, revoke_refresh_token, revoke_all_refresh_tokens, get_current_user, clean_refresh_tokens, is_blocked, register_failed, clear_attempts
+from app.core.security import verify_password, create_access_token, create_refresh_token, validate_refresh_token, revoke_refresh_token, revoke_all_refresh_tokens, check_user_exists, get_current_user, clean_refresh_tokens, is_blocked, register_failed, clear_attempts
+from app.core.config import ACCESS_TOKEN_EXPIRE_MINUTES
 
 router = APIRouter(prefix="/auth", tags=["Auth"])
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/signIn")
 
 @router.post("/signUp", response_model=UserResponse)
 def register_user(user: UserCreate, db: Session = Depends(get_db)):
-    existing_email = db.query(User).filter(User.email == user.email).first()
-    existing_username = db.query(User).filter(User.username == user.username).first()
+    existing = check_user_exists(db, user.email, user.username)
 
-    if existing_email or existing_username:
+    if existing:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="User already exists")
     
     new_user = create_user(db, user)
@@ -40,7 +42,7 @@ def login_user(login_req: OAuth2PasswordRequestForm = Depends(), db: Session = D
     clear_attempts(username, db)
     clean_refresh_tokens(user.id, db) #clean obsolete tokens before create news
     
-    access_token = create_access_token({"sub": user.id})
+    access_token = create_access_token({"sub": user.id}, expires_delta=timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
     refresh_token = create_refresh_token(user.id, db)
 
     return {"access_token": access_token, "refresh_token": refresh_token, "token_type": "bearer"}
@@ -50,7 +52,7 @@ def refresh_token(body: RefreshRequest, db: Session = Depends(get_db)): #rotatio
     user = validate_refresh_token(body.refresh_token, db)
 
     revoke_refresh_token(body.refresh_token, db)
-    access_token = create_access_token({"sub": user.username})
+    access_token = create_access_token({"sub": user.id},expires_delta=timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
     new_refresh_token = create_refresh_token(user.id, db)
 
     return {"access_token": access_token, "refresh_token": new_refresh_token, "token_type": "bearer"}

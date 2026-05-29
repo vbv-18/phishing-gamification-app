@@ -3,43 +3,11 @@ import { Colors } from "@/constants/Colors";
 import { Spacing } from "@/constants/Spacing";
 import { useRouter } from 'expo-router';
 import AppHeader from "@/components/ui/AppHeader";
-import { useEffect, useState } from "react";
-import { getModules } from "@/services/api";
-import { Module } from "@/types/module";
+import { useLoadModule } from "@/hooks/useLoadModules";
 
 export default function Home(){
     const router = useRouter();
-    const [modules, setModules] = useState<Module[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState('');
-
-    useEffect(() => {
-      let cancelled = false;
-
-      const loadModules = async () => {
-        setLoading(true);
-        setError('');
-        try{
-          const data = await getModules();
-          if(!cancelled){
-              setModules(data);
-          }
-        }
-        catch(err: any){
-          if(!cancelled){
-            setError(err.message || 'Error loading modules');
-          }
-        }
-        finally{
-          if(!cancelled){
-            setLoading(false);
-          }
-        }
-      };
-      loadModules();
-
-      return () => {cancelled = true;};
-      }, []);
+    const {modules, loading, error} = useLoadModule();
 
     if(loading){ //loader while it is loading
           return(

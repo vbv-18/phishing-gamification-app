@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet, Pressable, Animated } from "react-native";
 import { Colors } from "@/constants/Colors";
+import { Ionicons } from "@expo/vector-icons";
 
 type Props = { //the parameters that the component use (properties)
     progressAnimation: Animated.Value;
@@ -10,7 +11,7 @@ export default function LevelHeader({progressAnimation, onClose}: Props){
     return(
       <View style={styles.header}>
         <Pressable onPress={onClose} style={styles.closeButton}>
-          <Text style={styles.closeIcon}>X</Text>
+          <Ionicons name="close" size={24} color={Colors.text}></Ionicons>
         </Pressable>
         
         <View style={styles.progressBar}>

@@ -6,9 +6,10 @@ COPY requirements.txt .
 
 RUN pip install --no-cache-dir --upgrade -r requirements.txt
 
-COPY . .
-
 RUN adduser --disabled-password appuser
+
+COPY --chown=appuser:appuser . .
+
 USER appuser
 
 EXPOSE 8000

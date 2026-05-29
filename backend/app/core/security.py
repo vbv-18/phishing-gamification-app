@@ -1,3 +1,5 @@
+from typing import Optional
+
 from passlib.context import CryptContext
 import jwt
 import secrets
@@ -5,6 +7,7 @@ import hashlib
 from datetime import datetime, timedelta, timezone
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
+from sqlalchemy import or_
 from sqlalchemy.orm import Session
 from app.database.connection import get_db
 from app.models.user import User
@@ -89,7 +92,7 @@ def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(
 
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        user_id = payload.get("sub")
+        user_id = int(payload.get("sub"))
         if user_id is None:
             raise credentials_exception
 
@@ -101,6 +104,9 @@ def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(
         raise credentials_exception
     
     return user
+
+def check_user_exists(db: Session, email: str, username: str) -> Optional[User]:
+    return db.query(User).filter(or_(User.email == email, User.username == username)).first()
 
 def is_blocked(username: str, db: Session) -> bool:
     record = db.query(AccessRegistry).filter(AccessRegistry.username == username).first()

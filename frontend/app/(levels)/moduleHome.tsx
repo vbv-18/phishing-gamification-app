@@ -3,7 +3,7 @@ import { useLocalSearchParams, useRouter, useFocusEffect } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
 import { Colors } from "@/constants/Colors";
 import { Spacing } from "@/constants/Spacing";
-import { getLevelsbyModule, getModules, getModuleTheory } from "@/services/api";
+import { getLevelsbyModule} from "@/services/api";
 import AppHeader from "@/components/ui/AppHeader";
 import { LevelSummary } from "@/types/level";
 
@@ -16,6 +16,7 @@ export default function ModuleHome(){
     const [error, setError] = useState('');
 
    const loadData = async () => {
+    setLoading(true);
     try{
       const data = await getLevelsbyModule(Number(moduleId));
         setLevels(data.levels);

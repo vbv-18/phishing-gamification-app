@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { Colors } from "@/constants/Colors";
 import { Spacing } from "@/constants/Spacing";
 import { useLoadTheory } from "@/hooks/useLoadTheory";
-import { completeTheory } from "@/services/api";
 import { TheoryCard, useTheoryCardAnimation } from "@/components/levels/TheoryCard";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 

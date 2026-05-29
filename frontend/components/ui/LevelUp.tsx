@@ -31,7 +31,7 @@ export default function LevelUp({type, value, role, onClose}: Props){
             const fraction = is_max_level || xp_for_next_level === null ? 1 : Math.min(xp/xp_for_next_level, 1);
             Animated.timing(progressAnim, {toValue: fraction, duration: 1000, delay: 500, useNativeDriver: false,}).start();
         }
-    }, [xp, xp_for_next_level, is_max_level]);
+    }, [scaleAnim, xp, xp_for_next_level, is_max_level]);
 
     const barWidth = progressAnim.interpolate({inputRange: [0, 1], outputRange: ["0%", "100%"],});
 
