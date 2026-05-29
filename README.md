@@ -63,10 +63,11 @@
       - `token.py`
       - `users.py` - creation of an user, user response, login request and delete an user request.
       - `validators.py` - helpers to filter auth errors.
-    - **utils/** - contains the gamification data.
+    - **utils/** - contains the gamification data and an error handler.
       - `badges.py`
       - `levels.py`
       - `roles.py`
+      - `errors.py` - to clean the sign in errors.
     - **data/** - all the JSONs with the theory and levels for each module
       - **01_module/**
       - **02_module/**
@@ -108,6 +109,7 @@
     - `theoryVisuals.ts`
   - **context/** -  global contexts accessivle from any file.
     - `AuthContext.tsx` - centralizes all authentication logic.
+    - `LevelAnswersContext.tsx` - to not send the answers as a URL parameter.
   - **hooks/** - custom React hooks.
     - `use-color-scheme.ts`  
     - `use-theme-color.ts`  
