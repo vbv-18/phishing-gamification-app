@@ -8,9 +8,11 @@ import LevelUp from "../../components/ui/LevelUp";
 import ContinueButton from "../../components/ui/ContinueButton";
 import { ROLE_BADGE } from "@/constants/Badges";
 import { CompleteLevelResponse, CompleteTheoryResponse } from "@/types/level";
+import { useLevelAnswers } from "context/LevelAnswersContext";
 
 export default function LevelCompleted(){
-    const {levelId, answersJSON, totalQuestions, moduleId, type} = useLocalSearchParams();
+    const {levelId, moduleId, type} = useLocalSearchParams();
+    const {answers, totalQuestions, clear} = useLevelAnswers();
     const [xpGained, setXpGained] = useState<number | null>(null);
     const [correctAnswers, setCorrectAnswers] = useState<number | null>(null);
     const [levelUserUp, setLevelUserUp] = useState<{show: boolean, val: number}>({show: false, val: 0});
@@ -34,7 +36,6 @@ export default function LevelCompleted(){
 
     const levelIdNum = Number(normalize(levelId));
     const moduleIdNum = Number(normalize(moduleId));
-    const totalQuestionsNum = Number(normalize(totalQuestions));
 
     useEffect(() => {
         Animated.parallel([
@@ -56,9 +57,8 @@ export default function LevelCompleted(){
                     result = await completeTheory(Number(moduleId));
                 }
                 else{
-                    const raw = normalize(answersJSON) ?? '[]';
-                    const answers: UserAnswer[] = JSON.parse(raw);
-                    result = await completeLevel(moduleIdNum, levelIdNum, answers);
+                    const answersToSend = isTheory ? [] : answers;
+                    result = await completeLevel(moduleIdNum, levelIdNum, answersToSend);
                     setCorrectAnswers((result as CompleteLevelResponse).correct_answers);
                 }
 
@@ -94,10 +94,11 @@ export default function LevelCompleted(){
             setLevelUserUp(prev => ({...prev, show: true}));
         }
         else if(levelUserUp.val === 0 && badgeUp.val !== '' && !badgeUp.show){ 
-                setBadgeUp(prev => ({...prev, show: true}));
+            setBadgeUp(prev => ({...prev, show: true}));
         }
         else if(levelUserUp.val === 0 && badgeUp.val === ''){
-             router.replace({pathname: './moduleHome', params: {moduleId}});
+            clear();
+            router.replace({pathname: './moduleHome', params: {moduleId}});
         }
 
     }, [isContinuePressed, levelUserUp.show, badgeUp.show, levelUserUp.val, badgeUp.val]);
@@ -127,7 +128,7 @@ export default function LevelCompleted(){
                         correctAnswers !== null ? (
                             <View style={styles.correctsContainer}>
                                 <Image source={require('../../assets/images/corrects.png')} style={styles.correctIcon}></Image>
-                                <Text style={styles.corrects}>{correctAnswers}/{totalQuestionsNum}</Text>
+                                <Text style={styles.corrects}>{correctAnswers}/{totalQuestions}</Text>
                             </View>
                         ) : (<ActivityIndicator size="small" color={Colors.primary}></ActivityIndicator>)
                     )}

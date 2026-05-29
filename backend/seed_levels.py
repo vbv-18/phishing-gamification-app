@@ -38,7 +38,7 @@ def get_data_from_json():  #iterates through the data/*_module folders and extra
             print(f"ERROR reading theory file in {module_folder}: {e}")
 
         module_levels = []
-        for file in os.listdir(module_path):
+        for file in sorted(os.listdir(module_path)):
               if not file.endswith(".json") or file == 'theory.json':
                   continue
         

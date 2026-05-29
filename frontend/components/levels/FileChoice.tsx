@@ -6,73 +6,72 @@ import { ExerciseRenderProps } from "@/types/renderer";
 import { FileChoiceQuestion } from "@/types/exercise";
 import { AntDesign } from "@expo/vector-icons";
 
-
 export default function FileChoice({levelState, instructions, question}: ExerciseRenderProps){
-    const q = question as FileChoiceQuestion;
+  const q = question as FileChoiceQuestion;
 
-    const getFileIcon = (type: string) => {
-        switch(type){
-            case 'pdf': return {name: 'file-pdf', color: Colors.suspiciousButton};
-            case 'word': return {name: 'file-word', color: '#2B579A'};
-            case 'png': return {name: 'file-image', color: '#3498DB'};
-            case 'folder': return {name: 'folder-open', color: '#F1C40F'};
-            default: return {name: 'file', color: '#95A5A6'};
-        }
-    };
+  const getFileIcon = (type: string) => {
+      switch(type){
+          case 'pdf': return {name: 'file-pdf', color: Colors.suspiciousButton};
+          case 'word': return {name: 'file-word', color: '#2B579A'};
+          case 'png': return {name: 'file-image', color: '#3498DB'};
+          case 'folder': return {name: 'folder-open', color: '#F1C40F'};
+          default: return {name: 'file', color: '#95A5A6'};
+      }
+  };
 
-    const icon = getFileIcon(q.icon_type)
+  const icon = getFileIcon(q.icon_type)
 
-    const handleAnswer = (optionId: string) =>{
-        if(levelState.showFeedback){
-        return;
+  const handleAnswer = (optionId: string) =>{
+      if(levelState.showFeedback){
+      return;
     }
     
     levelState.submitAnswer(question.id, optionId);
-    }
+  }
 
-    return(
-                <View style={styles.container}>
-                    <Text style={styles.instructions}>{instructions}</Text>
+  return(
+    <View style={styles.container}>
+      <Text style={styles.instructions}>{instructions}</Text>
 
-                    <View style={styles.fileViewer}>
-                      <View style={styles.iconImage}>
-                        <AntDesign name={icon.name as any} size={80} color={icon.color}></AntDesign>
-                      </View>
+      <View style={styles.fileViewer}>
+        <View style={styles.iconImage}>
+          <AntDesign name={icon.name as any} size={80} color={icon.color}></AntDesign>
+        </View>
 
-                      <Text style={styles.fileName}>{q.file_name}</Text>
-                      <Text style={styles.fileSize}>Tamaño: 2.4 MB</Text>
-                    </View>
+        <Text style={styles.fileName}>{q.file_name}</Text>
+        <Text style={styles.fileSize}>Tamaño: 2.4 MB</Text>
+      </View>
         
-                    {q.options.map((option) => (
-                        <Pressable key={option.id} onPress={() => handleAnswer(option.id)} disabled={levelState.showFeedback} style={({ pressed }) => [styles.optionWrapper, pressed &&
-                            !levelState.showFeedback && styles.optionWrappedPressed, levelState.showFeedback && styles.disabledWrapper,]}
-                            
-                        >
-                            {({pressed}) => (
-                                <View style={[styles.optionInner, pressed && !levelState.showFeedback && styles.optionInnerPressed, levelState.showFeedback && styles.disabledInner,]}>
-                                    <Text style={styles.optionText}>{option.text}</Text>
-                                </View>
-                            )}
-                        </Pressable>
-                    ))}
+      {q.options.map((option) => (
+        <Pressable key={option.id} onPress={() => handleAnswer(option.id)} disabled={levelState.showFeedback} style={({ pressed }) => [styles.optionWrapper, pressed &&
+        !levelState.showFeedback && styles.optionWrappedPressed, levelState.showFeedback && styles.disabledWrapper,]}
+        >
+          {({pressed}) => (
+          <View style={[styles.optionInner, pressed && !levelState.showFeedback && styles.optionInnerPressed, levelState.showFeedback && styles.disabledInner,]}>
+            <Text style={styles.optionText}>{option.text}</Text>
+          </View>
+          )}
+        </Pressable>
+      ))}
         
-                    <Modal visible={levelState.showFeedback} transparent={true} animationType="slide">
-                      <View style={styles.modalOverlay}>
-                        <View style={[styles.feedbackScreen, levelState.isCorrect ? styles.correctBg : styles.incorrectBg]}>
-                          <View style={styles.feedbackContent}>
-                            <Text style={[styles.resultTitle, levelState.isCorrect ? styles.correctText : styles.incorrectText]}>{levelState.isCorrect ? '¡Bien visto!' : '¡Casi!'}</Text>
-                            <Image source={levelState.isCorrect ? require('../../assets/images/winner.png') : require('../../assets/images/robber.png')} style={styles.avatarImage}></Image>
-                            <Text style={[styles.feedbackText, levelState.isCorrect ? styles.correctText : styles.incorrectText]}>{levelState.serverFeedback}</Text>
-                          </View>
-                          <View style={styles.footer}>
-                            <ContinueButton onPress={levelState.handleContinue} color={levelState.isCorrect ? Colors.legitimateButton : Colors.suspiciousButton}
-                              shadow={levelState.isCorrect ? Colors.buttonFeedbackCorrect : Colors.buttonFeedbackWrong} textColor="white"></ContinueButton>
-                          </View>
-                        </View>
-                      </View>
-                    </Modal>
-                </View>
-            );
+      <Modal visible={levelState.showFeedback} transparent={true} animationType="slide">
+        <View style={styles.modalOverlay}>
+          <View style={[styles.feedbackScreen, levelState.isCorrect ? styles.correctBg : styles.incorrectBg]}>
+            <View style={styles.feedbackContent}>
+              <Text style={[styles.resultTitle, levelState.isCorrect ? styles.correctText : styles.incorrectText]}>{levelState.isCorrect ? '¡Bien visto!' : '¡Casi!'}</Text>
+              <Image source={levelState.isCorrect ? require('../../assets/images/winner.png') : require('../../assets/images/robber.png')} style={styles.avatarImage}></Image>
+              <Text style={[styles.feedbackText, levelState.isCorrect ? styles.correctText : styles.incorrectText]}>{levelState.serverFeedback}</Text>
+            </View>
+            <View style={styles.footer}>
+                              
+              <ContinueButton onPress={levelState.handleContinue} color={levelState.isCorrect ? Colors.legitimateButton : Colors.suspiciousButton}
+              shadow={levelState.isCorrect ? Colors.buttonFeedbackCorrect : Colors.buttonFeedbackWrong} textColor="white"></ContinueButton>
+            </View>
+          </View>
+        </View>
+      </Modal>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({

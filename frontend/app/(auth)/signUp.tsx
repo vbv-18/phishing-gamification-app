@@ -27,7 +27,7 @@ export default function Register() {
       router.push('./signIn');
 
     } catch (err: any) {
-      setError(err.message || 'Error sgining up');
+      setError(err.message || 'Error signing up');
 
     } finally{
       setLoading(false);

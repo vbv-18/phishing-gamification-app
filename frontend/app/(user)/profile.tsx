@@ -60,8 +60,8 @@ export default function Profile(){ //future -> use imagePicker from Expo
 
   const confirmDeleteAccount = async (password: string) => {
     try{
-      await removeToken();
       await deleteAccount(password);
+      await removeToken();
       await signOut();
 
       router.replace('/');

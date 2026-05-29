@@ -1,4 +1,4 @@
-import { Modal, View, Text, StyleSheet, Pressable } from "react-native";
+import { Modal, View, Text, StyleSheet } from "react-native";
 import ContinueButton from "../ui/ContinueButton";
 import DomainSegment from "./DomainSegment";
 import { Colors } from "@/constants/Colors";

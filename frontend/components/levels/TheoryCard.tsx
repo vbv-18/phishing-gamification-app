@@ -15,10 +15,10 @@ interface TheoryCardProps{
 
 export function TheoryCard({item, opacity, translateX, screenHeight}: TheoryCardProps) {
     const visuals = getCardVisuals(item.concept);
-    const dynamixMinHeight = Math.max(screenHeight * 0.35, 220);
+    const dynamicMinHeight = Math.max(screenHeight * 0.35, 220);
 
     return (
-        <Animated.View style={[styles.card, {opacity, transform: [{ translateX }], minHeight: dynamixMinHeight}]}>
+        <Animated.View style={[styles.card, {opacity, transform: [{ translateX }], minHeight: dynamicMinHeight}]}>
             <View style={[styles.iconContainer, { backgroundColor: visuals.bg }]}>
                 <MaterialCommunityIcons 
                     name={visuals.icon as any} 

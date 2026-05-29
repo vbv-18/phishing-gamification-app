@@ -3,7 +3,7 @@ import { getToken, saveToken, getRefreshToken } from "@/services/auth";
 import { triggerSignOut } from "./authHandler";
 
 // HTTP client centralized
-const BASE_URL = 'http://10.0.2.2:8000';
+const BASE_URL = process.env.EXPO_PUBLIC_API_URL ?? 'http://10.0.2.2:8000';
 
 export const apiClient = axios.create({ baseURL: BASE_URL, timeout: 10000}); //my backend
 
@@ -15,8 +15,6 @@ apiClient.interceptors.request.use(async (config) => { //to add the token to the
 
     return config;
 });
-
-
 
 apiClient.interceptors.response.use( //to manage errors
     (response) => response,
@@ -64,7 +62,7 @@ apiClient.interceptors.response.use( //to manage errors
                 return Promise.reject(new Error("Sesión expirada"));
             }
             
-            if(status === 400 && !message){
+            if(status === 400 && message === "Error inesperado"){
                 message = "Datos incorrectos";
             }
 

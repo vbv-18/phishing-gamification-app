@@ -7,6 +7,6 @@ class User(Base):
 
     id = Column(Integer, primary_key=True)
     username = Column(String, unique=True, nullable=False) 
-    email = Column(String, unique=True)
-    hashed_passwd = Column(String)
+    email = Column(String, unique=True, nullable=False)
+    hashed_passwd = Column(String, nullable=True)
     refreshTokens = relationship("RefreshToken", back_populates="user", cascade="all, delete-orphan") #one user can have many tokens (1:N)

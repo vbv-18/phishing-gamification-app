@@ -2,7 +2,6 @@ import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Colors } from '@/constants/Colors';
 import { Spacing } from '@/constants/Spacing';
-import { useEffect } from 'react';
 import { useAuth } from 'context/AuthContext';
 
 export default function Home() {
