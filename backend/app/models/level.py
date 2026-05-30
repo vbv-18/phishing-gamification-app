@@ -15,4 +15,4 @@ class Level(Base):
 
     module = relationship("Module", back_populates="levels")
 
-    __table_args__ = (UniqueConstraint("module_id", "module_level", name="unique_module_level_module"),)
+    __table_args__ = (UniqueConstraint("module_id", "module_level", name="unique_module_level_module"),) #not repeated levels in one module

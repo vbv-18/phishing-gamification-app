@@ -10,4 +10,5 @@ class RefreshToken(Base):
     user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
     expires = Column(DateTime(timezone=True), nullable=False)
     revoked = Column(Boolean, default=False, nullable=False) #if the token is already revoked
+    
     user = relationship("User", back_populates="refreshTokens")
