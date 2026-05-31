@@ -7,6 +7,21 @@ const BASE_URL = process.env.EXPO_PUBLIC_API_URL ?? 'http://10.0.2.2:8000';
 
 export const apiClient = axios.create({ baseURL: BASE_URL, timeout: 10000}); //my backend
 
+//to controle the concurrency
+let isRefreshing = false;
+let failedQueue: any[] = [];
+
+const processQueue = (error: any, token: string | null = null) => {
+    failedQueue.forEach(prom => {
+        if (error) {
+            prom.reject(error);
+        } else {
+            prom.resolve(token);
+        }
+    });
+    failedQueue = [];
+};
+
 apiClient.interceptors.request.use(async (config) => { //to add the token to the request
     const token = await getToken();
     if(token){
@@ -34,7 +49,21 @@ apiClient.interceptors.response.use( //to manage errors
             const {status, data} = error.response;
 
             if(status === 401 && !originalRequest._retry && !originalRequest.url?.includes("/auth/")){ //automatic token refresh when 401, not rety and not auth endpoint
+                //If there is another petition for refresh token, it queues
+                if (isRefreshing) {
+                    return new Promise((resolve, reject) => {
+                        failedQueue.push({ resolve, reject });
+                    })
+                    .then(token => {
+                        originalRequest.headers.Authorization = `Bearer ${token}`;
+                        return apiClient(originalRequest); //retry
+                    })
+                    .catch(err => Promise.reject(err));
+                }
+
                 originalRequest._retry = true;
+                isRefreshing = true;
+
                 try{
                     const refreshToken = await getRefreshToken();
                     if(!refreshToken){
@@ -44,12 +73,19 @@ apiClient.interceptors.response.use( //to manage errors
                     const {data: tokens} = await axios.post(`${BASE_URL}/auth/refresh`, {refresh_token: refreshToken});
 
                     await saveToken(tokens.access_token, tokens.refresh_token);
+                    
+                    processQueue(null, tokens.access_token);
+                    
                     originalRequest.headers.Authorization = `Bearer ${tokens.access_token}`;
-
                     return apiClient(originalRequest);
-                }catch{
+
+                }catch(err){
+                    processQueue(err, null);
                     await triggerSignOut();
                     return Promise.reject(new Error("Sesión expirada"));
+
+                }finally {
+                    isRefreshing = false;
                 }
             }
 
