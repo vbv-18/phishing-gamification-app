@@ -3,6 +3,7 @@ from app.routers import auth, users, levels
 from app.database.connection import Base, engine
 from contextlib import asynccontextmanager
 from app.utils.errors import setup_exception_handlers
+from app.core.middleware import register_security_middleware
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -11,6 +12,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(title="AppAPI", lifespan=lifespan)
 
+register_security_middleware(app)
 setup_exception_handlers(app)
 
 app.include_router(auth.router)
