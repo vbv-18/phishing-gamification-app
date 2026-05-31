@@ -58,3 +58,7 @@ yarn-error.*
 *.swo
 *.bak
 *.tar
+
+#certificates
+nginx/certs/*
+!nginx/certs/.gitkeep
