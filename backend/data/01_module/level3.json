@@ -10,33 +10,33 @@
       {
         "id": 1,
         "context": "Llamada del Banco",
-        "text": "Hola, le llamamos del banco por una actividad sospechosa. Para verificar que es usted, por favor, dígame el número de su tarjeta completo junto con el CVV.",
+        "text": "Hola, le llamamos del banco por una actividad sospechosa. Para verificar que es usted, por favor, dígame el número de su tarjeta completo junto con el CVV",
         "options": [
           {"id": "a", "text": "El banco nunca llama por teléfono"},
           {"id": "b", "text": "El banco ya tiene mis datos, no me los deberían pedir"},
           {"id": "c", "text": "Es un proceso normal de verificación"}
         ],
         "correct_answer": "b",
-        "feedback_correct": "¡Utilizan otros medios de verificación mas seguros como la app oficial o te hacen preguntas básicas",
+        "feedback_correct": "La entidad legítima utiliza otros medios de verificación más seguros como la app oficial o te hacen preguntas básicas",
         "feedback_wrong": "No es la 'a' porque los bancos a veces llaman, pero tampoco la 'c' porque te están pidiendo datos sensibles por teléfono sin justificación oficial"
       },
       {
         "id": 2,
         "context": "Mensaje de Soporte Técnico de Microsoft",
-        "text": "Tu cuenta ha sido hackeada. Para recuperarla y eliminar el virus de tus ordenador descarga este antivirus online.",
+        "text": "Tu cuenta ha sido infectada con malware. Para recuperarla y eliminar el virus de tus ordenador descarga este antivirus online",
         "options": [
           {"id": "a", "text": "Microsoft no sabe si tengo virus mirando mi cuenta de correo"},
           {"id": "b", "text": "Los antivirus online no se descargan"},
           {"id": "c", "text": "Ambas son correctas"}
         ],
         "correct_answer": "c",
-        "feedback_correct": "Ni Microsoft sabe que tu ordenador tine un virus solo por tu cuenta, ni los productos online necesitan descargarse",
+        "feedback_correct": "Ni Microsoft sabe que tu ordenador tiene un virus solo por tu cuenta, ni los productos online necesitan descargarse",
         "feedback_wrong": "Hay varios fallos: la detección solo por tu cuenta y la contradicción entre 'online' y 'descargar el antivirus'"
       },
       {
         "id": 3,
         "context": "SMS de la Agencia Tributaria",
-        "text": "Se le ha calificado un reembolso de impuestos de 450.19€. Proporcione los datos de la tarjeta donde desea recibir el ingreso.",
+        "text": "Se le ha asignado un reembolso de impuestos de 450.19€. Proporcione los datos de la tarjeta donde desea recibir el ingreso",
         "options": [
           {"id": "a", "text": "La Agencia Tributaria solicita la tarjeta solo si es urgente"},
           {"id": "b", "text": "La Agencia Tributaria no utiliza la tarjeta, solo el IBAN"},
@@ -49,7 +49,7 @@
       {
         "id": 4,
         "context": "Paquete Retenido",
-        "text": "Desde Correos le comunicamos que su paquete está retenido en aduanas y debe pagar un recargo de 1.50€ para que pueda pasar. Pulse aquí para pagar.",
+        "text": "Desde Correos le comunicamos que su paquete está retenido en aduanas y debe pagar un recargo de 1.50€ para que pueda pasar. Pulse aquí para pagar",
         "options": [
           {"id": "a", "text": "He comprado en una tienda local, no puede venir del extranjero"},
           {"id": "b", "text": "Puede ser un regalo sorpresa"},
@@ -62,14 +62,14 @@
       {
         "id": 5,
         "context": "Actualización de Política de Privacidad",
-        "text": "Debido a las nuevas leyes europeas, para seguir usando la app tiene que volver a iniciar sesión y aceptar los términos en este enlace. Si no su cuenta dejará de estar activa.",
+        "text": "Debido a las nuevas leyes europeas, para seguir usando la app tiene que volver a iniciar sesión y aceptar los términos en este enlace. Si no su cuenta dejará de estar activa",
         "options": [
           {"id": "a", "text": "Normalmente se aceptan los términos dentro de la propia app"},
           {"id": "b", "text": "Si ya tengo la sesión iniciada, no tiene sentido volver a iniciar sesión"},
           {"id": "c", "text": "Ambas son correctas"}
         ],
         "correct_answer": "c",
-        "feedback_correct": "Aceptar términos y condiciones se gestiona dentro de la propia app, además no piden iniciar sesión para aceptarlos",
+        "feedback_correct": "Aceptar los términos y condiciones se gestiona dentro de la propia app, además no piden iniciar sesión para aceptarlos",
         "feedback_wrong": "Volver a pedir iniciar sesión cuando la sesión ya está abierta es redundante. ¡Fíjate también en la urgencia de desactivación de la cuenta!"
       }
        ]

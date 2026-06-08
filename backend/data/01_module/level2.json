@@ -10,9 +10,9 @@
       {
         "id": 1,
         "context": "Alerta de Fraude Bancario",
-        "text": "Se ha detectado un movimiento de 1.200€ desde su cuenta. Si no es usted, pulse aquí para cancelarlo inmediatamente.",
+        "text": "Se ha detectado un movimiento de 1.200€ desde su cuenta. Si no es usted, pulse aquí para cancelarlo inmediatamente",
         "options": [
-              {"id": "a", "text": "Cuiosidad"},
+              {"id": "a", "text": "Curiosidad"},
               {"id": "b", "text": "Miedo/Pánico"},
               {"id": "c", "text": "Empatía"}
           ],
@@ -23,7 +23,7 @@
       {
         "id": 2,
         "context": "¡Eres la ganadora!",
-        "text": "¡Felicidades! Has sido seleccionada para ganar un iPhone 15 Pro por el sorteo del viernes. ¡Reclámalo ya!",
+        "text": "¡Felicidades! Has sido seleccionada para ganar un iPhone 15 Pro por el sorteo realizado el viernes. ¡Reclámalo ya!",
         "options": [
               {"id": "a", "text": "Codicia"},
               {"id": "b", "text": "Miedo/Pánico"},
@@ -31,7 +31,7 @@
           ],
         "correct_answer": "a",
         "feedback_correct": "La promesa de una recompensa activa la dopamina y codicia, ignorando la veracidad de la oferta",
-        "feedback_wrong": "¡Oh no! Te están tentando con un regalo para que hagas clic sin pensar"
+        "feedback_wrong": "Te están tentando con un regalo para que hagas clic sin pensar"
       },
       {
         "id": 3,
@@ -44,12 +44,12 @@
           ],
         "correct_answer": "c",
         "feedback_correct": "La curiosidad es un gancho muy bueno para caer en la estafa",
-        "feedback_wrong": "¡Oh no! Te están ofrenciendo información 'prohibida o exclusiva' para picar tu curiosidad"
+        "feedback_wrong": "Te están ofrenciendo información 'prohibida o exclusiva' para picar tu curiosidad"
       },
       {
         "id": 4,
         "context": "Ayuda humanitaria",
-        "text": "Un terremoto ha destruido una zona infantil. Estos niños necesitan toda la ayuda posible.",
+        "text": "Un terremoto ha destruido una zona infantil. Estos niños necesitan toda la ayuda posible",
         "options": [
               {"id": "a", "text": "Empatía"},
               {"id": "b", "text": "Codicia"},
@@ -62,7 +62,7 @@
       {
         "id": 5,
         "context": "Error en el trabajo",
-        "text": "Buenos días, desde el departamento de IT le comunicamos que ha dejado la sesión abierta bloqueado el servidor principal. Por favor, ciérrela inmediatamente en este enlace.",
+        "text": "Buenos días, desde el departamento de IT le comunicamos que ha dejado la sesión abierta, bloqueando el servidor principal. Por favor, ciérrela inmediatamente en este enlace",
         "options": [
               {"id": "a", "text": "Miedo"},
               {"id": "b", "text": "Culpa/Responsabilidad"},

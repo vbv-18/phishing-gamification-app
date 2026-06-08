@@ -5,12 +5,12 @@
         {
             "id": 1,
             "title": "Dominios",
-            "description": "Los atacantes buscan engañarte con diferentes técnicas para que hagas click en los enlaces",
+            "description": "Los atacantes buscan engañarte con diferentes técnicas para que hagas clic en los enlaces",
             "items": [
                 {"concept": "Homógrafos", "definition": "Se usan caracteres que se parecen para que no se note la diferencia: letra 'o' vs número '0', letra cirílica vs letra latina"},
                 {"concept": "HTTP vs HTTPS", "definition": "El protocolo HTTP carece de la 'S' de Seguridad"},
                 {"concept": "Subdominios falsos", "definition": "Poner una marca conocida antes del dominio real: appleid.apple.com.seguridad-login.com, el dominio real es seguridad-login.com"},
-                {"concept": "TLDs sospechosos", "definition": "Se utilizan TLDs (segmento final de la dirección web) baratos como .top o .xyz como si fueras oficiales"}
+                {"concept": "TLDs sospechosos", "definition": "Se utilizan TLDs (segmento final de la dirección web) baratos como .top o .xyz como si fueran oficiales"}
             ]
         },
         {

@@ -21,8 +21,8 @@
           ]
         },
         "correct_answer": ["domain"],
-        "feedback_correct": "¡Perfecto! 'rn' se utiliza para simular la letra 'm', así igual con otras letras",
-        "feedback_wrong": "¡Oh no! Fíjate bien en el dominio: 'arnazon' no es 'amazon', han intercambiado la 'm' por 'rn'"
+        "feedback_correct": "'rn' se utiliza para simular la letra 'm', así igual con otras letras",
+        "feedback_wrong": "Fíjate bien en el dominio: 'arnazon' no es 'amazon', han intercambiado la 'm' por 'rn'"
       },
       {
         "id": 2,
@@ -38,8 +38,8 @@
           ]
         },
         "correct_answer": ["protocol", "domain"],
-        "feedback_correct": "¡Super! El enlace visible no coincide con el real: utiliza un '0' en vez de la letra 'o'. Fíjate también que usa HTTP en vez de HTTPS: ¡Nunca visites enlaces sin la S!",
-        "feedback_wrong": "¡Casi! Siempre verifica manteniendo pulsado el enlace real: ¡Fíjate que la 'o' es un '0'! Además, ¡Nunca visites enlaces solo con HTTP, falta la S de Seguridad!"
+        "feedback_correct": "El enlace visible no coincide con el real: utiliza un '0' en vez de la letra 'o'. Fíjate también que usa HTTP en vez de HTTPS: ¡Nunca visites enlaces sin la S!",
+        "feedback_wrong": "Siempre verifica manteniendo pulsado el enlace real: ¡Fíjate que la 'o' es un '0'! Además, ¡Nunca visites enlaces solo con HTTP, falta la S de Seguridad!"
       },
       {
         "id": 3,
@@ -55,8 +55,8 @@
           ]
         },
         "correct_answer": [],
-        "feedback_correct": "¡Excelente! Tanto el remitente como el enlace son legítimos: uso de https, subdominio legítimo (myaccount.google.com) y ruta estándar (/activity)",
-        "feedback_wrong": "¡No es correcto! No hay señales de suplantación: uso de https, subdominio legítimo (myaccount.google.com) y ruta estándar (/activity)"
+        "feedback_correct": "Tanto el remitente como el enlace son legítimos: uso de https, subdominio legítimo (myaccount.google.com) y ruta estándar (/activity)",
+        "feedback_wrong": "No hay señales de suplantación: uso de https, subdominio legítimo (myaccount.google.com) y ruta estándar (/activity)"
       },
       {
         "id": 4,
@@ -72,8 +72,8 @@
           ]
         },
         "correct_answer": ["subdomain", "domain"],
-        "feedback_correct": "¡Correcto! 'appleid.apple.com' es solo es subdominio que cualquiera puede crear, el dominio real es 'seguridad-login.com', ¡No te fíes solo porque ponga una marca oficial (Apple)!",
-        "feedback_wrong": "¡No es correcto! 'appleid.apple.com es solo un subdominio falso que puede crear cualquiera, el dominio real es 'seguridad-login.com', donde está el ataque."
+        "feedback_correct": "'appleid.apple.com' es solo es subdominio que cualquiera puede crear, el dominio real es 'seguridad-login.com', ¡No te fíes solo porque ponga una marca oficial (Apple)!",
+        "feedback_wrong": "'appleid.apple.com es solo un subdominio falso que puede crear cualquiera, el dominio real es 'seguridad-login.com', donde está el ataque"
       },
       {
         "id": 5,
@@ -89,8 +89,8 @@
           ]
         },
         "correct_answer": ["tld"],
-        "feedback_correct": "¡Muy bien! Correos en España usa '.es' (como la mayoría de entidades públicas). El TLD '.top' es muy común por su bajo costo en campañas de phishing",
-        "feedback_wrong": "¡Incorrecto! ¿Por qué una entidad pública española iba a usar '.top' en vez de '.es'? El TLD '.top' es muy común por su bajo costo en campañas de phishing"
+        "feedback_correct": "Correos en España usa '.es' (como la mayoría de entidades públicas). El TLD '.top' es muy común por su bajo coste en campañas de phishing",
+        "feedback_wrong": "¿Por qué una entidad pública española iba a usar '.top' en vez de '.es'? El TLD '.top' es muy común por su bajo coste en campañas de phishing"
       }
     ]
   }

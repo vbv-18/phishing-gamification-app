@@ -5,7 +5,7 @@
   "content": {
     "exercise_type": "report_match",
     "mechanic": "match",
-    "instructions": "Relacionada cada incidente con la entidad correcta",
+    "instructions": "Relaciona cada incidente con la entidad correcta",
     "questions": [
       {
         "id": 1,

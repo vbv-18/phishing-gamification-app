@@ -14,7 +14,7 @@
         {
             "id": 2,
             "title": "Autoridades competentes",
-            "description": "Importante reportar no solo cuando se es víctima, sino también si se encuentra el fraude",
+            "description": "Importante reportar no solo cuando eres la víctima, sino también si encuentras el fraude",
             "items": [
                 {"concept": "INCIBE-CERT", "definition": "Has detectado un intento de fraude pero no has sido víctima de ello"},
                 {"concept": "Policía/Guardia Civil", "definition": "Has caído en el fraude y has perdido dinero o datos"}
@@ -23,7 +23,7 @@
         {
             "id": 3,
             "title": "Protección",
-            "description": "Algunas medidas con las que se podrían evitar/reducir el impacto de este tipo de ataques",
+            "description": "Algunas medidas con las que se podría evitar/reducir el impacto de este tipo de ataques",
             "items": [
                 {"concept": "Higiene digital", "definition": "No abrir adjuntos sin verificar, no confiar en remitentes desconocidos (o incluso conocidos), no pulsar enlaces sin comprobar, no responder a correos sospechosos"},
                 {"concept": "Importancia de las actualizaciones", "definition": "Mantener los sistemas y programas actualizados es de las medidas más efectivas que hay"},
