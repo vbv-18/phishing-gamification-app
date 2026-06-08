@@ -13,10 +13,10 @@
         "email": {
           "from": "Soporte IT <it-security@empresa-española.co>",
           "subject": "AVISO: Actividad sospechosa en su cuenta - Acción requerida",
-          "body": "Hemos detectado un inicio de sesión inusual desde una dirección IP de Rusia. Por motivos de seguridad su cuenta será suspendida en las próximas 2 horas si no confirma su identidad."
+          "body": "Hemos detectado un inicio de sesión inusual desde una dirección IP de Rusia. Por motivos de seguridad su cuenta será suspendida en las próximas 2 horas si no confirma su identidad"
         },
         "correct_answer": false,
-        "feedback_correct": "Se combina la Autoridad con la emoción del Miedo que provoca la falsa urgencia. También hay un detalle: el TLD es .co (Colombia) cuando supuestamente es una empresa española",
+        "feedback_correct": "Se combina la Autoridad con el Miedo para provocar falsa urgencia. También hay un detalle: el TLD es .co (Colombia) cuando supuestamente es una empresa española",
         "feedback_wrong": "El correo utiliza la urgencia para inducir Miedo, además de la Autoridad con 'Soporte IT' (nunca te van a dar un últimatum). Un detalle: el TLD es .co (Colombia)" 
       },
       {
@@ -28,7 +28,7 @@
           "body": "Hemos bloqueado una transferencia de 480€. Si no la reconoce, verifica aquí: http://bbva-seguro.net/-verificacion"
         },
         "correct_answer": false,
-        "feedback_correct": "El SMS usa el Miedo + HTTP vs HTTPS + dominio falso (bbva-seguro.net vs bbva.es). Además, el banco nunca envía links de verificación por SMS",
+        "feedback_correct": "El SMS usa el Miedo + HTTP vs HTTPS + dominio falso (bbva-seguro.net vs bbva.es). Además, el banco nunca envía enlaces de verificación por SMS",
         "feedback_wrong": "Los bancos nunca envían enlaces de verificación por SMS. Además, el dominio bbva-seguro.net es falso (bbva.es) y usa HTTP vs HTTPS" 
       },
       {
@@ -64,7 +64,7 @@
           "body": "Te escribimos para informarte que estamos actualizando nuestros Términos de Uso. Estos cambios nos ayudan a reflejar las nuevas funciones. Puedes revisarlos desde la app oficial."
         },
         "correct_answer": true,
-        "feedback_correct": "Es un correo legítimo, ni rastro de señales.",
+        "feedback_correct": "Es un correo legítimo, ni rastro de señales",
         "feedback_wrong": "Es un correo seguro, ni rastro de señales " 
       },
       {
@@ -85,11 +85,11 @@
         "email": {
           "from": "Comunidad de Vecinos <vecinos-info@vecindario.com>",
           "subject": "FOTOS: Incidente de anoche en el portal (Pruebas)",
-          "body": "Hola a todos, como sabéis, anoche hubo un altercado en la entrada del portal y la policía tuvo que intervenir. Adjunto las imágener del responsable para que todas/os estemos al tanto: pruebas.png.exe"
+          "body": "Hola a todos, como sabéis, anoche hubo un altercado en la entrada del portal y la policía tuvo que intervenir. Adjunto las imágenes del responsable para que todas/os estemos al tanto: pruebas.png.exe"
         },
         "correct_answer": false,
-        "feedback_correct": "Has visto la trampa: Curiosidad (cotilleo) + Doble Extensión en Archivos (png.exe, realmente es un ejecutable, no fotos)",
-        "feedback_wrong": "Te ha podido la curiosidad, parece inofensivo pero están haciendo uso de la Curiosidad (cotilleo) y de la Doble Extensión en Archivos (png.exe, realmente es un ejecutable, no fotos)" 
+        "feedback_correct": "Has visto la trampa: Curiosidad (cotilleo) + Doble Extensión en Archivos (png.exe, realmente es un ejecutable, no una imagen)",
+        "feedback_wrong": "Te ha podido la curiosidad, parece inofensivo pero están haciendo uso de la Curiosidad (cotilleo) y de la Doble Extensión en Archivos (png.exe, realmente es un ejecutable, no una imagen)" 
       },
       {
         "id": 8,
@@ -100,20 +100,20 @@
           "body": "Tiene una multa de tráfico pendiente con fecha de caducidad próxima. Verifique su identidad y método de pago. Consulta aquí: https://dgt-multas.es/pagar"
         },
         "correct_answer": false,
-        "feedback_correct": "Hay doble trampa: Urgencia (fecha de caducidad próxima) + Autoridad (DGT) + dominio falso (el portal oficial es https://sede.dgt.gob.es) ¡La DGT nunca notifica multas por SMS!",
+        "feedback_correct": "Hay trampa: Urgencia (fecha de caducidad próxima) + Autoridad (DGT) + dominio falso (el portal oficial es https://sede.dgt.gob.es) ¡La DGT nunca notifica multas por SMS!",
         "feedback_wrong": "Se utiliza tanto la Urgencia (fecha de caducidad próxima) como la Autoridad (DGT), incluso un dominio falso (el portal oficial es https://sede.dgt.gob.es) ¡La DGT nunca notifica multas por SMS!" 
       },
       {
         "id": 9,
         "type": "email",
         "email": {
-          "from": "Plataforma Escolar <avisos@educa-familiads.net>",
+          "from": "Plataforma Escolar <avisos@educa-familias.net>",
           "subject": "Autorización de excursión escolar",
           "body": "Estimadas familias, como ya sabéis, la excursión de fin de curso está a la vuelta de la esquina y todas/os estamos muy ilusionadas/os. Necesitamos que valideis vuestra identidad respondiendo al correo con la contraseña"
         },
         "correct_answer": false,
-        "feedback_correct": "No has caído en la Unidad: sentimiento de grupo, ni en la laguna existente: una institución escolar NUNCA pedirá tu contraseña mediante correo.",
-        "feedback_wrong": "Están utilizando el sentimiento de la Unidad (familias, excursión común) para que participes. Además hay una laguna en el correo: una isntitución escolar pide tu contraseña por correo" 
+        "feedback_correct": "No has caído en la Unidad: sentimiento de grupo, ni en la laguna existente: una institución escolar NUNCA pedirá tu contraseña mediante correo",
+        "feedback_wrong": "Están utilizando el sentimiento de la Unidad (familias, excursión común) para que participes. Además, hay una laguna en el correo: una institución escolar pide tu contraseña por correo" 
       }
     ]
   }

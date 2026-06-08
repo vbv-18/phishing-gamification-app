@@ -27,7 +27,7 @@
               {"id": "a", "text": "No descargar ficheros adjuntos sin verificar el remitente"},
               {"id": "b", "text": "Haber guardado el archivo en el escritorio antes de abrirlo"},
               {"id": "c", "text": "Comprobar que el fichero tiene extensión '.pdf'"},
-              {"id": "d", "text": "Responder al correo de preguntando qué es el adjunto"}
+              {"id": "d", "text": "Responder al correo preguntando qué es el adjunto"}
           ],
         "correct_answer": "a",
         "feedback_correct": "Los adjuntos pueden tener malware aunque parezca que te lo envía alguien conocido (su cuenta puede haber sido suplantada), revísalo siempre antes",
@@ -35,12 +35,12 @@
       },
       {
         "id": 3,
-        "text": "Llevas meses sin actualizar el sistema operativo, pero un atacante consigue acceder mediante un SMS y tomar el control de tu equipo",
+        "text": "Llevas meses sin actualizar el Sistema Operativo, un atacante consigue acceder mediante un SMS y tomar el control de tu equipo",
         "options": [
               {"id": "a", "text": "Cambiar la contraseña del correo"},
               {"id": "b", "text": "Desactivar las notificaciones de actualización"},
               {"id": "c", "text": "Poner el modo avión"},
-              {"id": "d", "text": "Mantener siempre actualizado el Sistema Operativo y demás programas"}
+              {"id": "d", "text": "Mantener siempre actualizado el Sistema Operativo y el resto de programas"}
           ],
         "correct_answer": "d",
         "feedback_correct": "Las actualizaciones corrigen vulnerabilidades conocidas, mantener el equipo actualizado es muy efectivo",
@@ -48,7 +48,7 @@
       },
       {
         "id": 4,
-        "text": "Un atacante ya tiene tus credenciales del banco, logra acceder y hace transferencias en tu nombre.",
+        "text": "Un atacante ya tiene tus credenciales del banco, logra acceder y hace transferencias en tu nombre",
         "options": [
               {"id": "a", "text": "Contraseña más segura"},
               {"id": "b", "text": "Haber ignorado el SMS"},

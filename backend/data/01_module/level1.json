@@ -1,7 +1,7 @@
 {
   "module_id": 1,
   "difficulty": 1,
-  "title": "Las 6 Palancas de Cialdini",
+  "title": "Las 7 Palancas de Cialdini",
   "content": {
       "exercise_type": "hooks_identification",
       "mechanic": "multiple_choice",
@@ -10,7 +10,7 @@
         {
           "id": 1,
           "context": "Aviso de cuenta suspendida",
-          "text": "Su cuenta será suspendida si no verifica su identidad en las próximas 24 horas.",
+          "text": "Su cuenta será suspendida si no verifica su identidad en las próximas 24 horas",
           "options": [
                 {"id": "a", "text": "Autoridad"},
                 {"id": "b", "text": "Escasez"},
@@ -36,14 +36,14 @@
         {
           "id": 3,
           "context": "¡Regalo por llevar 1 año con nosotros!",
-          "text": "Como agredecimiento por su fidelidad tienes un cupón de 50€ disponible. Para activarlo, confirme tus credenciales respondiendo a este correo.",
+          "text": "Como agredecimiento por su fidelidad tienes un cupón de 50€ disponible. Para activarlo, confirme sus credenciales respondiendo a este correo",
           "options": [
                 {"id": "a", "text": "Compromiso y Coherencia"},
                 {"id": "b", "text": "Autoridad"},
                 {"id": "c", "text": "Reciprocidad"}
             ],
           "correct_answer": "c",
-          "feedback_correct": "Te ofrecen algo primero (cupón) para que sientas la obligación de contestar corresponder",
+          "feedback_correct": "Te ofrecen algo primero (cupón) para que sientas la obligación de contestar",
           "feedback_wrong": "La clave es ese regalo previo (cupón): cuesta decir que no a alguien que ya te ha dado algo"
         },
         {
@@ -62,14 +62,14 @@
         {
           "id": 5,
           "context": "Campaña de Donación al Medio Ambiente",
-          "text": "La semana pasada firmaste una petición para proteger el bosque, una pequeña donación ahora ayudaría a completar esa iniciativa.",
+          "text": "La semana pasada firmaste una petición para proteger el bosque, una pequeña donación ahora ayudaría a completar esa iniciativa",
           "options": [
                 {"id": "a", "text": "Prueba Social"},
                 {"id": "b", "text": "Compromiso y Coherencia"},
                 {"id": "c", "text": "Simpatía"}
             ],
           "correct_answer": "b",
-          "feedback_correct": "Reflejan que ya eres una persona comprometida por lo que no puedes no hacer lo que te piden",
+          "feedback_correct": "Reflejan que ya eres una persona comprometida por lo que no puedes negarte a lo que te piden",
           "feedback_wrong": "Te recuerdan una acción pasada para que seas coherente con tus valores y hagas lo que te piden"
         },
         {
@@ -82,20 +82,20 @@
                 {"id": "c", "text": "Reciprocidad"}
             ],
           "correct_answer": "a",
-          "feedback_correct": "El atacante intenta establecer un vículo contigo y un tono amigable para que te cueste más decir que no",
+          "feedback_correct": "El atacante intenta establecer un vículo contigo con un tono amigable para que te cueste más decir que no",
           "feedback_wrong": "Están usando tus gustos y la amabilidad para bajar tus defensas"
         },
         {
           "id": 7,
           "context": "Mensaje de tu hijo",
-          "text": "¡Hola mamá¡ Soy Bob, estoy metido en problemas y necesito que me envíes dinero para solucionarlo. No puedo hablar ahora por teléfono, ingrésalo en aquí.",
+          "text": "¡Hola mamá¡ Soy Bob, estoy metido en problemas y necesito que me envíes dinero para solucionarlo. No puedo hablar ahora por teléfono, ingrésalo aquí.",
           "options": [
                 {"id": "a", "text": "Unidad"},
                 {"id": "b", "text": "Simpatía"},
                 {"id": "c", "text": "Compromiso y Coherencia"}
             ],
           "correct_answer": "a",
-          "feedback_correct": "El atacante intenta generar confianza mediante un vínculo familiar y que actúes sin pensar",
+          "feedback_correct": "El atacante intenta generar confianza mediante un vínculo familiar para que actúes sin pensar",
           "feedback_wrong": "Se hacen pasar por un familiar para aprovechar la cercanía del vínculo familiar"
         }
       ]

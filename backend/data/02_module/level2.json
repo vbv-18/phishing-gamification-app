@@ -30,8 +30,8 @@
           {"id": "delete", "text": "Eliminar"}
         ],
         "correct_answer": "delete",
-        "feedback_correct": "La letra 'm' en la extensión indica que el archivo utiliza macros (tareas repetitivas). ¡Nunca abras un archivo que utilice macros a no ser que sea tuyo propio o confiable!",
-        "feedback_wrong": "Fíjate que la extensión es '.docm', la letra 'm' del final indica que el documento utiliza macros (tareas repetitivas), ¡Nunca abras un archivo que utilice macros a no ser que sea tuyo propio o confiable!"
+        "feedback_correct": "La letra 'm' en la extensión indica que el archivo utiliza macros (tareas repetitivas) que se pueden utilizar para ejecutar malware. ¡Nunca abras un archivo que utilice macros a no ser que sea tuyo propio o confiable!",
+        "feedback_wrong": "Fíjate que la extensión es '.docm', la letra 'm' del final indica que el documento utiliza macros (tareas repetitivas) que se pueden utilizar para ejecutar malware, ¡Nunca abras un archivo que utilice macros a no ser que sea tuyo propio o confiable!"
       },
       {
         "id": 3,
