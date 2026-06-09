@@ -10,4 +10,4 @@ class Module(Base):
     title = Column(String, nullable=False) 
     theory = Column(JSON, nullable=True)
 
-    levels = relationship("Level", back_populates="module")
+    levels = relationship("Level", back_populates="module", cascade="all, delete-orphan")
