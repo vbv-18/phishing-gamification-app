@@ -25,7 +25,7 @@ def read_levels_by_module(module_id: int, db: Session = Depends(get_db), user = 
     
     return module
 
-@router.get("/{module_id}/theory", response_model=ModuleTheoryResponse) #for the future, not using it right now
+@router.get("/{module_id}/theory", response_model=ModuleTheoryResponse)
 def read_module_theory(module_id: int, db: Session = Depends(get_db), user=Depends(get_current_user)):
     theory = get_module_theory(db, module_id)
     if not theory:
