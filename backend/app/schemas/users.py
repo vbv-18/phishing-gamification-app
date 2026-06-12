@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr, field_validator, Field
+from pydantic import BaseModel, EmailStr, field_validator
 from .validators import validate_username, validate_password
 
 class UserCreate(BaseModel):

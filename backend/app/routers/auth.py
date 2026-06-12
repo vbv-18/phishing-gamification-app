@@ -2,14 +2,13 @@ from datetime import timedelta
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
-from sqlalchemy import or_
 from sqlalchemy.orm import Session
 
 from app.schemas.users import UserCreate, UserResponse
 from app.database.connection import get_db
 from app.models.user import User
 from app.schemas.token import Token, RefreshRequest
-from app.crud.users import create_user
+from app.crud.users import create_user, get_user_by_username
 from app.core.security import verify_password, create_access_token, create_refresh_token, validate_refresh_token, revoke_refresh_token, revoke_all_refresh_tokens, check_user_exists, get_current_user, clean_refresh_tokens, is_blocked, register_failed, clear_attempts
 from app.core.config import ACCESS_TOKEN_EXPIRE_MINUTES
 
@@ -33,7 +32,7 @@ def login_user(login_req: OAuth2PasswordRequestForm = Depends(), db: Session = D
     if is_blocked(username, db):
         raise HTTPException(status_code=status.HTTP_429_TOO_MANY_REQUESTS, detail='Too many failed attempts. Try again later')
         
-    user = db.query(User).filter(User.username == username).first()
+    user = get_user_by_username(db, username)
 
     if not user or not verify_password(login_req.password, user.hashed_passwd):
         register_failed(username, db)

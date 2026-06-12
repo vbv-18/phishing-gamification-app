@@ -10,7 +10,7 @@ async def lifespan(app: FastAPI):
     Base.metadata.create_all(bind=engine) 
     yield
 
-app = FastAPI(title="AppAPI", lifespan=lifespan)
+app = FastAPI(title="AppAPI", lifespan=lifespan) #session generator
 
 register_security_middleware(app)
 setup_exception_handlers(app)
