@@ -5,10 +5,10 @@ import { Colors } from "@/constants/Colors";
 import { Spacing } from "@/constants/Spacing";
 import { Badges } from "@/constants/Badges";
 import { getProfile, deleteAccount } from "@/services/api";
-import { useAuth } from "context/AuthContext";
-import ConfirmPasswordDelete from "../../components/user/ConfirmPasswordDelete";
+import { useAuth } from "@/context/AuthContext";
+import ConfirmPasswordDelete from "@/components/user/ConfirmPasswordDelete";
 import { useUserXp } from "@/hooks/useUserXp";
-import ProfileHeader from "../../components/user/ProfileHeader";
+import ProfileHeader from "@/components/user/ProfileHeader";
 import { removeToken } from "@/services/auth";
 import { ProfileData } from "@/types/user";
 

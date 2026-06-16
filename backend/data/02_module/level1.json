@@ -55,7 +55,7 @@
           ]
         },
         "correct_answer": [],
-        "feedback_correct": "Tanto el remitente como el enlace son legítimos: uso de https, subdominio legítimo (myaccount.google.com) y ruta estándar (/activity)",
+        "feedback_correct": "El enlace es legítimo: uso de https, subdominio legítimo (myaccount.google.com) y ruta estándar (/activity)",
         "feedback_wrong": "No hay señales de suplantación: uso de https, subdominio legítimo (myaccount.google.com) y ruta estándar (/activity)"
       },
       {

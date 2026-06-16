@@ -44,7 +44,7 @@
           ],
         "correct_answer": "d",
         "feedback_correct": "Las actualizaciones corrigen vulnerabilidades conocidas, mantener el equipo actualizado es muy efectivo",
-        "feedback_wrong": "Cambiar la contraseña es una buena medida una vez has caído, pero para protegerte mantén el equipo actualizado para cerrar poibles vías de ataque"
+        "feedback_wrong": "Cambiar la contraseña es una buena medida una vez has caído, pero para protegerte mantén el equipo actualizado para cerrar posibles vías de ataque"
       },
       {
         "id": 4,
@@ -53,7 +53,7 @@
               {"id": "a", "text": "Contraseña más segura"},
               {"id": "b", "text": "Haber ignorado el SMS"},
               {"id": "c", "text": "Haber cerrado sesión"},
-              {"id": "d", "text": "La autenticación doble factor (2FA) ya impidió el acceso"}
+              {"id": "d", "text": "La autenticación doble factor (2FA)"}
           ],
         "correct_answer": "d",
         "feedback_correct": "Aunque tuviera tus credenciales, al enviarte un código para verificar el acceso no hubiera logrado tener éxito",

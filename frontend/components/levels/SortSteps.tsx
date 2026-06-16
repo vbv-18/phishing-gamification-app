@@ -2,8 +2,8 @@ import { View, Text, StyleSheet, Modal, Image, ScrollView, Pressable } from "rea
 import { useState } from "react";
 import { Colors } from "@/constants/Colors";
 import { Spacing } from "@/constants/Spacing";
-import ContinueButton from "../ui/ContinueButton";
-import { ExerciseRenderProps } from "types/renderer";
+import ContinueButton from "@/components/ui/ContinueButton";
+import { ExerciseRenderProps } from "@/types/renderer";
 import { StepsQuestion } from "@/types/exercise";
 
 export default function SortSteps({levelState, instructions, question}: ExerciseRenderProps){

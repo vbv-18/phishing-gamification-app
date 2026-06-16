@@ -5,7 +5,7 @@ import { Spacing } from "@/constants/Spacing";
 import { Ionicons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 
-export default function BottomHeader(){ //inside of app/(tabs)_layout.tsx automatically in every authenticated screenS
+export default function BottomHeader(){ //inside of app/(tabs)_layout.tsx automatically in every authenticated screens
     const router = useRouter();
 
     return(

@@ -4,7 +4,7 @@ import { Spacing } from "@/constants/Spacing";
 import { MaterialIcons } from "@expo/vector-icons";
 import { SimulationQuestion } from "@/types/exercise";
 import { ExerciseRenderProps } from "@/types/renderer";
-import ContinueButton from "../ui/ContinueButton";
+import ContinueButton from "@/components/ui/ContinueButton";
 
 export default function SocialSimulation({levelState, instructions, question}: ExerciseRenderProps){
     const q = question as SimulationQuestion

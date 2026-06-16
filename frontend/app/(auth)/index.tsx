@@ -2,11 +2,9 @@ import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Colors } from '@/constants/Colors';
 import { Spacing } from '@/constants/Spacing';
-import { useAuth } from 'context/AuthContext';
 
 export default function Home() {
   const router = useRouter();
-  const {isAuthenticated} = useAuth()
 
   return (
     <View style={styles.container}>
