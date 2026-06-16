@@ -34,7 +34,7 @@ export default function UrlCard({urlData, disabled, onInspect}: Props){
 }
 
 const styles = StyleSheet.create({
-emailWrapper:{
+  emailWrapper:{
     backgroundColor: Colors.card,
     padding: Spacing.md,
     borderRadius: 16,

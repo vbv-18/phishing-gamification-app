@@ -4,8 +4,11 @@ from app.models.level import Level
 from app.models.module import Module
 import json
 import os
+from app.database.connection import Base, engine
 
 #ref: https://www.incibe.es/ciudadania/tematicas/ingenieria-social-fraudes-online/phishing
+
+Base.metadata.create_all(bind=engine)
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_PATH = os.path.join(BASE_DIR, "data")

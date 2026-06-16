@@ -2,10 +2,10 @@ import { View, Text, StyleSheet, Animated, ActivityIndicator, Image } from "reac
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Colors } from "@/constants/Colors";
 import { Spacing } from "@/constants/Spacing";
-import { completeLevel, completeTheory, UserAnswer } from "@/services/api";
+import { completeLevel, completeTheory } from "@/services/api";
 import { useEffect, useRef, useState } from "react";
-import LevelUp from "../../components/ui/LevelUp";
-import ContinueButton from "../../components/ui/ContinueButton";
+import LevelUp from "@/components/ui/LevelUp";
+import ContinueButton from "@/components/ui/ContinueButton";
 import { ROLE_BADGE } from "@/constants/Badges";
 import { CompleteLevelResponse, CompleteTheoryResponse } from "@/types/level";
 import { useLevelAnswers } from "context/LevelAnswersContext";

@@ -23,7 +23,7 @@
       {
         "id": 2,
         "context": "Mensaje de Soporte Técnico de Microsoft",
-        "text": "Tu cuenta ha sido infectada con malware. Para recuperarla y eliminar el virus de tus ordenador descarga este antivirus online",
+        "text": "Tu cuenta ha sido infectada con malware. Para recuperarla y eliminar el virus de tu ordenador descarga este antivirus online",
         "options": [
           {"id": "a", "text": "Microsoft no sabe si tengo virus mirando mi cuenta de correo"},
           {"id": "b", "text": "Los antivirus online no se descargan"},

@@ -10,10 +10,10 @@ RUN adduser --disabled-password appuser
 
 COPY --chown=appuser:appuser . .
 
+RUN chmod +x /app/entrypoint.sh
+
 USER appuser
 
 EXPOSE 8000
-
-RUN chmod +x /app/entrypoint.sh
 
 ENTRYPOINT ["/app/entrypoint.sh"]

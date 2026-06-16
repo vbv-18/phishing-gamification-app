@@ -48,7 +48,7 @@ apiClient.interceptors.response.use( //to manage errors
         if(error.response){
             const {status, data} = error.response;
 
-            if(status === 401 && !originalRequest._retry && !originalRequest.url?.includes("/auth/")){ //automatic token refresh when 401, not rety and not auth endpoint
+            if(status === 401 && !originalRequest._retry && !originalRequest.url?.includes("/auth/")){ //automatic token refresh when 401, not retry and not auth endpoint
                 //If there is another petition for refresh token, it queues
                 if (isRefreshing) {
                     return new Promise((resolve, reject) => {

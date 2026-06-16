@@ -1,6 +1,6 @@
 import { Stack } from 'expo-router';
-import { AuthProvider } from 'context/AuthContext';
-import { LevelAnswersProvider } from 'context/LevelAnswersContext';
+import { AuthProvider } from '@/context/AuthContext';
+import { LevelAnswersProvider } from '@/context/LevelAnswersContext';
 
 export default function RootLayout() {
   return (

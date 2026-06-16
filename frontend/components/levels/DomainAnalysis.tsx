@@ -2,10 +2,10 @@ import { View, Text, StyleSheet, Modal, Image } from "react-native";
 import { useState } from "react";
 import { Colors } from "@/constants/Colors";
 import { Spacing } from "@/constants/Spacing";
-import ContinueButton from "../ui/ContinueButton";
+import ContinueButton from "@/components/ui/ContinueButton";
 import UrlCard from "./UrlCard";
 import ZoomInspector from "./ZoomInspector";
-import { ExerciseRenderProps } from "types/renderer";
+import { ExerciseRenderProps } from "@/types/renderer";
 import { DomainAnalysisQuestion } from "@/types/exercise";
 
 export default function DomainAnalysis({levelState, instructions, question}: ExerciseRenderProps){

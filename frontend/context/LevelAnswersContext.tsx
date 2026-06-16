@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from 'react';
-import { UserAnswer } from '../services/api';
+import { UserAnswer } from '@/services/api';
 
 interface LevelAnswersContextType {
     answers: UserAnswer[];

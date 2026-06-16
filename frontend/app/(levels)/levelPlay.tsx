@@ -5,10 +5,10 @@ import { Spacing } from "@/constants/Spacing";
 import { useEffect } from "react";
 import { useLoadLevel } from "@/hooks/useLoadLevel";
 import { useLevelState } from "@/hooks/useLevelState";
-import { useAuth } from "context/AuthContext";
-import LevelHeader from "../../components/ui/LevelHeader";
-import { TYPES } from "renders/mechanicsMap";
-import { useLevelAnswers } from "context/LevelAnswersContext";
+import { useAuth } from "@/context/AuthContext";
+import LevelHeader from "@/components/ui/LevelHeader";
+import { TYPES } from "@/renderers/mechanicsMap";
+import { useLevelAnswers } from "@/context/LevelAnswersContext";
 
 export default function LevelPlay(){
     const {levelId, moduleId} = useLocalSearchParams();
