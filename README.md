@@ -23,6 +23,7 @@
     ````bash
     npm expo start -c #-c to clean cache
     ````
+6. If you use Android Studio, type an 'a' in the terminal while the emulated phone is running, the app will open automatically. You can also scan the QR provided in the terminal with the Expo Go app in your own physical device.
 
 # Folders structure
 
