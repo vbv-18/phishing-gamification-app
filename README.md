@@ -33,6 +33,9 @@ Rename `.env.example` files at the root and the frontend folders to `.env` and f
     ````
 6. If you use Android Studio, type an 'a' in the terminal while the emulated phone is running, the app will open automatically. You can also scan the QR provided in the terminal with the Expo Go app in your own physical device.
 
+## Download
+[Download APK v1.0.0](https://github.com/vbv-18/phishing-gamification-app/releases/tag/v1.0.0)
+
 # Folders structure
 
 ## Backend
