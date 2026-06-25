@@ -1,3 +1,8 @@
+## Prerequisites
+- Node.js (v18 o superior)
+- Docker y Docker Compose
+- Expo Go app en el móvil, o un emulador Android/iOS
+
 # Requirements for running the app
 1. Clone the repository
     ````bash
@@ -21,7 +26,7 @@
 5. Start the Expo development server:
 
     ````bash
-    npm expo start -c #-c to clean cache
+    npx expo start -c #-c to clean cache
     ````
 6. If you use Android Studio, type an 'a' in the terminal while the emulated phone is running, the app will open automatically. You can also scan the QR provided in the terminal with the Expo Go app in your own physical device.
 
