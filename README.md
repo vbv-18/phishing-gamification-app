@@ -1,7 +1,7 @@
 ## Prerequisites
-- Node.js (v18 o superior)
+- Node.js (v18 or superior)
 - Docker y Docker Compose
-- Expo Go app en el móvil, o un emulador Android/iOS
+- Expo Go app in the mobile phone or Android Studio
 
 # Requirements for running the app
 1. Clone the repository
