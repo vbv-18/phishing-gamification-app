@@ -3,6 +3,9 @@
 - Docker y Docker Compose
 - Expo Go app in the mobile phone or Android Studio
 
+## Environment variables
+Rename `.env.example` files at the root and the frontend folders to `.env` and fill all the values.
+
 # Requirements for running the app
 1. Clone the repository
     ````bash
